@@ -1,0 +1,148 @@
+{
+  "fr": {
+    "nav": {
+      "home": "Accueil",
+      "about": "À propos",
+      "projects": "Projets",
+      "publications": "Publications"
+    },
+    "about": {
+      "title": "À propos",
+      "lead": "Diplômé d'un master en cryptologie et sécurité informatique – rétro-ingénierie & analyse de malwares.",
+      "skills": "Compétences techniques",
+      "languages": "Langages",
+      "languagesContent": "Python, C, Assembleur x86/x64, LaTeX",
+      "systems": "Systèmes",
+      "systemsContent": "Linux, Windows",
+      "staticAnalysis": "Analyse Statique",
+      "staticAnalysisContent": "Ghidra, Binary Ninja",
+      "dynamicAnalysis": "Analyse Dynamique",
+      "dynamicAnalysisContent": "GDB, WinDbg, Reven TTD",
+      "virtualization": "Virtualisation",
+      "virtualizationContent": "QEMU, VMware, VirtualBox",
+      "pentest": "Pentest",
+      "pentestContent": "Nmap, Burp Suite, Wireshark, Metasploit",
+      "experience": "Expérience",
+      "internshipTitle": "Stage en reverse engineering",
+      "internshipCompany": "eShard",
+      "internshipLocation": "Pessac, France",
+      "internshipPeriod": "Mars 2025 - Août 2025",
+      "education": "Formation",
+      "masterTitle": "Master Cryptologie & Sécurité Informatique",
+      "masterSchool": "Université de Bordeaux",
+      "masterPeriod": "2023–2025",
+      "ctf": "CTF"
+    },
+    "projects": {
+      "title": "Projets",
+      "lead": "Travaux, outils et analyses publiées.",
+      "panoptivTitle": "Panoptiv",
+      "panoptivDesc": "DLL utilisant des techniques de hooking pour contourner des protections anti-vm.",
+      "wineTitle": "Analyse du malware WINE",
+      "wineDesc": "Une analyse du malware WINE (associé au groupe APT29) en 2025, incluant une preuve de concept.",
+      "malautoTitle": "Malauto",
+      "malautoDesc": "Extension WinDbg pour l'analyse automatisée de malwares Windows. Prépare automatiquement des breakpoints, dumpe les régions mémoire dépaquetées au format PE et génère des rapports d'analyse structurés.",
+      "viewGithub": "Voir sur GitHub →"
+    },
+    "publications": {
+      "title": "Publications",
+      "lead": "Mémoires, articles et ressources publiques.",
+      "masterThesisTitle": "Mémoire de Master – Détection de protections Anti-VM utilisées par les malwares",
+      "masterThesisDesc": "Recherche approfondie sur les techniques anti-émulation et leur contournement dans le contexte du Time Travel Debugging (TTD) en émulation système complète.",
+      "antiEmulationTitle": "Techniques anti-émulation sur Windows",
+      "antiEmulationDesc": "Article de vulgarisation expliquant les principales techniques de détection d'émulation utilisées par les malwares Windows, ainsi que des stratégies de contournement.",
+      "antiVmIntroTitle": "Introduction aux protections anti-vm",
+      "antiVmIntroDesc": "Série de vidéos pédagogiques présentant les mécanismes de détection de virtualisation et leurs implications dans l'analyse de malwares.",
+      "linuxRootkitTitle": "Linux Kernel Rootkit en 2025",
+      "linuxRootkitDesc": "Étude de l'état des rootkits Linux en 2025 à travers l'exemple du rootkit KoviD.",
+      "pirTitle": "Protocole d'interrogation anonyme de base de données",
+      "pirDesc": "Implémentation d'un protocole PIR (Private Information Retrieval) en C.",
+      "downloadThesis": "Télécharger le mémoire →",
+      "readArticle": "Lire l'article →",
+      "watchPlaylist": "Voir la playlist →"
+    },
+    "footer": {
+      "rights": "Tous droits réservés.",
+      "social": "Social"
+    },
+    "badges": {
+      "thesis": "Mémoire",
+      "pdf": "PDF",
+      "article": "Article",
+      "playlist": "Playlist YouTube"
+    }
+  },
+  "en": {
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "projects": "Projects",
+      "publications": "Publications"
+    },
+    "about": {
+      "title": "About",
+      "lead": "Master's graduate in cryptology and computer security – reverse engineering & malware analysis.",
+      "skills": "Technical Skills",
+      "languages": "Languages",
+      "languagesContent": "Python, C, x86/x64 Assembly, LaTeX",
+      "systems": "Systems",
+      "systemsContent": "Linux, Windows",
+      "staticAnalysis": "Static Analysis",
+      "staticAnalysisContent": "Ghidra, Binary Ninja",
+      "dynamicAnalysis": "Dynamic Analysis",
+      "dynamicAnalysisContent": "GDB, WinDbg, Reven TTD",
+      "virtualization": "Virtualization",
+      "virtualizationContent": "QEMU, VMware, VirtualBox",
+      "pentest": "Penetration Testing",
+      "pentestContent": "Nmap, Burp Suite, Wireshark, Metasploit",
+      "experience": "Experience",
+      "internshipTitle": "Reverse Engineering Internship",
+      "internshipCompany": "eShard",
+      "internshipLocation": "Pessac, France",
+      "internshipPeriod": "March 2025 - August 2025",
+      "education": "Education",
+      "masterTitle": "Master's in Cryptology & Computer Security",
+      "masterSchool": "University of Bordeaux",
+      "masterPeriod": "2023–2025",
+      "ctf": "CTF"
+    },
+    "projects": {
+      "title": "Projects",
+      "lead": "Works, tools, and published analyses.",
+      "panoptivTitle": "Panoptiv",
+      "panoptivDesc": "DLL using hooking techniques to bypass anti-VM protections.",
+      "wineTitle": "WINE Malware Analysis",
+      "wineDesc": "An analysis of the WINE malware (associated with APT29 group) in 2025, including a proof of concept.",
+      "malautoTitle": "Malauto",
+      "malautoDesc": "WinDbg extension for automated Windows malware analysis. Automatically sets up breakpoints, dumps unpacked memory regions in PE format, and generates structured analysis reports.",
+      "viewGithub": "View on GitHub →"
+    },
+    "publications": {
+      "title": "Publications",
+      "lead": "Theses, articles, and public resources.",
+      "masterThesisTitle": "Master's Thesis – Detection of Anti-VM Protections Used by Malware",
+      "masterThesisDesc": "In-depth research on anti-emulation techniques and their bypass in the context of Time Travel Debugging (TTD).",
+      "antiEmulationTitle": "Anti-Emulation Techniques on Windows",
+      "antiEmulationDesc": "Educational article explaining the main emulation detection techniques used by Windows malware.",
+      "antiVmIntroTitle": "Introduction to Anti-VM Protections",
+      "antiVmIntroDesc": "Educational video series presenting virtualization detection mechanisms and their implications.",
+      "linuxRootkitTitle": "Linux Kernel Rootkit in 2025",
+      "linuxRootkitDesc": "Study of Linux rootkits in 2025 through the KoviD rootkit example.",
+      "pirTitle": "Anonymous Database Query Protocol",
+      "pirDesc": "Implementation of a PIR (Private Information Retrieval) protocol in C.",
+      "downloadThesis": "Download the thesis →",
+      "readArticle": "Read the article →",
+      "watchPlaylist": "Watch the playlist →"
+    },
+    "footer": {
+      "rights": "All rights reserved.",
+      "social": "Social"
+    },
+    "badges": {
+      "thesis": "Thesis",
+      "pdf": "PDF",
+      "article": "Article",
+      "playlist": "YouTube Playlist"
+    }
+  }
+}
