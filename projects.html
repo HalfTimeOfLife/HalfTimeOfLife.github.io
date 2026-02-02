@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Projets - Elouan Charbonnier</title>
+    <title data-i18n="projects_page_title">Projets - Elouan Charbonnier</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.css">
     <script src="assets/js/script.js" defer></script>
@@ -13,28 +13,36 @@
 
     <nav class="nav">
         <div class="nav-inner container">
-            <a class="logo" href="index.html">Elouan Charbonnier</a>
-            <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false"><span class="hamburger"></span></button>
+
+            <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false" data-i18n-aria="nav_menu_label">
+                <span class="hamburger"></span>
+            </button>
+
             <ul class="nav-links">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="about.html">À propos</a></li>
-                <li><a href="projects.html">Projets</a></li>
-                <li><a href="publications.html">Publications</a></li>
+                <li><a href="index.html" data-i18n="nav_home">Accueil</a></li>
+                <li><a href="about.html" data-i18n="nav_about">À propos</a></li>
+                <li><a href="projects.html" data-i18n="nav_projects">Projets</a></li>
+                <li><a href="publications.html" data-i18n="nav_publications">Publications</a></li>
             </ul>
+
+            <div class="lang-toggle">
+                <button id="lang-fr" class="lang-btn active">FR</button>
+                <button id="lang-en" class="lang-btn">EN</button>
+            </div>
         </div>
     </nav>
 
     <main class="container">
         <header class="page-header reveal">
-            <h1>Projets</h1>
-            <p class="lead">Travaux, outils et analyses publiées.</p>
+            <h1 data-i18n="projects_page_title">Projets</h1>
+            <p class="lead" data-i18n="projects_lead">Travaux, outils et analyses publiées.</p>
         </header>
 
         <section class="reveal">
             <div class="cards">
                 <article class="card large">
-                    <h2>Panoptiv</h2>
-                    <p>
+                    <h2 data-i18n="project_panoptiv_title">Panoptiv</h2>
+                    <p data-i18n="project_panoptiv_full_desc">
                         DLL utilisant des techniques de hooking pour contourner des protections anti-vm.
                     </p>
                     <div class="project-tech">
@@ -43,24 +51,24 @@
                         <span class="badge">Hooking</span>
                         <span class="badge">Anti-VM</span>
                     </div>
-                    <p class="meta"><a href="https://github.com/HalfTimeOfLife/Panoptiv" target="_blank" rel="noopener">Voir sur GitHub →</a></p>
+                    <p class="meta"><a href="https://github.com/HalfTimeOfLife/Panoptiv" target="_blank" rel="noopener" data-i18n="view_github">Voir sur GitHub →</a></p>
                 </article>
 
                 <article class="card large">
-                    <h2>Analyse du malware WINE</h2>
-                    <p>
+                    <h2 data-i18n="project_wine_title">Analyse du malware WINE</h2>
+                    <p data-i18n="project_wine_full_desc">
                         Une analyse du malware WINE (associé au groupe APT29) en 2025, incluant une preuve de concept.
                     </p>
                     <div class="project-tech">
                         <span class="badge">POC</span>
                         <span class="badge">Malware Analysis</span>
                     </div>
-                    <p class="meta"><a href="https://github.com/HalfTimeOfLife/Analysis_wine_APT29_2025" target="_blank" rel="noopener">Voir sur GitHub →</a></p>
+                    <p class="meta"><a href="https://github.com/HalfTimeOfLife/Analysis_wine_APT29_2025" target="_blank" rel="noopener" data-i18n="view_github">Voir sur GitHub →</a></p>
                 </article>
 
                 <article class="card large">
-                    <h2>Malauto</h2>
-                    <p>
+                    <h2 data-i18n="project_malauto_title">Malauto</h2>
+                    <p data-i18n="project_malauto_full_desc">
                         Extension WinDbg pour l'analyse automatisée de malwares Windows. 
                         Prépare automatiquement des breakpoints, dumpe les régions mémoire dépaquetées au format PE 
                         et génère des rapports d'analyse structurés.
@@ -70,7 +78,7 @@
                         <span class="badge">PE Format</span>
                         <span class="badge">Automation</span>
                     </div>
-                    <p class="meta"><a href="https://github.com/HalfTimeOfLife/malauto-windbg" target="_blank" rel="noopener">Voir sur GitHub →</a></p>
+                    <p class="meta"><a href="https://github.com/HalfTimeOfLife/malauto-windbg" target="_blank" rel="noopener" data-i18n="view_github">Voir sur GitHub →</a></p>
                 </article>
             </div>
         </section>
@@ -81,10 +89,10 @@
             <div class="footer-content">
                 <div class="footer-left">
                     <div class="footer-name">Elouan Charbonnier</div>
-                    <div class="footer-copyright">&copy; 2026 Elouan Charbonnier. All rights reserved.</div>
+                    <div class="footer-copyright">&copy; 2026 Elouan Charbonnier. <span data-i18n="footer_rights">All rights reserved.</span></div>
                 </div>
                 <div class="footer-right">
-                    <div class="footer-social-label">Social</div>
+                    <div class="footer-social-label" data-i18n="footer_social">Social</div>
                     <div class="footer-social-links">
                         <a href="https://github.com/HalfTimeOfLife" target="_blank" rel="noopener" class="footer-social-icon" title="GitHub">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

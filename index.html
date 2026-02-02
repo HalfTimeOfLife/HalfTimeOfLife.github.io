@@ -15,141 +15,165 @@
 
     <nav class="nav">
         <div class="nav-inner container">
-            <a class="logo" href="index.html">Elouan Charbonnier</a>
 
-            <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+            <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false" data-i18n-aria="nav_menu_label">
                 <span class="hamburger"></span>
             </button>
 
             <ul class="nav-links">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="about.html">À propos</a></li>
-                <li><a href="projects.html">Projets</a></li>
-                <li><a href="publications.html">Publications</a></li>
+                <li><a href="index.html" data-i18n="nav_home">Accueil</a></li>
+                <li><a href="about.html" data-i18n="nav_about">À propos</a></li>
+                <li><a href="projects.html" data-i18n="nav_projects">Projets</a></li>
+                <li><a href="publications.html" data-i18n="nav_publications">Publications</a></li>
             </ul>
+
+            <div class="lang-toggle">
+                <button id="lang-fr" class="lang-btn active">FR</button>
+                <button id="lang-en" class="lang-btn">EN</button>
+            </div>
         </div>
     </nav>
 
     <main class="container">
-        <!-- HERO -->
         <header class="hero reveal">
             <div class="hero-text">
                 <h1>Elouan Charbonnier</h1>
-                <p class="lead">Cybersécurité • Rétro-ingénierie • Analyse de malwares</p>
+                <p class="lead" data-i18n="hero_tagline">Cybersécurité • Rétro-ingénierie • Analyse de malwares</p>
             </div>
         </header>
 
         <section id="qui" class="reveal">
-            <h2>Qui suis-je ?</h2>
-            <p>
+            <h2 data-i18n="who_title">Qui suis-je ?</h2>
+            <p data-i18n="who_text">
                 Passionné de cybersécurité et titulaire d'un master en cryptologie et sécurité informatique. 
                 Je me spécialise dans l'analyse de malwares, la rétro-ingénierie de binaires Windows et Linux, et le développement d'outils d'automatisation pour faciliter l'analyse.
             </p>
         </section>
 
-        <section id="featured-projects" class="reveal">
-            <h2>Projets</h2>
+  <section id="featured-projects" class="reveal">
+            <h2 data-i18n="projects_title">Projets</h2>
             <div class="cards">
                 <article class="card">
                     <h3>Panoptiv</h3>
-                    <p>DLL et techniques de hooking pour contourner des protections anti-VM.</p>
+                    <p data-i18n="project_panoptiv_desc">DLL et techniques de hooking pour contourner des protections anti-VM.</p>
                     <div class="project-tech">
                         <span class="badge">C</span>
                         <span class="badge">Hooking</span>
                         <span class="badge">Anti-VM</span>
                     </div>
                     <p class="meta">
-                        <a href="https://github.com/HalfTimeOfLife/Panoptiv" target="_blank" rel="noopener">Voir sur GitHub →</a>
+                        <a href="https://github.com/HalfTimeOfLife/Panoptiv" target="_blank" rel="noopener" data-i18n="view_github">Voir sur GitHub →</a>
                     </p>
                 </article>
 
                 <article class="card">
                     <h3>Wine – Analyse APT29 (2025)</h3>
-                    <p>Analyse du malware WINE d'APT29 et PoC.</p>
+                    <p data-i18n="project_wine_desc">Analyse du malware WINE d'APT29 et PoC.</p>
                     <div class="project-tech">
                         <span class="badge">C / Python</span>
                         <span class="badge">Malware Analysis</span>
                     </div>
                     <p class="meta">
-                        <a href="https://github.com/HalfTimeOfLife/Analysis_wine_APT29_2025" target="_blank" rel="noopener">Voir sur GitHub →</a>
+                        <a href="https://github.com/HalfTimeOfLife/Analysis_wine_APT29_2025" target="_blank" rel="noopener" data-i18n="view_github">Voir sur GitHub →</a>
                     </p>
                 </article>
 
                 <article class="card">
                     <h3>malauto-windbg</h3>
-                    <p>Extension WinDbg pour préparer breakpoints et dumper régions mémoire automatiquement.</p>
+                    <p data-i18n="project_malauto_desc">Extension WinDbg pour préparer breakpoints et dumper régions mémoire automatiquement.</p>
                     <div class="project-tech">
                         <span class="badge">C (DbgEng)</span>
                         <span class="badge">WinDbg extension</span>
                         <span class="badge">Malware Analysis</span>
                     </div>
                     <p class="meta">
-                        <a href="https://github.com/HalfTimeOfLife/malauto-windbg" target="_blank" rel="noopener">Voir sur GitHub →</a>
+                        <a href="https://github.com/HalfTimeOfLife/malauto-windbg" target="_blank" rel="noopener" data-i18n="view_github">Voir sur GitHub →</a>
                     </p>
                 </article>
             </div>
 
-            <p class="center" style="margin-top:2rem"><a class="cta ghost" href="projects.html">Tous les projets</a></p>
+            <p class="center" style="margin-top:2rem">
+                <a class="cta ghost" href="projects.html" data-i18n="all_projects">Tous les projets</a>
+            </p>
         </section>
 
-        <section id="pubs" class="reveal">
-            <h2>Publications & mémoires</h2>
+         <section id="pubs" class="reveal">
+            <h2 data-i18n="pubs_title">Publications & mémoires</h2>
             <div class="cards">
                 <article class="card">
-                    <h3>Mémoire de Master – Détection de protections Anti-VM utilisées par les malwares</h3>
+                    <h3 data-i18n="pub_master_title">Mémoire de Master – Détection de protections Anti-VM utilisées par les malwares</h3>
                     <div class="pub-type">
-                        <span class="badge">Mémoire</span>
-                        <span class="badge">PDF</span>
+                        <span class="badge" data-i18n="badge_memoir">Mémoire</span>
+                        <span class="badge" data-i18n="badge_pdf">PDF</span>
                         <span class="badge">2025</span>
                     </div>
-                    <p style="margin-top:1rem">Recherche approfondie sur les techniques anti-émulation.</p>
+                    <p style="margin-top:1rem" data-i18n="pub_master_desc">Recherche approfondie sur les techniques anti-émulation.</p>
                     <p class="meta">
-                        <a href="assets/publications/master-thesis-anti-emulation.pdf" target="_blank" rel="noopener">Télécharger →</a>
+                        <a href="assets/publications/master-thesis-anti-emulation.pdf" target="_blank" rel="noopener" data-i18n="download_fr">
+                            Télécharger (FR) →
+                        </a>
+                        <br>
+                        <a href="#" target="_blank" rel="noopener" data-i18n="download_en">
+                            Télécharger (EN) →
+                        </a>
                     </p>
                 </article>
 
                 <article class="card">
-                    <h3>Techniques anti-émulation sur Windows</h3>
+                    <h3 data-i18n="pub_antiem_title">Techniques anti-émulation sur Windows</h3>
                     <div class="pub-type">
-                        <span class="badge">Article</span>
+                        <span class="badge" data-i18n="badge_article">Article</span>
                         <span class="badge">2025</span>
                     </div>
-                    <p style="margin-top:1rem">Article expliquant les techniques de détection d'émulation utilisées par les malwares sur Windows.</p>
+                    <p style="margin-top:1rem" data-i18n="pub_antiem_desc">Article expliquant les techniques de détection d'émulation utilisées par les malwares sur Windows.</p>
                     <p class="meta">
-                        <a href="assets/publications/pir-paillier.pdf" target="_blank" rel="noopener">Télécharger →</a>
+                        <a href="assets/publications/pir-paillier.pdf" target="_blank" rel="noopener" data-i18n="download_fr">
+                            Télécharger (FR) →
+                        </a>
+                        <br>
+                        <a href="#" target="_blank" rel="noopener" data-i18n="download_en">
+                            Télécharger (EN) →
+                        </a>
                     </p>
                 </article>
 
                 <article class="card">
-                    <h3>Linux Kernel Rootkit en 2025</h3>
+                    <h3 data-i18n="pub_rootkit_title">Linux Kernel Rootkit en 2025</h3>
                     <div class="pub-type">
-                        <span class="badge">Mémoire</span>
-                        <span class="badge">PDF</span>
+                        <span class="badge" data-i18n="badge_memoir">Mémoire</span>
+                        <span class="badge" data-i18n="badge_pdf">PDF</span>
                         <span class="badge">2025</span>
                     </div>
-                    <p style="margin-top:1rem">Étude approfondie des rootkits Linux à travers l'exemple de KoviD.</p>
+                    <p style="margin-top:1rem" data-i18n="pub_rootkit_desc">Étude approfondie des rootkits Linux à travers l'exemple de KoviD.</p>
                     <p class="meta">
-                        <a href="assets/publications/linux-kernel-rootkit-2025.pdf" target="_blank" rel="noopener">Télécharger →</a>
+                        <a href="assets/publications/linux-kernel-rootkit-2025.pdf" target="_blank" rel="noopener" data-i18n="download_fr">
+                            Télécharger (FR) →
+                        </a>
+                        <br>
+                        <a href="#" target="_blank" rel="noopener" data-i18n="download_en">
+                            Télécharger (EN) →
+                        </a>
                     </p>
                 </article>
 
             </div>
 
-            <p class="center" style="margin-top:2rem"><a class="cta ghost" href="publications.html">Toutes les publications</a></p>
+            <p class="center" style="margin-top:2rem">
+                <a class="cta ghost" href="publications.html" data-i18n="all_publications">Toutes les publications</a>
+            </p>
         </section>
 
-        <!-- CONTACT -->
         <section id="contact" class="contact reveal">
-            <h2>Contact</h2>
+            <h2 data-i18n="contact_title">Contact</h2>
 
             <div class="contact-grid">
                 <div class="contact-card">
-                    <h3>Email</h3>
+                    <h3 data-i18n="contact_email">Email</h3>
                     <p><a href="mailto:ec.charbonnier@gmail.com">ec.charbonnier@gmail.com</a></p>
                 </div>
 
                 <div class="contact-card">
-                    <h3>Réseaux</h3>
+                    <h3 data-i18n="contact_networks">Réseaux</h3>
                     <div class="social-links">
                         <a href="https://github.com/HalfTimeOfLife" target="_blank" rel="noopener" class="social-icon" title="GitHub">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -178,10 +202,10 @@
             <div class="footer-content">
                 <div class="footer-left">
                     <div class="footer-name">Elouan Charbonnier</div>
-                    <div class="footer-copyright">&copy; 2026 Elouan Charbonnier. All rights reserved.</div>
+                    <div class="footer-copyright">&copy; 2026 Elouan Charbonnier. <span data-i18n="footer_rights">All rights reserved.</span></div>
                 </div>
                 <div class="footer-right">
-                    <div class="footer-social-label">Social</div>
+                    <div class="footer-social-label" data-i18n="footer_social">Social</div>
                     <div class="footer-social-links">
                         <a href="https://github.com/HalfTimeOfLife" target="_blank" rel="noopener" class="footer-social-icon" title="GitHub">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

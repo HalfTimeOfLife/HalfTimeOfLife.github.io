@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Publications - Elouan Charbonnier</title>
+    <title data-i18n="publications_title">Publications - Elouan Charbonnier</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.css">
     <script src="assets/js/script.js" defer></script>
@@ -13,123 +13,140 @@
 
     <nav class="nav">
         <div class="nav-inner container">
-            <a class="logo" href="index.html">Elouan Charbonnier</a>
-            <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false"><span class="hamburger"></span></button>
+
+            <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false" data-i18n-aria="nav_menu_label">
+                <span class="hamburger"></span>
+            </button>
+
             <ul class="nav-links">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="about.html">À propos</a></li>
-                <li><a href="projects.html">Projets</a></li>
-                <li><a href="publications.html">Publications</a></li>
+                <li><a href="index.html" data-i18n="nav_home">Accueil</a></li>
+                <li><a href="about.html" data-i18n="nav_about">À propos</a></li>
+                <li><a href="projects.html" data-i18n="nav_projects">Projets</a></li>
+                <li><a href="publications.html" data-i18n="nav_publications">Publications</a></li>
             </ul>
+
+            <div class="lang-toggle">
+                <button id="lang-fr" class="lang-btn active">FR</button>
+                <button id="lang-en" class="lang-btn">EN</button>
+            </div>
         </div>
     </nav>
 
     <main class="container">
         <header class="page-header reveal">
-            <h1>Publications</h1>
-            <p class="lead">Mémoires, articles et ressources publiques.</p>
+            <h1 data-i18n="publications_title">Publications</h1>
+            <p class="lead" data-i18n="publications_lead">Mémoires, articles et ressources publiques.</p>
         </header>
 
         <section class="reveal">
             <div class="cards">
-                                <article class="card large">
-                    <h3>Mémoire de Master – Détection de protections Anti-VM utilisées par les malwares</h3>
+                <article class="card large">
+                    <h3 data-i18n="pub_master_title">Mémoire de Master – Détection de protections Anti-VM utilisées par les malwares</h3>
                     <div class="pub-type">
-                        <span class="badge">Mémoire</span>
-                        <span class="badge">PDF</span>
+                        <span class="badge" data-i18n="badge_memoir">Mémoire</span>
+                        <span class="badge" data-i18n="badge_pdf">PDF</span>
                         <span class="badge">2025</span>
                     </div>
-                    <p style="margin-top:1rem">
+                    <p style="margin-top:1rem" data-i18n="pub_master_full_desc">
                         Recherche approfondie sur les techniques anti-émulation et leur contournement
                         dans le contexte du Time Travel Debugging (TTD) en émulation système complète.
                     </p>
                     <p class="meta">
-                        <a href="assets/publications/master-thesis-anti-emulation.pdf" target="_blank" rel="noopener">
-                            Télécharger le mémoire →
+                        <a href="assets/publications/master-thesis-anti-emulation.pdf" target="_blank" rel="noopener" data-i18n="download_fr">
+                            Télécharger (FR) →
+                        </a>
+                        <br>
+                        <a href="#" target="_blank" rel="noopener" data-i18n="download_en">
+                            Télécharger (EN) →
                         </a>
                     </p>
                 </article>
 
                 <article class="card large">
-                    <h3>Techniques anti-émulation sur Windows</h3>
+                    <h3 data-i18n="pub_antiem_title">Techniques anti-émulation sur Windows</h3>
                     <div class="pub-type">
-                        <span class="badge">Article</span>
+                        <span class="badge" data-i18n="badge_article">Article</span>
                         <span class="badge">2025</span>
                     </div>
-                    <p style="margin-top:1rem">
+                    <p style="margin-top:1rem" data-i18n="pub_antiem_full_desc">
                         Article de vulgarisation expliquant les principales techniques
                         de détection d'émulation utilisées par les malwares Windows,
                         ainsi que des stratégies de contournement.
                     </p>
                     <p class="meta">
-                        <a href="https://eshard.com/posts/windows-anti-vm-detection-bypass" target="_blank" rel="noopener">
+                        <a href="https://eshard.com/posts/windows-anti-vm-detection-bypass" target="_blank" rel="noopener" data-i18n="pub_antiem_link">
                             Lire l'article →
                         </a>
                     </p>
                 </article>
 
                 <article class="card large">
-                    <h3>Introduction aux protections anti-vm</h3>
+                    <h3 data-i18n="pub_intro_title">Introduction aux protections anti-vm</h3>
                     <div class="pub-type">
-                        <span class="badge">Playlist YouTube</span>
+                        <span class="badge" data-i18n="badge_youtube">Playlist YouTube</span>
                         <span class="badge">2025</span>
                     </div>
-                    <p style="margin-top:1rem">
+                    <p style="margin-top:1rem" data-i18n="pub_intro_desc">
                         Série de vidéos pédagogiques présentant les mécanismes
                         de détection de virtualisation et leurs implications
                         dans l'analyse de malwares.
                     </p>
                     <p class="meta">
-                        <a href="https://www.youtube.com/playlist?list=PLM4pMV6TkMl3bdBKI0eIP6roX72TX72HT" target="_blank" rel="noopener">
+                        <a href="https://www.youtube.com/playlist?list=PLM4pMV6TkMl3bdBKI0eIP6roX72TX72HT" target="_blank" rel="noopener" data-i18n="pub_intro_link">
                             Voir la playlist →
                         </a>
                     </p>
                 </article>
 
                 <article class="card large">
-                    <h3>Linux Kernel Rootkit en 2025</h3>
+                    <h3 data-i18n="pub_rootkit_title">Linux Kernel Rootkit en 2025</h3>
                     <div class="pub-type">
-                        <span class="badge">Mémoire</span>
-                        <span class="badge">PDF</span>
+                        <span class="badge" data-i18n="badge_memoir">Mémoire</span>
+                        <span class="badge" data-i18n="badge_pdf">PDF</span>
                         <span class="badge">2025</span>
                     </div>
-                    <p style="margin-top:1rem">
+                    <p style="margin-top:1rem" data-i18n="pub_rootkit_full_desc">
                         Étude de l'état des rootkits Linux en 2025 à travers l'exemple du rootkit KoviD.
                         Analyse des techniques de furtivité, de persistance et de contournement des mécanismes
                         de sécurité du noyau.
                     </p>
                     <p class="meta">
-                        <a href="assets/publications/linux-kernel-rootkit-2025.pdf" target="_blank" rel="noopener">
-                            Télécharger le mémoire →
+                        <a href="assets/publications/linux-kernel-rootkit-2025.pdf" target="_blank" rel="noopener" data-i18n="download_fr">
+                            Télécharger (FR) →
+                        </a>
+                        <br>
+                        <a href="#" target="_blank" rel="noopener" data-i18n="download_en">
+                            Télécharger (EN) →
                         </a>
                     </p>
                     <p style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(0,212,255,0.1);font-size:.95rem;color:var(--muted)">
-                        Ce mémoire est également référencé dans le
-                        <a href="https://mastercsi.labri.fr/2025/03/24/projet-detude-et-de-recherche-per-master2-2025/" target="_blank" rel="noopener" style="color:var(--accent)">
+                        <span data-i18n="pub_rootkit_ref">Ce mémoire est également référencé dans le</span>
+                        <a href="https://mastercsi.labri.fr/2025/03/24/projet-detude-et-de-recherche-per-master2-2025/" target="_blank" rel="noopener" style="color:var(--accent)" data-i18n="pub_rootkit_ref_link">
                             Projet d'Étude et de Recherche (PER-Master2) 2025
                         </a>
-                        du Master Cryptologie & Sécurité Informatique de l'Université de Bordeaux.
+                        <span data-i18n="pub_rootkit_ref_end"> du Master Cryptologie & Sécurité Informatique de l'Université de Bordeaux.</span>
                     </p>
-                                        <div class="project-tech" style="margin-top:1rem">
-                    </div>
                 </article>
 
-
-                                <article class="card large">
-                    <h3>Protocole d'interrogation anonyme de base de données</h3>
+                <article class="card large">
+                    <h3 data-i18n="pub_pir_title">Protocole d'interrogation anonyme de base de données</h3>
                     <div class="pub-type">
-                        <span class="badge">Mémoire</span>
-                        <span class="badge">PDF</span>
+                        <span class="badge" data-i18n="badge_memoir">Mémoire</span>
+                        <span class="badge" data-i18n="badge_pdf">PDF</span>
                         <span class="badge">2024</span>
                     </div>
-                    <p style="margin-top:1rem">
+                    <p style="margin-top:1rem" data-i18n="pub_pir_desc">
                         Implémentation d'un protocole PIR (Private Information Retrieval) en C,
                         basé sur le chiffrement homomorphe de Paillier pour permettre
                         l'interrogation anonyme de bases de données.
                     </p>
                     <p class="meta">
-                        <a href="assets/publications/pir-paillier.pdf" target="_blank" rel="noopener">
-                            Télécharger le mémoire →
+                        <a href="assets/publications/pir-paillier.pdf" target="_blank" rel="noopener" data-i18n="download_fr">
+                          Télécharger (FR) →
+                        </a>
+                        <br>
+                        <a href="#" target="_blank" rel="noopener" data-i18n="download_en">
+                            Télécharger (EN) →
                         </a>
                     </p>
                 </article>
@@ -142,10 +159,10 @@
             <div class="footer-content">
                 <div class="footer-left">
                     <div class="footer-name">Elouan Charbonnier</div>
-                    <div class="footer-copyright">&copy; 2026 Elouan Charbonnier. All rights reserved.</div>
+                    <div class="footer-copyright">&copy; 2026 Elouan Charbonnier. <span data-i18n="footer_rights">All rights reserved.</span></div>
                 </div>
                 <div class="footer-right">
-                    <div class="footer-social-label">Social</div>
+                    <div class="footer-social-label" data-i18n="footer_social">Social</div>
                     <div class="footer-social-links">
                         <a href="https://github.com/HalfTimeOfLife" target="_blank" rel="noopener" class="footer-social-icon" title="GitHub">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

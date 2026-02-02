@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>À propos - Elouan Charbonnier</title>
+    <title data-i18n="about_title">À propos - Elouan Charbonnier</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.css">
     <script src="assets/js/script.js" defer></script>
@@ -13,92 +13,102 @@
 
     <nav class="nav">
         <div class="nav-inner container">
-            <a class="logo" href="index.html">Elouan Charbonnier</a>
-            <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false"><span class="hamburger"></span></button>
+
+            <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false" data-i18n-aria="nav_menu_label">
+                <span class="hamburger"></span>
+            </button>
+
             <ul class="nav-links">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="about.html">À propos</a></li>
-                <li><a href="projects.html">Projets</a></li>
-                <li><a href="publications.html">Publications</a></li>
+                <li><a href="index.html" data-i18n="nav_home">Accueil</a></li>
+                <li><a href="about.html" data-i18n="nav_about">À propos</a></li>
+                <li><a href="projects.html" data-i18n="nav_projects">Projets</a></li>
+                <li><a href="publications.html" data-i18n="nav_publications">Publications</a></li>
             </ul>
+
+            <div class="lang-toggle">
+                <button id="lang-fr" class="lang-btn active">FR</button>
+                <button id="lang-en" class="lang-btn">EN</button>
+            </div>
         </div>
     </nav>
 
     <main class="container">
         <header class="page-header reveal">
-            <h1>À propos</h1>
-            <p class="lead">Diplômé d'un master en cryptologie et sécurité informatique – rétro-ingénierie & analyse de malwares.</p>
+            <h1 data-i18n="about_title">À propos</h1>
+            <p class="lead" data-i18n="about_lead">Diplômé d'un master en cryptologie et sécurité informatique – rétro-ingénierie & analyse de malwares.</p>
         </header>
 
         <section class="skills reveal">
-            <h2>Compétences techniques</h2>
+            <h2 data-i18n="skills_title">Compétences techniques</h2>
             <div class="skill-grid">
                 <div class="skill">
-                    <h3>Langages</h3>
-                    <p>Python, C, Assembleur x86/x64, LaTeX</p>
+                    <h3 data-i18n="skill_languages">Langages</h3>
+                    <p data-i18n="skill_languages_list">Python, C, Assembleur x86/x64, LaTeX</p>
                 </div>
                 <div class="skill">
-                    <h3>Systèmes</h3>
-                    <p>Linux, Windows</p>
+                    <h3 data-i18n="skill_systems">Systèmes</h3>
+                    <p data-i18n="skill_systems_list">Linux, Windows</p>
                 </div>
                 <div class="skill">
-                    <h3>Analyse Statique</h3>
-                    <p>Ghidra, Binary Ninja</p>
+                    <h3 data-i18n="skill_static">Analyse Statique</h3>
+                    <p data-i18n="skill_static_list">Ghidra, Binary Ninja</p>
                 </div>
                 <div class="skill">
-                    <h3>Analyse Dynamique</h3>
-                    <p>GDB, WinDbg, Reven TTD</p>
+                    <h3 data-i18n="skill_dynamic">Analyse Dynamique</h3>
+                    <p data-i18n="skill_dynamic_list">GDB, WinDbg, Reven TTD</p>
                 </div>
                 <div class="skill">
-                    <h3>Virtualisation</h3>
-                    <p>QEMU, VMware, VirtualBox</p>
+                    <h3 data-i18n="skill_virtual">Virtualisation</h3>
+                    <p data-i18n="skill_virtual_list">QEMU, VMware, VirtualBox</p>
                 </div>
                 <div class="skill">
-                    <h3>Pentest</h3>
-                    <p>Nmap, Burp Suite, Wireshark, Metasploit</p>
+                    <h3 data-i18n="skill_pentest">Pentest</h3>
+                    <p data-i18n="skill_pentest_list">Nmap, Burp Suite, Wireshark, Metasploit</p>
                 </div>
             </div>
         </section>
 
         <section class="timeline reveal">
-            <h2>Expérience</h2>
+            <h2 data-i18n="experience_title">Expérience</h2>
             <article class="timeline-item">
-                <h3>Stage en reverse engineering</h3>
-                <p><strong>eShard</strong> - Pessac, France</p>
-                <p><em>Mars 2025 - Août 2025</em></p>
+                <h3 data-i18n="exp_eshard_title">Stage en reverse engineering</h3>
                 <p>
+                    <strong data-i18n="exp_eshard_company">eShard</strong> - <span data-i18n="exp_eshard_location">Pessac, France</span>
+                </p>
+                <p><em data-i18n="exp_eshard_period">Mars 2025 - Août 2025</em></p>
+                <p data-i18n="exp_eshard_desc">
                     Implémentation, détection et contournement de techniques anti-émulation pour Windows. 
                     Travail sur le Time Travel Debugging (TTD) Reven en émulation système complète.
                 </p>
                 <ul>
-                    <li>Implémentation de détection de virtualisation (assembleur INTEL x86, C)</li>
-                    <li>Implémentation d’une pipeline de génération de binaire contenant des anti-VM</li>
-                    <li>Reverse engineering de techniques anti-émulation</li>
-                    <li>Automatisation de la détection d’anti-émulation avec du scripting en TTD</li>
-                    <li>Contournement via patching d'API Windows et configuration QEMU</li>
-                    <li>Création de contenu de vulgarisation (YouTube, blog)</li>
-                    <li>Documentation avec Jupyter Notebook</li>
+                    <li data-i18n="exp_eshard_item1">Implémentation de détection de virtualisation (assembleur INTEL x86, C)</li>
+                    <li data-i18n="exp_eshard_item2">Implémentation d’une pipeline de génération de binaire contenant des anti-VM</li>
+                    <li data-i18n="exp_eshard_item3">Reverse engineering de techniques anti-émulation</li>
+                    <li data-i18n="exp_eshard_item4">Automatisation de la détection d’anti-émulation avec du scripting en TTD</li>
+                    <li data-i18n="exp_eshard_item5">Contournement via patching d'API Windows et configuration QEMU</li>
+                    <li data-i18n="exp_eshard_item6">Création de contenu de vulgarisation (YouTube, blog)</li>
+                    <li data-i18n="exp_eshard_item7">Documentation avec Jupyter Notebook</li>
                 </ul>
             </article>
         </section>
 
 
         <section class="education reveal">
-            <h2>Formation</h2>
+            <h2 data-i18n="education_title">Formation</h2>
             <div class="edu-grid">
                 <div class="edu">
-                    <h3>Master Cryptologie & Sécurité Informatique</h3>
-                    <p><strong>Université de Bordeaux</strong> – 2023–2025</p>
+                    <h3 data-i18n="edu_master_title">Master Cryptologie & Sécurité Informatique</h3>
+                    <p><strong data-i18n="edu_master_school">Université de Bordeaux</strong> – <span data-i18n="edu_master_period">2023–2025</span></p>
                 </div>
                 <div class="edu">
-                    <h3>Licence Mathématiques & Informatique</h3>
-                    <p><strong>Université de Bordeaux</strong> – 2020–2023</p>
+                    <h3 data-i18n="edu_license_title">Licence Mathématiques & Informatique</h3>
+                    <p><strong data-i18n="edu_license_school">Université de Bordeaux</strong> – <span data-i18n="edu_license_period">2020–2023</span></p>
                 </div>
             </div>
         </section>
 
         <section class="ctf reveal">
-            <h2>CTF</h2>
+            <h2 data-i18n="ctf_title">CTF</h2>
             <ul>
                 <li>2024 – EKOPARTY CTF (18e)</li>
                 <li>2024 – HKCERT CTF (94e)</li>
@@ -113,10 +123,10 @@
             <div class="footer-content">
                 <div class="footer-left">
                     <div class="footer-name">Elouan Charbonnier</div>
-                    <div class="footer-copyright">&copy; 2026 Elouan Charbonnier. All rights reserved.</div>
+                    <div class="footer-copyright">&copy; 2026 Elouan Charbonnier. <span data-i18n="footer_rights">All rights reserved.</span></div>
                 </div>
                 <div class="footer-right">
-                    <div class="footer-social-label">Social</div>
+                    <div class="footer-social-label" data-i18n="footer_social">Social</div>
                     <div class="footer-social-links">
                         <a href="https://github.com/HalfTimeOfLife" target="_blank" rel="noopener" class="footer-social-icon" title="GitHub">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

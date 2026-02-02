@@ -27,13 +27,10 @@ body{
   line-height:1.6;
 }
 
-/* Container */
 .container{max-width:var(--container);margin:0 auto;padding:0 var(--spacing)}
 
-/* Scroll indicator */
 .scroll-indicator{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-light));z-index:9999;transition:width .12s linear;box-shadow:0 0 10px var(--accent)}
 
-/* NAV */
 .nav{position:sticky;top:0;background:rgba(13,27,42,0.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(59,130,246,0.2);z-index:1000}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:1rem 0}
 .logo{font-family:'Playfair Display',serif;font-weight:700;color:var(--accent-light);text-decoration:none;font-size:1.1rem;text-shadow:0 0 20px rgba(59,130,246,0.3)}
@@ -43,14 +40,12 @@ body{
 .nav-links a:hover{color:var(--accent-light)}
 .nav-links a:hover::after{width:80%}
 
-/* Mobile nav toggle */
 .nav-toggle{display:none;background:none;border:0;padding:.4rem;cursor:pointer}
 .nav-toggle .hamburger{display:block;width:22px;height:2px;background:var(--accent);position:relative}
 .nav-toggle .hamburger::after,.nav-toggle .hamburger::before{content:"";position:absolute;left:0;width:22px;height:2px;background:var(--accent)}
 .nav-toggle .hamburger::before{top:-7px}
 .nav-toggle .hamburger::after{top:7px}
 
-/* HERO */
 .hero{display:grid;grid-template-columns:1fr;gap:2rem;padding:4rem 0 3rem}
 .eyebrow{color:var(--accent-light);font-weight:600;margin-bottom:.5rem;text-transform:uppercase;font-size:.85rem;letter-spacing:1px}
 h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,3.5rem);margin-bottom:.5rem;background:linear-gradient(135deg,var(--white),var(--accent-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -63,20 +58,17 @@ h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,3.5rem);margi
 .cta.ghost:hover{background:rgba(59,130,246,0.1)}
 .cta.small{padding:.5rem 1rem;font-size:.95rem}
 
-/* Profile card */
 .profile-card{background:var(--card-bg);border-radius:16px;padding:1.5rem;box-shadow:0 8px 32px rgba(0,0,0,0.3);border:1px solid rgba(59,130,246,0.2);display:flex;gap:1.2rem;align-items:flex-start}
 .profile-avatar{width:90px;height:90px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-light));display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--white);font-size:1.8rem;box-shadow:0 0 30px rgba(59,130,246,0.4)}
 .profile-info h2{font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:.5rem;color:var(--white)}
 .profile-info p{color:var(--text-secondary);font-size:.98rem}
 .profile-info .small{font-size:.87rem;color:var(--muted);margin-top:.5rem}
 
-/* Sections */
 main section{padding:3rem 0;border-bottom:1px solid rgba(59,130,246,0.1)}
 main h2{font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:1rem;color:var(--white);position:relative;padding-left:1rem}
 main h2::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:4px;height:80%;background:linear-gradient(180deg,var(--accent),var(--accent-light));border-radius:2px}
 main p{color:var(--text-secondary);font-size:1.05rem;line-height:1.8}
 
-/* Cards grid */
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:1.5rem}
 .card{background:var(--card-bg);padding:1.5rem;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.2);border:1px solid rgba(59,130,246,0.15);transition:all .3s ease;position:relative;overflow:hidden}
 .card::before{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-light));transform:scaleX(0);transition:transform .3s ease;transform-origin:left}
@@ -90,14 +82,11 @@ main p{color:var(--text-secondary);font-size:1.05rem;line-height:1.8}
 .card a{color:var(--accent-light);text-decoration:none;font-weight:600;transition:color .2s ease}
 .card a:hover{color:var(--white)}
 
-/* Badges */
 .badge{display:inline-block;padding:.3rem .7rem;background:rgba(59,130,246,0.2);color:var(--accent-light);border-radius:6px;font-size:.8rem;font-weight:600;margin-right:.5rem;margin-top:.5rem;border:1px solid rgba(59,130,246,0.3)}
 .badge.success{background:rgba(16,185,129,0.2);color:var(--success);border-color:rgba(16,185,129,0.3)}
 
-/* Project/Publication specific styles */
 .project-tech,.pub-type{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.8rem}
 
-/* Contact */
 .contact{display:block}
 .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-top:1rem}
 .contact-card{background:var(--card-bg);padding:1.5rem;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.2);border:1px solid rgba(59,130,246,0.15)}
@@ -105,13 +94,11 @@ main p{color:var(--text-secondary);font-size:1.05rem;line-height:1.8}
 .contact-card a{color:var(--accent-light);text-decoration:none;font-weight:600;transition:color .2s ease}
 .contact-card a:hover{color:var(--white)}
 
-/* Social icons */
 .social-links{display:flex;gap:1rem;margin-top:.5rem}
 .social-icon{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:10px;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.25);transition:all .2s ease}
 .social-icon:hover{background:rgba(59,130,246,0.25);transform:translateY(-2px);box-shadow:0 8px 16px rgba(59,130,246,0.2)}
 .social-icon svg{width:22px;height:22px;fill:var(--accent-light)}
 
-/* Footer terminal-style */
 .site-footer{
   background:var(--primary);
   color:var(--muted);
@@ -214,12 +201,10 @@ main p{color:var(--text-secondary);font-size:1.05rem;line-height:1.8}
   }
 }
 
-/* Page header */
 .page-header{padding:2rem 0 1rem;border-bottom:1px solid rgba(59,130,246,0.15);margin-bottom:2rem}
 .page-header h1{font-size:2.5rem;margin-bottom:.5rem}
 .page-header .lead{font-size:1.1rem}
 
-/* Skills, Education, Timeline */
 .skill-grid,.edu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1rem}
 .skill,.edu{background:var(--card-bg);padding:1.2rem;border-radius:10px;border:1px solid rgba(59,130,246,0.15)}
 .skill h3,.edu h3{font-size:1rem;margin-bottom:.5rem;color:var(--accent-light)}
@@ -231,20 +216,16 @@ main p{color:var(--text-secondary);font-size:1.05rem;line-height:1.8}
 .timeline-item ul{margin-top:1rem;padding-left:1.5rem;color:var(--text-secondary)}
 .timeline-item li{margin-bottom:.4rem}
 
-/* CTF section */
 .ctf ul{list-style:none;padding:0}
 .ctf li{background:var(--card-bg);padding:.8rem 1.2rem;margin-bottom:.6rem;border-radius:8px;border-left:3px solid var(--success);border:1px solid rgba(59,130,246,0.15);color:var(--text-secondary)}
 
-/* Small util */
 .center{text-align:center}
 .muted{color:var(--muted)}
 .small{font-size:.9rem;color:var(--muted)}
 
-/* Reveal animation */
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
 .reveal.is-visible{opacity:1;transform:translateY(0)}
 
-/* Layout responsiveness */
 @media (max-width:1024px){
   .hero{grid-template-columns:1fr}
 }
@@ -362,5 +343,57 @@ main p{color:var(--text-secondary);font-size:1.05rem;line-height:1.8}
   .lang-dropdown {
     bottom: calc(100% + 0.5rem);
     top: auto;
+  }
+}
+
+.lang-toggle {
+  display: flex;
+  gap: 0.3rem;
+  background: rgba(59, 130, 246, 0.1);
+  padding: 0.3rem;
+  border-radius: 8px;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  margin-left: auto;
+}
+
+.lang-btn {
+  padding: 0.4rem 0.8rem;
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Work Sans', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.lang-btn:hover {
+  color: var(--accent-light);
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.lang-btn.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: var(--white);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+@media (max-width: 780px) {
+  .lang-toggle {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 999;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  }
+  
+  .nav-links .lang-toggle {
+    position: static;
+    width: 100%;
+    justify-content: left;
+    margin-top: 1rem;
   }
 }
