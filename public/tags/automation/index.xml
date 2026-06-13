@@ -9,16 +9,16 @@
     <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
     <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
     <copyright>© 2026 Elouan Charbonnier</copyright>
-    <lastBuildDate>Fri, 01 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/automation/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 02 Jan 2026 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/automation/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Malauto</title>
       <link>http://localhost:1313/projects/malauto/</link>
-      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 02 Jan 2026 00:00:00 +0000</pubDate>
       <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
       <guid>http://localhost:1313/projects/malauto/</guid>
       <description>Extension WinDbg pour l&amp;rsquo;analyse automatisée de malwares Windows. Prépare des breakpoints, dumpe les régions mémoire au format PE et génère des rapports structurés.</description>
-      
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/projects/malauto/feature.PNG" />
     </item>
     
   </channel>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dynamic Analysis on HalfTimeOfLife</title>
+    <link>http://localhost:1313/en/tags/dynamic-analysis/</link>
+    <description>Recent content in Dynamic Analysis on HalfTimeOfLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
+    <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
+    <copyright>© 2026 Elouan Charbonnier</copyright>
+    <lastBuildDate>Fri, 02 Jan 2026 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/en/tags/dynamic-analysis/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Malauto</title>
+      <link>http://localhost:1313/en/projects/malauto/</link>
+      <pubDate>Fri, 02 Jan 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/en/projects/malauto/</guid>
+      <description>WinDbg extension for automated Windows malware analysis. Sets breakpoints, dumps memory regions in PE format and generates structured reports.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/projects/malauto/feature.PNG" />
+    </item>
+    
+  </channel>
+</rss>

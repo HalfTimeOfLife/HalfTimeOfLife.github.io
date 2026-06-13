@@ -9,16 +9,16 @@
     <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
     <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
     <copyright>© 2026 Elouan Charbonnier</copyright>
-    <lastBuildDate>Sun, 01 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/en/tags/youtube/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 28 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/en/tags/youtube/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Introduction to Anti-VM Protections</title>
       <link>http://localhost:1313/en/publications/anti-vm-youtube/</link>
-      <pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 28 Mar 2025 00:00:00 +0000</pubDate>
       <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
       <guid>http://localhost:1313/en/publications/anti-vm-youtube/</guid>
       <description>Educational video series presenting virtualization detection mechanisms and their implications in malware analysis.</description>
-      
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/publications/anti-vm-youtube/feature.png" />
     </item>
     
   </channel>

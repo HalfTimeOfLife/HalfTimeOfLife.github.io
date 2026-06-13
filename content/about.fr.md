@@ -1,23 +1,34 @@
 ﻿---
 title: "À propos"
+showDate: false
+showReadingTime: false
+showWordCount: false
 ---
 
 Diplômé d'un master en cryptologie et sécurité informatique – rétro-ingénierie & analyse de malwares.
 
+[Télécharger mon CV →](/assets/cv_fr.pdf)
+
 ## Compétences techniques
 
-| Domaine | Outils |
-|---|---|
-| Langages | Python, C, Assembleur x86/x64, LaTeX |
-| Systèmes | Linux, Windows |
-| Analyse Statique | Ghidra, Binary Ninja |
-| Analyse Dynamique | GDB, WinDbg, Reven TTD |
-| Virtualisation | QEMU, VMware, VirtualBox |
-| Pentest | Nmap, Burp Suite, Wireshark, Metasploit |
+**Langages** — Python · C · Assembleur x86/x64 · LaTeX
+
+**Analyse statique** — Ghidra · Binary Ninja
+
+**Analyse dynamique** — GDB · WinDbg · Reven TTD
+
+**Virtualisation** — QEMU · VMware · VirtualBox
+
+**Pentest** — Nmap · Burp Suite · Wireshark · Metasploit
+
+**CTI** — YARA · MITRE ATT&CK
+
+**Systèmes** — Linux · Windows
 
 ## Expérience
 
-### Stage en reverse engineering – eShard, Pessac (Mars–Août 2025)
+### Stage en reverse engineering — eShard, Pessac
+`Mars 2025 – Août 2025`
 
 Implémentation, détection et contournement de techniques anti-émulation pour Windows. Travail sur le Time Travel Debugging (TTD) Reven en émulation système complète.
 
@@ -31,15 +42,32 @@ Implémentation, détection et contournement de techniques anti-émulation pour 
 
 ## Formation
 
-- **Master Cryptologie & Sécurité Informatique** – Université de Bordeaux (2023–2025)
-- **Licence Mathématiques & Informatique** – Université de Bordeaux (2020–2023)
+### [Master Cryptologie & Sécurité Informatique](https://mastercsi.labri.fr)
+`Université de Bordeaux · 2023 – 2025`
+
+| Semestre | Matières |
+|---|---|
+| S7 | Arithmétique · Programmation · Calcul Formel · Algèbre linéaire · Systèmes d'exploitation |
+| S8 | Cryptologie · Sécurité des logiciels · Théorie de l'information · Théorie de la Complexité · Programmation des architectures parallèles |
+| S9 | Cryptanalyse · Post Quantum Cryptography · Cartes à puce · Sécurité des réseaux · Sécurité des systèmes |
+| S10 | Stage en entreprise |
+
+### Licence Mathématiques & Informatique
+`Université de Bordeaux · 2020 – 2023`
+
+## Certifications
+
+### BTL1 – Blue Team Level 1
+`Security Blue Team · En cours`
 
 ## CTF
 
-- 2024 – EKOPARTY CTF (18e)
-- 2024 – HKCERT CTF (94e)
-- 2024 – 1337UP Live CTF (189e)
-- 2025 – TUCTF (208e)
+| Année | Compétition | Classement |
+|---|---|---|
+| 2025 | TUCTF | 208e |
+| 2024 | EKOPARTY CTF | 18e |
+| 2024 | HKCERT CTF | 94e |
+| 2024 | 1337UP Live CTF | 189e |
 
 ## Contact
 

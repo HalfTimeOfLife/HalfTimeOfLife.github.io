@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ghidra on HalfTimeOfLife</title>
+    <link>http://localhost:1313/tags/ghidra/</link>
+    <description>Recent content in Ghidra on HalfTimeOfLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>fr</language>
+    <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
+    <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
+    <copyright>© 2026 Elouan Charbonnier</copyright>
+    <lastBuildDate>Wed, 18 Feb 2026 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/ghidra/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>GhidraMAT</title>
+      <link>http://localhost:1313/projects/ghidramat/</link>
+      <pubDate>Wed, 18 Feb 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/projects/ghidramat/</guid>
+      <description>Framework de scripts Ghidra pour la détection statique automatisée de comportements malveillants : anti-debug, anti-VM, packing, indicateurs C2, injection de processus, persistance et contournement des défenses.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/projects/ghidramat/feature.png" />
+    </item>
+    
+  </channel>
+</rss>

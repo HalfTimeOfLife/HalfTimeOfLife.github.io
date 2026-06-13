@@ -9,56 +9,56 @@
     <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
     <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
     <copyright>© 2026 Elouan Charbonnier</copyright>
-    <lastBuildDate>Fri, 01 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/publications/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 29 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/publications/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Techniques anti-émulation sur Windows</title>
+      <link>http://localhost:1313/publications/anti-emulation-article/</link>
+      <pubDate>Fri, 29 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/publications/anti-emulation-article/</guid>
+      <description>Article expliquant les principales techniques de détection d&amp;rsquo;émulation utilisées par les malwares Windows, ainsi que des stratégies de contournement.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/publications/anti-emulation-article/feature.png" />
+    </item>
     
     <item>
       <title>Mémoire – Détection de protections Anti-VM utilisées par les malwares</title>
       <link>http://localhost:1313/publications/master-thesis-anti-vm/</link>
-      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 22 Aug 2025 00:00:00 +0000</pubDate>
       <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
       <guid>http://localhost:1313/publications/master-thesis-anti-vm/</guid>
       <description>Recherche approfondie sur les techniques anti-émulation et leur contournement dans le contexte du Time Travel Debugging (TTD) en émulation système complète.</description>
-      
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/publications/master-thesis-anti-vm/feature.PNG" />
     </item>
     
     <item>
       <title>Introduction aux protections anti-VM</title>
       <link>http://localhost:1313/publications/anti-vm-youtube/</link>
-      <pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 28 Mar 2025 00:00:00 +0000</pubDate>
       <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
       <guid>http://localhost:1313/publications/anti-vm-youtube/</guid>
       <description>Série de vidéos pédagogiques présentant les mécanismes de détection de virtualisation et leurs implications dans l&amp;rsquo;analyse de malwares.</description>
-      
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/publications/anti-vm-youtube/feature.png" />
     </item>
     
     <item>
       <title>Linux Kernel Rootkit en 2025</title>
       <link>http://localhost:1313/publications/linux-rootkit/</link>
-      <pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 15 Jan 2025 00:00:00 +0000</pubDate>
       <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
       <guid>http://localhost:1313/publications/linux-rootkit/</guid>
       <description>Étude de l&amp;rsquo;état des rootkits Linux en 2025 à travers l&amp;rsquo;exemple du rootkit KoviD. Analyse des techniques de furtivité, persistance et contournement du noyau.</description>
-      
-    </item>
-    
-    <item>
-      <title>Techniques anti-émulation sur Windows</title>
-      <link>http://localhost:1313/publications/anti-emulation-article/</link>
-      <pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate>
-      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
-      <guid>http://localhost:1313/publications/anti-emulation-article/</guid>
-      <description>Article expliquant les principales techniques de détection d&amp;rsquo;émulation utilisées par les malwares Windows, ainsi que des stratégies de contournement.</description>
-      
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/publications/linux-rootkit/feature.PNG" />
     </item>
     
     <item>
       <title>Protocole d&#39;interrogation anonyme de base de données</title>
       <link>http://localhost:1313/publications/pir-paillier/</link>
-      <pubDate>Sat, 01 Jun 2024 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 15 May 2024 00:00:00 +0000</pubDate>
       <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
       <guid>http://localhost:1313/publications/pir-paillier/</guid>
       <description>Implémentation d&amp;rsquo;un protocole PIR (Private Information Retrieval) en C, basé sur le chiffrement homomorphe de Paillier pour l&amp;rsquo;interrogation anonyme de bases de données.</description>
-      
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/publications/pir-paillier/feature.PNG" />
     </item>
     
   </channel>

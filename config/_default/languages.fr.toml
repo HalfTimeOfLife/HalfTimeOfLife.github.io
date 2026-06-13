@@ -17,7 +17,7 @@ title = "HalfTimeOfLife"
 [params.author]
   name = "Elouan Charbonnier"
   email = "ec.charbonnier@gmail.com"
-  image = "img/blowfish_logo.png"
+  image = "img/avatar.jpg"
   imageQuality = 96
   headline = "Malware Analyst & Reverse Engineer "
   links = [

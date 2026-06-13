@@ -9,36 +9,36 @@
     <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
     <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
     <copyright>© 2026 Elouan Charbonnier</copyright>
-    <lastBuildDate>Fri, 01 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/c/index.xml" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>Analyse WINE – APT29 (2025)</title>
-      <link>http://localhost:1313/projects/wine-apt29/</link>
-      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
-      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
-      <guid>http://localhost:1313/projects/wine-apt29/</guid>
-      <description>Analyse du malware WINE associé au groupe APT29 en 2025, incluant une preuve de concept.</description>
-      
-    </item>
+    <lastBuildDate>Fri, 02 Jan 2026 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/c/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Malauto</title>
       <link>http://localhost:1313/projects/malauto/</link>
-      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 02 Jan 2026 00:00:00 +0000</pubDate>
       <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
       <guid>http://localhost:1313/projects/malauto/</guid>
       <description>Extension WinDbg pour l&amp;rsquo;analyse automatisée de malwares Windows. Prépare des breakpoints, dumpe les régions mémoire au format PE et génère des rapports structurés.</description>
-      
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/projects/malauto/feature.PNG" />
+    </item>
+    
+    <item>
+      <title>Analyse WINE – APT29 (2025)</title>
+      <link>http://localhost:1313/projects/wine-apt29/</link>
+      <pubDate>Fri, 18 Jul 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/projects/wine-apt29/</guid>
+      <description>Analyse du malware WINE associé au groupe APT29 en 2025, incluant une preuve de concept.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/projects/wine-apt29/feature.PNG" />
     </item>
     
     <item>
       <title>Panoptiv</title>
       <link>http://localhost:1313/projects/panoptiv/</link>
-      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 06 Jun 2025 00:00:00 +0000</pubDate>
       <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
       <guid>http://localhost:1313/projects/panoptiv/</guid>
       <description>DLL utilisant des techniques de hooking pour contourner des protections anti-VM.</description>
-      
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/projects/panoptiv/feature.webp" />
     </item>
     
   </channel>
