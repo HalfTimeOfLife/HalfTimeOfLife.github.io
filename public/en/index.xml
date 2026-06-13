@@ -9,7 +9,87 @@
     <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
     <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
     <copyright>© 2026 Elouan Charbonnier</copyright>
-    <atom:link href="http://localhost:1313/en/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 01 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/en/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Malauto</title>
+      <link>http://localhost:1313/en/projects/malauto/</link>
+      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/en/projects/malauto/</guid>
+      <description>WinDbg extension for automated Windows malware analysis. Sets breakpoints, dumps memory regions in PE format and generates structured reports.</description>
+      
+    </item>
+    
+    <item>
+      <title>Panoptiv</title>
+      <link>http://localhost:1313/en/projects/panoptiv/</link>
+      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/en/projects/panoptiv/</guid>
+      <description>DLL using hooking techniques to bypass anti-VM protections.</description>
+      
+    </item>
+    
+    <item>
+      <title>Thesis – Detection of Anti-VM Protections Used by Malware</title>
+      <link>http://localhost:1313/en/publications/master-thesis-anti-vm/</link>
+      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/en/publications/master-thesis-anti-vm/</guid>
+      <description>In-depth research on anti-emulation techniques and their bypass in the context of Time Travel Debugging (TTD) in full system emulation.</description>
+      
+    </item>
+    
+    <item>
+      <title>WINE Malware Analysis – APT29 (2025)</title>
+      <link>http://localhost:1313/en/projects/wine-apt29/</link>
+      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/en/projects/wine-apt29/</guid>
+      <description>Analysis of the WINE malware attributed to APT29 in 2025, including a proof of concept.</description>
+      
+    </item>
+    
+    <item>
+      <title>Anti-Emulation Techniques on Windows</title>
+      <link>http://localhost:1313/en/publications/anti-emulation-article/</link>
+      <pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/en/publications/anti-emulation-article/</guid>
+      <description>Article explaining the main emulation detection techniques used by Windows malware, along with bypass strategies.</description>
+      
+    </item>
+    
+    <item>
+      <title>Introduction to Anti-VM Protections</title>
+      <link>http://localhost:1313/en/publications/anti-vm-youtube/</link>
+      <pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/en/publications/anti-vm-youtube/</guid>
+      <description>Educational video series presenting virtualization detection mechanisms and their implications in malware analysis.</description>
+      
+    </item>
+    
+    <item>
+      <title>Linux Kernel Rootkit in 2025</title>
+      <link>http://localhost:1313/en/publications/linux-rootkit/</link>
+      <pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/en/publications/linux-rootkit/</guid>
+      <description>Study of the state of Linux rootkits in 2025 through the example of the KoviD rootkit. Analysis of stealth, persistence and kernel security bypass techniques.</description>
+      
+    </item>
+    
+    <item>
+      <title>Anonymous Database Query Protocol</title>
+      <link>http://localhost:1313/en/publications/pir-paillier/</link>
+      <pubDate>Sat, 01 Jun 2024 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/en/publications/pir-paillier/</guid>
+      <description>Implementation of a PIR (Private Information Retrieval) protocol in C, based on Paillier homomorphic encryption to enable anonymous database querying.</description>
+      
+    </item>
     
     <item>
       <title>About</title>
@@ -17,26 +97,6 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
       <guid>http://localhost:1313/en/about/</guid>
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>Projects</title>
-      <link>http://localhost:1313/en/projects/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
-      <guid>http://localhost:1313/en/projects/</guid>
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>Publications</title>
-      <link>http://localhost:1313/en/publications/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
-      <guid>http://localhost:1313/en/publications/</guid>
       <description></description>
       
     </item>

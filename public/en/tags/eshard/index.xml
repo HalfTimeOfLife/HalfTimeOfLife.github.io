@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>EShard on HalfTimeOfLife</title>
+    <link>http://localhost:1313/en/tags/eshard/</link>
+    <description>Recent content in EShard on HalfTimeOfLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
+    <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
+    <copyright>© 2026 Elouan Charbonnier</copyright>
+    <lastBuildDate>Sun, 01 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/en/tags/eshard/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Anti-Emulation Techniques on Windows</title>
+      <link>http://localhost:1313/en/publications/anti-emulation-article/</link>
+      <pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/en/publications/anti-emulation-article/</guid>
+      <description>Article explaining the main emulation detection techniques used by Windows malware, along with bypass strategies.</description>
+      
+    </item>
+    
+  </channel>
+</rss>

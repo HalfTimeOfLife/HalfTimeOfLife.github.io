@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Article on HalfTimeOfLife</title>
+    <link>http://localhost:1313/tags/article/</link>
+    <description>Recent content in Article on HalfTimeOfLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>fr</language>
+    <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
+    <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
+    <copyright>© 2026 Elouan Charbonnier</copyright>
+    <lastBuildDate>Sun, 01 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/article/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Techniques anti-émulation sur Windows</title>
+      <link>http://localhost:1313/publications/anti-emulation-article/</link>
+      <pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/publications/anti-emulation-article/</guid>
+      <description>Article expliquant les principales techniques de détection d&amp;rsquo;émulation utilisées par les malwares Windows, ainsi que des stratégies de contournement.</description>
+      
+    </item>
+    
+  </channel>
+</rss>

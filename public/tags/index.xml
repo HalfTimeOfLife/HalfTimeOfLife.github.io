@@ -9,7 +9,207 @@
     <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
     <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
     <copyright>© 2026 Elouan Charbonnier</copyright>
-    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 01 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Anti-VM</title>
+      <link>http://localhost:1313/tags/anti-vm/</link>
+      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/tags/anti-vm/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>APT29</title>
+      <link>http://localhost:1313/tags/apt29/</link>
+      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/tags/apt29/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Automation</title>
+      <link>http://localhost:1313/tags/automation/</link>
+      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/tags/automation/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>C</title>
+      <link>http://localhost:1313/tags/c/</link>
+      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/tags/c/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>DLL Injection</title>
+      <link>http://localhost:1313/tags/dll-injection/</link>
+      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/tags/dll-injection/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Hooking</title>
+      <link>http://localhost:1313/tags/hooking/</link>
+      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/tags/hooking/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Malware Analysis</title>
+      <link>http://localhost:1313/tags/malware-analysis/</link>
+      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/tags/malware-analysis/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Mémoire</title>
+      <link>http://localhost:1313/tags/m%C3%A9moire/</link>
+      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/tags/m%C3%A9moire/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>PDF</title>
+      <link>http://localhost:1313/tags/pdf/</link>
+      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/tags/pdf/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>http://localhost:1313/tags/python/</link>
+      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/tags/python/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>TTD</title>
+      <link>http://localhost:1313/tags/ttd/</link>
+      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/tags/ttd/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>WinDbg</title>
+      <link>http://localhost:1313/tags/windbg/</link>
+      <pubDate>Fri, 01 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/tags/windbg/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Article</title>
+      <link>http://localhost:1313/tags/article/</link>
+      <pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/tags/article/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>EShard</title>
+      <link>http://localhost:1313/tags/eshard/</link>
+      <pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/tags/eshard/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>http://localhost:1313/tags/linux/</link>
+      <pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/tags/linux/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Rootkit</title>
+      <link>http://localhost:1313/tags/rootkit/</link>
+      <pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/tags/rootkit/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Vulgarisation</title>
+      <link>http://localhost:1313/tags/vulgarisation/</link>
+      <pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/tags/vulgarisation/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>YouTube</title>
+      <link>http://localhost:1313/tags/youtube/</link>
+      <pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/tags/youtube/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Cryptographie</title>
+      <link>http://localhost:1313/tags/cryptographie/</link>
+      <pubDate>Sat, 01 Jun 2024 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/tags/cryptographie/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>PIR</title>
+      <link>http://localhost:1313/tags/pir/</link>
+      <pubDate>Sat, 01 Jun 2024 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>http://localhost:1313/tags/pir/</guid>
+      <description></description>
+      
+    </item>
     
   </channel>
 </rss>
