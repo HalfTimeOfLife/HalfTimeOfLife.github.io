@@ -1,0 +1,26 @@
+disabled = false
+locale = "en"
+label = "English"
+weight = 2
+title = "HalfTimeOfLife"
+
+[params]
+  displayName = "EN"
+  isoCode = "en"
+  rtl = false
+  dateFormat = "2 January 2006"
+  # logo = "img/logo.png"
+  # secondaryLogo = "img/secondary-logo.png"
+  # description = "My awesome website"
+  # copyright = "Copy, _right?_ :thinking_face:"
+
+[params.author]
+  name = "Elouan Charbonnier"
+  email = "ec.charbonnier@gmail.com"
+  image = "img/blowfish_logo.png"
+  imageQuality = 96
+  headline = "Malware Analyst & Reverse Engineer"
+  links = [
+    { github = "https://github.com/HalfTimeOfLife" },
+    { linkedin = "https://linkedin.com/in/elouan-charbonnier" },
+  ]
