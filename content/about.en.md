@@ -103,8 +103,15 @@ Implementation, detection and bypass of anti-emulation techniques for Windows. W
 
 {{< timeline >}}
 
-{{< timelineItem icon="shield" header="BTL1 – Blue Team Level 1" badge="In progress" subheader="Security Blue Team" >}}
-{{< badge >}}In progress{{< /badge >}}
+{{< timelineItem icon="shield" header="BTL1 – Blue Team Level 1" badge="July 2026" subheader="Security Blue Team" >}}
+<img src="/assets/blue-team-level-1-btl1.png" alt="BTL1 Badge" width="100">
+Score: 85% - Silver Challenge Coin
+<br><br>
+Phishing Analysis · SIEM · Digital Forensics · Incident Response · SOC
+<br><br>
+<a href="https://www.credly.com/badges/2509deb1-9b12-494c-a1c2-cff0b4dbe234/public_url" target="_blank">Verify credential</a>
+<br>
+<a href="/assets/blue-team-level-1-btl1-certification.pdf" target="_blank">Download certificate</a>
 {{< /timelineItem >}}
 
 {{< /timeline >}}

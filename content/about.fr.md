@@ -103,8 +103,15 @@ Implémentation, détection et contournement de techniques anti-émulation pour 
 
 {{< timeline >}}
 
-{{< timelineItem icon="shield" header="BTL1 – Blue Team Level 1" badge="En cours" subheader="Security Blue Team" >}}
-{{< badge >}}En cours{{< /badge >}}
+{{< timelineItem icon="shield" header="BTL1 – Blue Team Level 1" badge="Juillet 2026" subheader="Security Blue Team" >}}
+<img src="/assets/blue-team-level-1-btl1.png" alt="Badge BTL1" width="100">
+Score : 85% - Silver Challenge Coin
+<br><br>
+Phishing Analysis · SIEM · Digital Forensics · Incident Response · SOC
+<br><br>
+<a href="https://www.credly.com/badges/2509deb1-9b12-494c-a1c2-cff0b4dbe234/public_url" target="_blank">Vérifier le certificat</a>
+<br>
+<a href="/assets/blue-team-level-1-btl1-certification.pdf" target="_blank">Télécharger le certificat</a>
 {{< /timelineItem >}}
 
 {{< /timeline >}}
