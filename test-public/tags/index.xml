@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on HalfTimeOfLife</title>
+    <link>https://halftimeoflife.github.io/tags/</link>
+    <description>Recent content in Tags on HalfTimeOfLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>fr</language>
+    <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
+    <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
+    <copyright>© 2026 Elouan Charbonnier</copyright>
+    <lastBuildDate>Fri, 24 Jul 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://halftimeoflife.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>C</title>
+      <link>https://halftimeoflife.github.io/tags/c/</link>
+      <pubDate>Fri, 24 Jul 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/c/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Driver</title>
+      <link>https://halftimeoflife.github.io/tags/driver/</link>
+      <pubDate>Fri, 24 Jul 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/driver/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Malware Analysis</title>
+      <link>https://halftimeoflife.github.io/tags/malware-analysis/</link>
+      <pubDate>Fri, 24 Jul 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/malware-analysis/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Windows Kernel</title>
+      <link>https://halftimeoflife.github.io/tags/windows-kernel/</link>
+      <pubDate>Fri, 24 Jul 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/windows-kernel/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>MISP</title>
+      <link>https://halftimeoflife.github.io/tags/misp/</link>
+      <pubDate>Thu, 16 Jul 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/misp/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>https://halftimeoflife.github.io/tags/python/</link>
+      <pubDate>Thu, 16 Jul 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/python/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Threat Intelligence</title>
+      <link>https://halftimeoflife.github.io/tags/threat-intelligence/</link>
+      <pubDate>Thu, 16 Jul 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/threat-intelligence/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>CTI</title>
+      <link>https://halftimeoflife.github.io/tags/cti/</link>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/cti/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>MITRE ATT&amp;CK</title>
+      <link>https://halftimeoflife.github.io/tags/mitre-attck/</link>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/mitre-attck/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Visualization</title>
+      <link>https://halftimeoflife.github.io/tags/visualization/</link>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/visualization/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Static Analysis</title>
+      <link>https://halftimeoflife.github.io/tags/static-analysis/</link>
+      <pubDate>Fri, 19 Jun 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/static-analysis/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Ghidra</title>
+      <link>https://halftimeoflife.github.io/tags/ghidra/</link>
+      <pubDate>Wed, 18 Feb 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/ghidra/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Automation</title>
+      <link>https://halftimeoflife.github.io/tags/automation/</link>
+      <pubDate>Fri, 02 Jan 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/automation/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Dynamic Analysis</title>
+      <link>https://halftimeoflife.github.io/tags/dynamic-analysis/</link>
+      <pubDate>Fri, 02 Jan 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/dynamic-analysis/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>WinDbg</title>
+      <link>https://halftimeoflife.github.io/tags/windbg/</link>
+      <pubDate>Fri, 02 Jan 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/windbg/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Anti-VM</title>
+      <link>https://halftimeoflife.github.io/tags/anti-vm/</link>
+      <pubDate>Fri, 29 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/anti-vm/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Article</title>
+      <link>https://halftimeoflife.github.io/tags/article/</link>
+      <pubDate>Fri, 29 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/article/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>EShard</title>
+      <link>https://halftimeoflife.github.io/tags/eshard/</link>
+      <pubDate>Fri, 29 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/eshard/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Mémoire</title>
+      <link>https://halftimeoflife.github.io/tags/m%C3%A9moire/</link>
+      <pubDate>Fri, 22 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/m%C3%A9moire/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>PDF</title>
+      <link>https://halftimeoflife.github.io/tags/pdf/</link>
+      <pubDate>Fri, 22 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/pdf/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>TTD</title>
+      <link>https://halftimeoflife.github.io/tags/ttd/</link>
+      <pubDate>Fri, 22 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/ttd/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>APT29</title>
+      <link>https://halftimeoflife.github.io/tags/apt29/</link>
+      <pubDate>Fri, 18 Jul 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/apt29/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>DLL Injection</title>
+      <link>https://halftimeoflife.github.io/tags/dll-injection/</link>
+      <pubDate>Fri, 06 Jun 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/dll-injection/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Hooking</title>
+      <link>https://halftimeoflife.github.io/tags/hooking/</link>
+      <pubDate>Fri, 06 Jun 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/hooking/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Vulgarisation</title>
+      <link>https://halftimeoflife.github.io/tags/vulgarisation/</link>
+      <pubDate>Fri, 28 Mar 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/vulgarisation/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>YouTube</title>
+      <link>https://halftimeoflife.github.io/tags/youtube/</link>
+      <pubDate>Fri, 28 Mar 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/youtube/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>https://halftimeoflife.github.io/tags/linux/</link>
+      <pubDate>Wed, 15 Jan 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/linux/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Rootkit</title>
+      <link>https://halftimeoflife.github.io/tags/rootkit/</link>
+      <pubDate>Wed, 15 Jan 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/rootkit/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Cryptographie</title>
+      <link>https://halftimeoflife.github.io/tags/cryptographie/</link>
+      <pubDate>Wed, 15 May 2024 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/cryptographie/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>PIR</title>
+      <link>https://halftimeoflife.github.io/tags/pir/</link>
+      <pubDate>Wed, 15 May 2024 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/tags/pir/</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

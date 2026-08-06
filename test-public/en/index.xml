@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Home on HalfTimeOfLife</title>
+    <link>https://halftimeoflife.github.io/en/</link>
+    <description>Recent content in Home on HalfTimeOfLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
+    <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
+    <copyright>© 2026 Elouan Charbonnier</copyright>
+    <lastBuildDate>Fri, 24 Jul 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://halftimeoflife.github.io/en/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>KDAMonitor</title>
+      <link>https://halftimeoflife.github.io/en/projects/kdamonitor/</link>
+      <pubDate>Fri, 24 Jul 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/projects/kdamonitor/</guid>
+      <description>Windows kernel driver for malware analysis, logging process, image load, network, and registry activity in real time.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/kdamonitor/feature.svg" />
+    </item>
+    
+    <item>
+      <title>mispSK</title>
+      <link>https://halftimeoflife.github.io/en/projects/mispsk/</link>
+      <pubDate>Thu, 16 Jul 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/projects/mispsk/</guid>
+      <description>Collection of Python scripts automating operations on MISP instances through PyMISP.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/mispsk/feature.png" />
+    </item>
+    
+    <item>
+      <title>attackmap</title>
+      <link>https://halftimeoflife.github.io/en/projects/attackmap/</link>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/projects/attackmap/</guid>
+      <description>CLI tool that generates MITRE ATT&amp;amp;CK heatmaps from ATT&amp;amp;CK Navigator JSON layers.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/attackmap/feature.png" />
+    </item>
+    
+    <item>
+      <title>scOWL</title>
+      <link>https://halftimeoflife.github.io/en/projects/scowl/</link>
+      <pubDate>Fri, 19 Jun 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/projects/scowl/</guid>
+      <description>Discord bot for static file triage and analysis.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/scowl/feature.png" />
+    </item>
+    
+    <item>
+      <title>GhidraMAT</title>
+      <link>https://halftimeoflife.github.io/en/projects/ghidramat/</link>
+      <pubDate>Wed, 18 Feb 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/projects/ghidramat/</guid>
+      <description>Ghidra script framework for automated static detection of malware behaviors: anti-debug, anti-VM, packing, C2 indicators, process injection, persistence and defense impairment.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/ghidramat/feature.png" />
+    </item>
+    
+    <item>
+      <title>Malauto</title>
+      <link>https://halftimeoflife.github.io/en/projects/malauto/</link>
+      <pubDate>Fri, 02 Jan 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/projects/malauto/</guid>
+      <description>WinDbg extension for automated Windows malware analysis. Sets breakpoints, dumps memory regions in PE format and generates structured reports.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/malauto/feature.PNG" />
+    </item>
+    
+    <item>
+      <title>Anti-Emulation Techniques on Windows</title>
+      <link>https://halftimeoflife.github.io/en/publications/anti-emulation-article/</link>
+      <pubDate>Fri, 29 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/publications/anti-emulation-article/</guid>
+      <description>Article explaining the main emulation detection techniques used by Windows malware, along with bypass strategies.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/publications/anti-emulation-article/feature.png" />
+    </item>
+    
+    <item>
+      <title>Thesis – Detection of Anti-VM Protections Used by Malware</title>
+      <link>https://halftimeoflife.github.io/en/publications/master-thesis-anti-vm/</link>
+      <pubDate>Fri, 22 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/publications/master-thesis-anti-vm/</guid>
+      <description>In-depth research on anti-emulation techniques and their bypass in the context of Time Travel Debugging (TTD) in full system emulation.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/publications/master-thesis-anti-vm/feature.PNG" />
+    </item>
+    
+    <item>
+      <title>WINE Malware Analysis – APT29 (2025)</title>
+      <link>https://halftimeoflife.github.io/en/projects/wine-apt29/</link>
+      <pubDate>Fri, 18 Jul 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/projects/wine-apt29/</guid>
+      <description>Analysis of the WINE malware attributed to APT29 in 2025, including a proof of concept.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/wine-apt29/feature.PNG" />
+    </item>
+    
+    <item>
+      <title>Panoptiv</title>
+      <link>https://halftimeoflife.github.io/en/projects/panoptiv/</link>
+      <pubDate>Fri, 06 Jun 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/projects/panoptiv/</guid>
+      <description>DLL using hooking techniques to bypass anti-VM protections.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/panoptiv/feature.webp" />
+    </item>
+    
+    <item>
+      <title>Introduction to Anti-VM Protections</title>
+      <link>https://halftimeoflife.github.io/en/publications/anti-vm-youtube/</link>
+      <pubDate>Fri, 28 Mar 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/publications/anti-vm-youtube/</guid>
+      <description>Educational video series presenting virtualization detection mechanisms and their implications in malware analysis.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/publications/anti-vm-youtube/feature.png" />
+    </item>
+    
+    <item>
+      <title>Linux Kernel Rootkit in 2025</title>
+      <link>https://halftimeoflife.github.io/en/publications/linux-rootkit/</link>
+      <pubDate>Wed, 15 Jan 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/publications/linux-rootkit/</guid>
+      <description>Study of the state of Linux rootkits in 2025 through the example of the KoviD rootkit. Analysis of stealth, persistence and kernel security bypass techniques.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/publications/linux-rootkit/feature.PNG" />
+    </item>
+    
+    <item>
+      <title>Anonymous Database Query Protocol</title>
+      <link>https://halftimeoflife.github.io/en/publications/pir-paillier/</link>
+      <pubDate>Wed, 15 May 2024 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/publications/pir-paillier/</guid>
+      <description>Implementation of a PIR (Private Information Retrieval) protocol in C, based on Paillier homomorphic encryption to enable anonymous database querying.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/publications/pir-paillier/feature.PNG" />
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://halftimeoflife.github.io/en/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/about/</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

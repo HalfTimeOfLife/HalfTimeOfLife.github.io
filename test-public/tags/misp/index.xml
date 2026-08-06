@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MISP on HalfTimeOfLife</title>
+    <link>https://halftimeoflife.github.io/tags/misp/</link>
+    <description>Recent content in MISP on HalfTimeOfLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>fr</language>
+    <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
+    <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
+    <copyright>© 2026 Elouan Charbonnier</copyright>
+    <lastBuildDate>Thu, 16 Jul 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://halftimeoflife.github.io/tags/misp/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>mispSK</title>
+      <link>https://halftimeoflife.github.io/projects/mispsk/</link>
+      <pubDate>Thu, 16 Jul 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/projects/mispsk/</guid>
+      <description>Collection de scripts Python automatisant des opérations sur des instances MISP via PyMISP.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/mispsk/feature.png" />
+    </item>
+    
+  </channel>
+</rss>

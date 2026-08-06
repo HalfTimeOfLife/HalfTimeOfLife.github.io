@@ -1,14 +1,19 @@
 [[main]]
-  name = "À propos"
-  pageRef = "about"
-  weight = 1
+name = "À propos"
+pageRef = "about"
+weight = 1
 
 [[main]]
-  name = "Projets"
-  pageRef = "projects"
-  weight = 2
+name = "Projets"
+pageRef = "projects"
+weight = 2
 
 [[main]]
-  name = "Publications"
-  pageRef = "publications"
-  weight = 3
+name = "Publications"
+pageRef = "publications"
+weight = 3
+
+[[main]]
+name = "Blog"
+pageRef = "posts"
+weight = 4
