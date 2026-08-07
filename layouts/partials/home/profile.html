@@ -1,0 +1,336 @@
+{{ $disableImageOptimization := .Site.Params.disableImageOptimization | default false }}
+{{ $currentLang := .Site.Language.Lang }}
+{{ $defaultLang := site.Params.defaultContentLanguage | default "fr" }}
+
+{{ $t := dict
+"latest_activity" (cond (eq $currentLang "fr") "Activité récente" "Latest activity")
+"activity_website" (cond (eq $currentLang "fr") "Sur le site" "On the site")
+"activity_github" (cond (eq $currentLang "fr") "Releases GitHub" "GitHub Releases")
+"fallback_badge" (cond (eq $currentLang "fr") "FR" "EN")
+}}
+
+<article class="flex flex-col items-center justify-center text-center">
+
+    <header class="relative px-1 py-1 flex flex-col items-center mb-8">
+        {{ with .Site.Params.Author.image }}
+        {{ $authorImage := "" }}
+        {{ if or (strings.HasPrefix . "http:") (strings.HasPrefix . "https:") }}
+        {{ $authorImage = resources.GetRemote . }}
+        {{ else }}
+        {{ $authorImage = resources.Get . }}
+        {{ end }}
+
+        {{ if $authorImage }}
+        {{ $final := $authorImage }}
+        {{ $squareImage := $authorImage }}
+        {{ if not (or $disableImageOptimization (eq $authorImage.MediaType.SubType "svg")) }}
+        {{ $final = $authorImage.Fill (print "288x288 q" ($.Site.Params.Author.imagequality | default "96")) }}
+        {{ $shortSide := int (math.Min $authorImage.Width $authorImage.Height) }}
+        {{ $squareImage = $authorImage.Crop (printf "%dx%d" $shortSide $shortSide) }}
+        {{ end }}
+
+        <img class="mb-6 h-36 w-36 rounded-full ring-4 ring-neutral-200 dark:ring-neutral-700 transition-all duration-300 hover:scale-110 hover:ring-primary-500 dark:hover:ring-primary-400 shadow-lg"
+            width="144" height="144" alt="{{ $.Site.Params.Author.name | default `Author` }}"
+            src="{{ $final.RelPermalink }}" data-zoom-src="{{ $squareImage.RelPermalink }}">
+        {{ end }}
+        {{ end }}
+
+        <h1 class="text-4xl font-extrabold text-neutral-900 dark:text-neutral-100">
+            {{ .Site.Params.Author.name | default .Site.Title }}
+        </h1>
+
+        {{ with .Site.Params.Author.headline }}
+        <h2 class="text-xl text-neutral-500 dark:text-neutral-400 mt-2 font-medium">
+            {{ . | markdownify }}
+        </h2>
+        {{ end }}
+
+        <div class="mt-4 text-2xl">
+            {{ partialCached "author-links.html" . }}
+        </div>
+    </header>
+
+    <section class="prose dark:prose-invert w-full max-w-4xl">
+        {{ .Content }}
+    </section>
+
+    {{/* ── Activité récente ── */}}
+    <section class="htol-activity">
+        <h2 class="htol-activity__title">{{ $t.latest_activity }}</h2>
+
+        <div class="htol-activity__grid">
+
+            {{/* ── Colonne : Sur le site ── */}}
+            <div class="htol-col">
+                <h3 class="htol-col__heading">
+                    <span class="htol-col__icon htol-col__icon--site">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="2" y1="12" x2="22" y2="12" />
+                            <path
+                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                        </svg>
+                    </span>
+                    {{ $t.activity_website }}
+                </h3>
+
+                <div class="htol-col__list">
+                    {{ $items := where hugo.Data.activity.website "lang" $currentLang }}
+                    {{ $isFallback := false }}
+                    {{ if not $items }}
+                    {{ $items = where hugo.Data.activity.website "lang" $defaultLang }}
+                    {{ $isFallback = true }}
+                    {{ end }}
+
+                    {{ range first 5 $items }}
+                    {{ $icon := "📝" }}
+                    {{ if eq .type "project" }}{{ $icon = "🔧" }}
+                    {{ else if eq .type "publication" }}{{ $icon = "📄" }}
+                    {{ end }}
+
+                    {{ $url := .url }}
+                    {{ if eq .type "project" }}
+                    {{ $url = "projects" | relLangURL }}
+                    {{ else if eq .type "publication" }}
+                    {{ $url = "publications" | relLangURL }}
+                    {{ else if ne .lang $defaultLang }}
+                    {{ $url = printf "/%s%s" .lang .url }}
+                    {{ end }}
+
+                    <a href="{{ $url }}" class="htol-card">
+                        <div class="htol-card__top">
+                            <time class="htol-card__date">{{ .date }}</time>
+                            <div class="htol-card__badges">
+                                {{ if $isFallback }}
+                                <span class="htol-badge htol-badge--lang">{{ $t.fallback_badge }}</span>
+                                {{ end }}
+                                <span class="htol-badge htol-badge--{{ .type }}">{{ .type }}</span>
+                            </div>
+                        </div>
+                        <div class="htol-card__body">
+                            <span class="htol-card__emoji">{{ $icon }}</span>
+                            <span class="htol-card__title">{{ .title }}</span>
+                        </div>
+                    </a>
+                    {{ end }}
+                </div>
+            </div>
+
+            {{/* ── Colonne : Releases GitHub ── */}}
+            <div class="htol-col">
+                <h3 class="htol-col__heading">
+                    <span class="htol-col__icon htol-col__icon--github">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z" />
+                        </svg>
+                    </span>
+                    {{ $t.activity_github }}
+                </h3>
+
+                <div class="htol-col__list">
+                    {{ range first 5 hugo.Data.activity.github }}
+                    <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="htol-card">
+                        <div class="htol-card__top">
+                            <time class="htol-card__date">{{ .date }}</time>
+                            {{ with .repository }}
+                            <span class="htol-badge htol-badge--repo">{{ . }}</span>
+                            {{ end }}
+                        </div>
+                        <div class="htol-card__body">
+                            <span class="htol-card__emoji">🚀</span>
+                            <span class="htol-card__title">{{ .title }}</span>
+                        </div>
+                    </a>
+                    {{ end }}
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</article>
+
+<style>
+    .htol-activity {
+        width: 100%;
+        max-width: 64rem;
+        margin: 4rem auto 3rem;
+        padding: 0 1.25rem;
+        box-sizing: border-box;
+    }
+
+    .htol-activity__title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.45);
+        text-align: center;
+        margin: 0 0 2.25rem;
+    }
+
+    .htol-activity__grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+    }
+
+    @media (min-width: 900px) {
+        .htol-activity__grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+        }
+    }
+
+    .htol-col__heading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.4);
+        margin: 0 0 1.1rem;
+    }
+
+    .htol-col__icon {
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .htol-col__icon svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .htol-col__icon--site {
+        color: #63a4ff;
+    }
+
+    .htol-col__icon--github {
+        color: rgba(255, 255, 255, 0.55);
+    }
+
+    .htol-col__list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.65rem;
+    }
+
+    .htol-card {
+        display: block;
+        text-align: left;
+        text-decoration: none;
+        color: inherit;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 0.75rem;
+        background: rgba(255, 255, 255, 0.03);
+        padding: 0.9rem 1.1rem;
+        transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+    }
+
+    .htol-card:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.14);
+        transform: translateY(-1px);
+    }
+
+    .htol-card__top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.6rem;
+        margin-bottom: 0.55rem;
+    }
+
+    .htol-card__date {
+        font-size: 0.68rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.32);
+        letter-spacing: 0.02em;
+        white-space: nowrap;
+    }
+
+    .htol-card__badges {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .htol-badge {
+        display: inline-flex;
+        align-items: center;
+        white-space: nowrap;
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 0.2rem 0.55rem;
+        border-radius: 999px;
+        line-height: 1.4;
+        border: 1px solid transparent;
+    }
+
+    .htol-badge--post {
+        background: rgba(99, 164, 255, 0.12);
+        color: #8fbcff;
+        border-color: rgba(99, 164, 255, 0.25);
+    }
+
+    .htol-badge--project {
+        background: rgba(72, 199, 142, 0.12);
+        color: #7fdba6;
+        border-color: rgba(72, 199, 142, 0.25);
+    }
+
+    .htol-badge--publication {
+        background: rgba(180, 132, 255, 0.12);
+        color: #c4a6ff;
+        border-color: rgba(180, 132, 255, 0.25);
+    }
+
+    .htol-badge--repo {
+        background: rgba(255, 255, 255, 0.06);
+        color: rgba(255, 255, 255, 0.5);
+        border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .htol-badge--lang {
+        background: rgba(255, 200, 70, 0.1);
+        color: #ffcd58;
+        border-color: rgba(255, 200, 70, 0.25);
+    }
+
+    .htol-card__body {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.65rem;
+    }
+
+    .htol-card__emoji {
+        font-size: 1rem;
+        line-height: 1.4;
+        flex-shrink: 0;
+    }
+
+    .htol-card__title {
+        font-size: 0.86rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.85);
+        line-height: 1.4;
+    }
+
+    .htol-card:hover .htol-card__title {
+        color: #fff;
+    }
+</style>

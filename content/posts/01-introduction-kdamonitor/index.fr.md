@@ -1,6 +1,6 @@
 ---
 title: "01 - Introduction à KDAMonitor : développer un driver Windows Kernel"
-date: 2026-08-05
+date: 2026-08-07
 draft: false
 description: "Introduction au projet KDAMonitor et ses objectifs."
 summary: "Introduction au projet KDAMonitor et ses objectifs."
@@ -52,7 +52,7 @@ Sans plus tarder, nous allons passer à l'idée de l'architecture que je me suis
 
 À l'issue de ce projet (en v1.0), l'architecture de ce dernier ressemblera à ceci :
 
-![kdamonitor_architecture_final.svg](./kdamonitor_architecture_final.svg)
+![kdamonitor_architecture_final.svg](kdamonitor_architecture_final.svg)
 
 En résumé :
 

@@ -1,0 +1,126 @@
+{
+  "website": [
+    {
+      "date": "2026-08-05",
+      "type": "post",
+      "title": "01 - Introduction to KDAMonitor: Building a Windows Kernel Driver",
+      "url": "/posts/01-introduction-kdamonitor/",
+      "lang": "en",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-08-05",
+      "type": "post",
+      "title": "01 - Introduction à KDAMonitor : développer un driver Windows Kernel",
+      "url": "/posts/01-introduction-kdamonitor/",
+      "lang": "fr",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-07-24",
+      "type": "project",
+      "title": "KDAMonitor",
+      "url": "/projects/KDAMonitor/",
+      "lang": "en",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-07-24",
+      "type": "project",
+      "title": "KDAMonitor",
+      "url": "/projects/KDAMonitor/",
+      "lang": "fr",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-06-25",
+      "type": "project",
+      "title": "attackmap",
+      "url": "/projects/attackmap/",
+      "lang": "en",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-06-25",
+      "type": "project",
+      "title": "attackmap",
+      "url": "/projects/attackmap/",
+      "lang": "fr",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-06-19",
+      "type": "project",
+      "title": "scOWL",
+      "url": "/projects/scowl/",
+      "lang": "en",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-06-19",
+      "type": "project",
+      "title": "scOWL",
+      "url": "/projects/scowl/",
+      "lang": "fr",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-02-18",
+      "type": "project",
+      "title": "GhidraMAT",
+      "url": "/projects/ghidramat/",
+      "lang": "en",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-02-18",
+      "type": "project",
+      "title": "GhidraMAT",
+      "url": "/projects/ghidramat/",
+      "lang": "fr",
+      "source": "hugo"
+    }
+  ],
+  "github": [
+    {
+      "date": "2026-08-06",
+      "type": "release",
+      "title": "mispSK v0.5.2",
+      "url": "https://github.com/HalfTimeOfLife/mispSK/releases/tag/v0.5.2",
+      "repository": "mispSK",
+      "source": "github"
+    },
+    {
+      "date": "2026-08-04",
+      "type": "release",
+      "title": "KDAMonitor v0.7",
+      "url": "https://github.com/HalfTimeOfLife/KDAMonitor/releases/tag/v0.7",
+      "repository": "KDAMonitor",
+      "source": "github"
+    },
+    {
+      "date": "2026-08-01",
+      "type": "release",
+      "title": "attackmap v1.2.1",
+      "url": "https://github.com/HalfTimeOfLife/attackmap/releases/tag/v1.2.1",
+      "repository": "attackmap",
+      "source": "github"
+    },
+    {
+      "date": "2026-07-29",
+      "type": "release",
+      "title": "scowl v0.3",
+      "url": "https://github.com/HalfTimeOfLife/scowl/releases/tag/v0.3",
+      "repository": "scowl",
+      "source": "github"
+    },
+    {
+      "date": "2026-07-28",
+      "type": "release",
+      "title": "GhidraMAT v0.6",
+      "url": "https://github.com/HalfTimeOfLife/GhidraMAT/releases/tag/v0.6",
+      "repository": "GhidraMAT",
+      "source": "github"
+    }
+  ]
+}
