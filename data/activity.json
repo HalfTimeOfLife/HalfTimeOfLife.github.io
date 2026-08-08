@@ -1,7 +1,7 @@
 {
   "website": [
     {
-      "date": "2026-08-05",
+      "date": "2026-08-07",
       "type": "post",
       "title": "01 - Introduction to KDAMonitor: Building a Windows Kernel Driver",
       "url": "/posts/01-introduction-kdamonitor/",
@@ -9,7 +9,7 @@
       "source": "hugo"
     },
     {
-      "date": "2026-08-05",
+      "date": "2026-08-07",
       "type": "post",
       "title": "01 - Introduction à KDAMonitor : développer un driver Windows Kernel",
       "url": "/posts/01-introduction-kdamonitor/",
@@ -83,6 +83,14 @@
   ],
   "github": [
     {
+      "date": "2026-08-07",
+      "type": "release",
+      "title": "GhidraMAT v0.7",
+      "url": "https://github.com/HalfTimeOfLife/GhidraMAT/releases/tag/v0.7",
+      "repository": "GhidraMAT",
+      "source": "github"
+    },
+    {
       "date": "2026-08-06",
       "type": "release",
       "title": "mispSK v0.5.2",
@@ -112,14 +120,6 @@
       "title": "scowl v0.3",
       "url": "https://github.com/HalfTimeOfLife/scowl/releases/tag/v0.3",
       "repository": "scowl",
-      "source": "github"
-    },
-    {
-      "date": "2026-07-28",
-      "type": "release",
-      "title": "GhidraMAT v0.6",
-      "url": "https://github.com/HalfTimeOfLife/GhidraMAT/releases/tag/v0.6",
-      "repository": "GhidraMAT",
       "source": "github"
     }
   ]

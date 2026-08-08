@@ -166,7 +166,8 @@
         font-weight: 700;
         letter-spacing: 0.03em;
         text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.45);
+        color: rgb(107 114 128);
+        /* neutral-500 */
         text-align: center;
         margin: 0 0 2.25rem;
     }
@@ -193,7 +194,7 @@
         font-weight: 700;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.4);
+        color: rgb(107 114 128);
         margin: 0 0 1.1rem;
     }
 
@@ -212,35 +213,52 @@
     }
 
     .htol-col__icon--site {
-        color: #63a4ff;
+        color: #2563eb;
+        /* blue-600 */
     }
 
     .htol-col__icon--github {
-        color: rgba(255, 255, 255, 0.55);
+        color: rgb(75 85 99);
+        /* neutral-600 */
     }
 
     .htol-col__list {
         display: flex;
         flex-direction: column;
         gap: 0.65rem;
+        height: 100%;
     }
 
     .htol-card {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
         text-align: left;
         text-decoration: none;
         color: inherit;
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid rgb(156 163 175);
         border-radius: 0.75rem;
-        background: rgba(255, 255, 255, 0.03);
+        background: #ffffff;
         padding: 0.9rem 1.1rem;
         transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
     }
 
     .htol-card:hover {
+        background: rgb(243 244 246);
+        border-color: rgb(107 114 128);
+        /* neutral-500 au hover */
+        transform: translateY(-1px);
+    }
+
+    .dark .htol-card {
+        border-color: rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .dark .htol-card:hover {
         background: rgba(255, 255, 255, 0.06);
         border-color: rgba(255, 255, 255, 0.14);
-        transform: translateY(-1px);
     }
 
     .htol-card__top {
@@ -254,7 +272,8 @@
     .htol-card__date {
         font-size: 0.68rem;
         font-weight: 600;
-        color: rgba(255, 255, 255, 0.32);
+        color: rgb(156 163 175);
+        /* neutral-400 */
         letter-spacing: 0.02em;
         white-space: nowrap;
     }
@@ -282,30 +301,60 @@
     }
 
     .htol-badge--post {
+        background: rgba(37, 99, 235, 0.10);
+        color: #1d4ed8;
+        border-color: rgba(37, 99, 235, 0.25);
+    }
+
+    .dark .htol-badge--post {
         background: rgba(99, 164, 255, 0.12);
         color: #8fbcff;
         border-color: rgba(99, 164, 255, 0.25);
     }
 
     .htol-badge--project {
+        background: rgba(22, 163, 74, 0.10);
+        color: #15803d;
+        border-color: rgba(22, 163, 74, 0.25);
+    }
+
+    .dark .htol-badge--project {
         background: rgba(72, 199, 142, 0.12);
         color: #7fdba6;
         border-color: rgba(72, 199, 142, 0.25);
     }
 
     .htol-badge--publication {
+        background: rgba(124, 58, 237, 0.10);
+        color: #6d28d9;
+        border-color: rgba(124, 58, 237, 0.25);
+    }
+
+    .dark .htol-badge--publication {
         background: rgba(180, 132, 255, 0.12);
         color: #c4a6ff;
         border-color: rgba(180, 132, 255, 0.25);
     }
 
     .htol-badge--repo {
+        background: rgb(243 244 246);
+        color: rgb(107 114 128);
+        border-color: rgb(229 231 235);
+    }
+
+    .dark .htol-badge--repo {
         background: rgba(255, 255, 255, 0.06);
         color: rgba(255, 255, 255, 0.5);
         border-color: rgba(255, 255, 255, 0.12);
     }
 
     .htol-badge--lang {
+        background: rgba(217, 119, 6, 0.10);
+        color: #b45309;
+        border-color: rgba(217, 119, 6, 0.25);
+    }
+
+    .dark .htol-badge--lang {
         background: rgba(255, 200, 70, 0.1);
         color: #ffcd58;
         border-color: rgba(255, 200, 70, 0.25);
@@ -326,11 +375,35 @@
     .htol-card__title {
         font-size: 0.86rem;
         font-weight: 600;
-        color: rgba(255, 255, 255, 0.85);
+        color: rgb(31 41 55);
+        /* neutral-800 */
         line-height: 1.4;
     }
 
+    .dark .htol-card__title {
+        color: rgba(255, 255, 255, 0.85);
+    }
+
     .htol-card:hover .htol-card__title {
+        color: rgb(17 24 39);
+        /* neutral-900 */
+    }
+
+    .dark .htol-card:hover .htol-card__title {
         color: #fff;
+    }
+
+    /* Titres de colonnes en mode sombre */
+    .dark .htol-activity__title,
+    .dark .htol-col__heading {
+        color: rgba(255, 255, 255, 0.4);
+    }
+
+    .dark .htol-col__icon--github {
+        color: rgba(255, 255, 255, 0.55);
+    }
+
+    .dark .htol-col__icon--site {
+        color: #63a4ff;
     }
 </style>
