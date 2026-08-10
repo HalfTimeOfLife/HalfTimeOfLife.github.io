@@ -506,7 +506,9 @@ Le déroulement est simple :
 
 Ce petit programme suffit à valider toute la mécanique construite dans cet article : device, lien symbolique, dispatch IRP, et traitement d'un IOCTL. Ci-dessous, un gif démontrant la fonctionnalité du projet :
 
-![Démo du client de test](demo-echo.gif)
+<video controls width="100%">
+  <source src="demo-echo.mp4" type="video/mp4">
+</video>
 
 > **Point d'attention** : le driver est compilé en configuration **Debug** (pour que les `KdPrint` fonctionnent), mais le client, lui, est compilé en **Release**. En Debug, le client compile correctement mais ne se lance pas (certaines DLL sont introuvables au démarrage). Le compiler en **Release** contourne le problème.
 
