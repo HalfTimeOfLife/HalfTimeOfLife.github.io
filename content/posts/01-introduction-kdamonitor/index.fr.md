@@ -116,7 +116,7 @@ Cet article sert d'introduction à la série; je vais maintenant détailler bri�
 | Article | Version(s) | Titre | Contenu principal |
 | ------: | :--------: | ----- | ----------------- |
 | **02** | **v0.1 – v0.2** | **Fondations du driver : DriverEntry, device et communication IOCTL** | Création du squelette du driver, `DriverEntry`/`DriverUnload`, `DEVICE_OBJECT`, lien symbolique, IOCTL et premier client usermode de test. |
-| **03** | **v0.3** | **Conception de la file d'événements : un pipeline générique d'événements noyau** | Conception de la structure d'événement générique, ring buffer, spinlock, file d'attente, FIFO, identifiants uniques et premier test interne. |
+| **03** | **v0.3** | **La file d'événements : structure et synchronisation dans le noyau** | Conception de la structure d'événement générique, ring buffer, spinlock, file d'attente, FIFO, identifiants uniques et premier test interne. |
 | **04** | **v0.4** | **Écriture des événements sur disque : journalisation JSONL, événements de réveil et premier crash** | Implémentation du thread de journalisation, création des fichiers JSONL, utilisation des `KEVENT` pour supprimer le polling, premier crash (IRQL) et sa résolution. |
 | **05** | **v0.5** | **Premier capteur : surveillance de la création et de la terminaison des processus** | Utilisation de `PsSetCreateProcessNotifyRoutineEx`, intégration dans le pipeline d'événements, sérialisation JSON et premiers événements réels. |
 | **06** | **v0.6** | **Deuxième capteur : suivi du chargement des images et des DLL** | Ajout de `PsSetLoadImageNotifyRoutine`, récupération des informations sur les DLL/EXE chargés, intégration au système existant. |

@@ -1,6 +1,6 @@
 ---
 title: "02 - Fondations du driver : DriverEntry, device et communication IOCTL"
-date: 2026-08-08
+date: 2026-08-11
 draft: false
 description: "Construction du socle du driver KDAMonitor : device object et première communication IOCTL avec un client de test."
 summary: "Construction du socle du driver KDAMonitor : device object et première communication IOCTL avec un client de test."
@@ -521,4 +521,4 @@ Avec ces deux premières versions, KDAMonitor dispose maintenant du strict néce
 Cet article est plus long que prévu, il sera peut-être raccourci ultérieurement.
 > Les prochains articles seront moins longs :-) 
 
-Merci d'avoir lu jusqu'au bout et à bientôt pour le prochain et troisième article de cette série : **Conception de la file d'événements : un pipeline générique d'événements noyau**.
+Merci d'avoir lu jusqu'au bout et à bientôt pour le prochain et troisième article de cette série : **La file d'événements : structure et synchronisation dans le noyau**.

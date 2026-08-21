@@ -116,7 +116,7 @@ This article serves as an introduction to the series; I'll now briefly outline t
 | Article | Version(s) | Title | Main content |
 | ------: | :--------: | ----- | ----------------- |
 | **02** | **v0.1 – v0.2** | **Building the Driver Foundation: DriverEntry, Device Object and IOCTL Communication** | Creating the driver skeleton, `DriverEntry`/`DriverUnload`, `DEVICE_OBJECT`, symbolic link, IOCTL, and a first test usermode client. |
-| **03** | **v0.3** | **Designing the Event Queue: A Generic Kernel Event Pipeline** | Designing the generic event structure, ring buffer, spinlock, queue, FIFO, unique identifiers, and first internal test. |
+| **03** | **v0.3** | **The Event Queue: Structure and Synchronization in the Kernel** | Designing the generic event structure, ring buffer, spinlock, queue, FIFO, unique identifiers, and first internal test. |
 | **04** | **v0.4** | **Writing Events to Disk: JSONL Logging, Wake Events and the First Crash** | Implementing the logging thread, creating JSONL files, using `KEVENT` to remove polling, the first crash (IRQL) and its resolution. |
 | **05** | **v0.5** | **The First Sensor: Monitoring Process Creation and Termination** | Using `PsSetCreateProcessNotifyRoutineEx`, integration into the event pipeline, JSON serialization, and the first real events. |
 | **06** | **v0.6** | **The Second Sensor: Tracking Image and DLL Loads** | Adding `PsSetLoadImageNotifyRoutine`, retrieving information about loaded DLLs/EXEs, integration with the existing system. |

@@ -1,6 +1,6 @@
 ---
 title: "02 - Building the Driver Foundation: DriverEntry, Device Object and IOCTL Communication"
-date: 2026-08-08
+date: 2026-08-11
 draft: false
 description: "Building the KDAMonitor driver foundation: device object and the first IOCTL communication with a test client."
 summary: "Building the KDAMonitor driver foundation: device object and the first IOCTL communication with a test client."
@@ -521,4 +521,4 @@ With these first two versions, KDAMonitor now has the strict essentials needed t
 This article turned out longer than planned — it might get trimmed down at some point.
 > The next ones will be shorter :-)
 
-Thanks for reading all the way through, and see you in the third article of this series: **Designing the Event Queue: A Generic Kernel Event Pipeline**.
+Thanks for reading all the way through, and see you in the third article of this series: **The Event Queue: Structure and Synchronization in the Kernel**.
