@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 512 512"
+     fill="none">
+
+  <rect width="512" height="512" rx="96" fill="#DCEEFF"/>
+
+  <rect x="96"
+        y="96"
+        width="320"
+        height="320"
+        rx="40"
+        fill="#1A365D"/>
+
+  <rect x="128"
+        y="128"
+        width="256"
+        height="256"
+        rx="24"
+        fill="#DCEEFF"/>
+
+  <text x="256"
+        y="275"
+        text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="50"
+        font-weight="700"
+        letter-spacing="4"
+        fill="#1A365D">
+    AArch64
+  </text>
+
+
+
+  <g stroke="#1A365D"
+     stroke-width="12"
+     stroke-linecap="round">
+
+    <path d="M176 96 V64"/>
+    <path d="M256 96 V56"/>
+    <path d="M336 96 V64"/>
+
+    <path d="M176 416 V448"/>
+    <path d="M256 416 V456"/>
+    <path d="M336 416 V448"/>
+
+    <path d="M96 176 H64"/>
+    <path d="M96 256 H56"/>
+    <path d="M96 336 H64"/>
+
+    <path d="M416 176 H448"/>
+    <path d="M416 256 H456"/>
+    <path d="M416 336 H448"/>
+
+  </g>
+
+</svg>
