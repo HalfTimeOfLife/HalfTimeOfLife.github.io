@@ -4,6 +4,8 @@ date: 2026-08-11
 draft: false
 description: "Building the KDAMonitor driver foundation: device object and the first IOCTL communication with a test client."
 summary: "Building the KDAMonitor driver foundation: device object and the first IOCTL communication with a test client."
+series: ["KDAMonitor"]
+series_order: 2
 tags:
   - KDAMonitor
   - Windows Kernel

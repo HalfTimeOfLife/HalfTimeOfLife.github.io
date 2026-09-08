@@ -4,6 +4,8 @@ date: 2026-08-21
 draft: false
 description: "Building the event queue for the KDAMonitor driver."
 summary: "Building the event queue for the KDAMonitor driver."
+series: ["KDAMonitor"]
+series_order: 3
 tags:
   - KDAMonitor
   - Windows Kernel

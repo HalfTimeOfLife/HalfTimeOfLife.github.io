@@ -4,6 +4,8 @@ date: 2026-09-07
 draft: false
 description: "Implementing KDAMonitor's first sensor: monitoring process creation and termination."
 summary: "Implementing KDAMonitor's first sensor: monitoring process creation and termination."
+series: ["KDAMonitor"]
+series_order: 5
 tags:
   - KDAMonitor
   - Windows Kernel

@@ -17,3 +17,9 @@ weight = 3
 name = "Blog"
 pageRef = "posts"
 weight = 4
+
+[[main]]
+name = "Series"
+parent = "Blog"
+pageRef = "series"
+weight = 1

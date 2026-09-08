@@ -4,6 +4,8 @@ date: 2026-08-07
 draft: false
 description: "Introduction to the KDAMonitor project and its goals."
 summary: "Introduction to the KDAMonitor project and its goals."
+series: ["KDAMonitor"]
+series_order: 1
 tags:
   - KDAMonitor
   - Windows Kernel

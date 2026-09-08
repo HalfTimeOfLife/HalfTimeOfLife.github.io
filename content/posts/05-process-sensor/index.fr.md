@@ -4,6 +4,8 @@ date: 2026-09-07
 draft: false
 description: "Implémentation du premier capteur de KDAMonitor : surveillance de la création et de la terminaison des processus."
 summary: "Implémentation du premier capteur de KDAMonitor : surveillance de la création et de la terminaison des processus."
+series: ["KDAMonitor"]
+series_order: 5
 tags:
   - KDAMonitor
   - Windows Kernel

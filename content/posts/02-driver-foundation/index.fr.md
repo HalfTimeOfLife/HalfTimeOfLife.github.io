@@ -4,6 +4,8 @@ date: 2026-08-11
 draft: false
 description: "Construction du socle du driver KDAMonitor : device object et première communication IOCTL avec un client de test."
 summary: "Construction du socle du driver KDAMonitor : device object et première communication IOCTL avec un client de test."
+series: ["KDAMonitor"]
+series_order: 2
 tags:
   - KDAMonitor
   - Windows Kernel

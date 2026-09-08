@@ -4,6 +4,8 @@ date: 2026-08-21
 draft: false
 description: "Construction de la file d'événements du driver KDAMonitor."
 summary: "Construction de la file d'événements du driver KDAMonitor."
+series: ["KDAMonitor"]
+series_order: 3
 tags:
   - KDAMonitor
   - Windows Kernel

@@ -4,6 +4,8 @@ date: 2026-09-01
 draft: false
 description: "Writing logs to disk and the first kernel crash of the KDAMonitor driver."
 summary: "Writing logs to disk and the first kernel crash of the KDAMonitor driver."
+series: ["KDAMonitor"]
+series_order: 4
 tags:
   - KDAMonitor
   - Windows Kernel
