@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kernel on HalfTimeOfLife</title>
+    <link>https://halftimeoflife.github.io/tags/kernel/</link>
+    <description>Recent content in Kernel on HalfTimeOfLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>fr</language>
+    <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
+    <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
+    <copyright>© 2026 Elouan Charbonnier</copyright>
+    <lastBuildDate>Fri, 11 Sep 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://halftimeoflife.github.io/tags/kernel/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>02 - Premier boot : linker script, pile et premier message UART</title>
+      <link>https://halftimeoflife.github.io/posts/02-boot-uart/</link>
+      <pubDate>Fri, 11 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/posts/02-boot-uart/</guid>
+      <description>Mise en place du linker script, du code de boot et du premier driver UART.</description>
+      
+    </item>
+    
+    <item>
+      <title>01 - Introduction à mon kernel AArch64 bare-metal sur QEMU virt</title>
+      <link>https://halftimeoflife.github.io/posts/01-introduction-aarch64-kernel/</link>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/posts/01-introduction-aarch64-kernel/</guid>
+      <description>Introduction au projet de kernel bare-metal AArch64 et à ses objectifs.</description>
+      
+    </item>
+    
+    <item>
+      <title>AArch64 Bare-Metal Kernel</title>
+      <link>https://halftimeoflife.github.io/projects/aartch64baremetal/</link>
+      <pubDate>Sun, 23 Aug 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/projects/aartch64baremetal/</guid>
+      <description>Noyau bare-metal minimaliste pour AArch64, écrit de zéro et exécuté sur la machine virt de QEMU.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/aartch64baremetal/feature.svg" />
+    </item>
+    
+  </channel>
+</rss>

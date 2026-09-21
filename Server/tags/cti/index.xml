@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CTI on HalfTimeOfLife</title>
+    <link>https://halftimeoflife.github.io/tags/cti/</link>
+    <description>Recent content in CTI on HalfTimeOfLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>fr</language>
+    <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
+    <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
+    <copyright>© 2026 Elouan Charbonnier</copyright>
+    <lastBuildDate>Thu, 25 Jun 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://halftimeoflife.github.io/tags/cti/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>attackmap</title>
+      <link>https://halftimeoflife.github.io/projects/attackmap/</link>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/projects/attackmap/</guid>
+      <description>Outil CLI générant des heatmaps MITRE ATT&amp;amp;CK depuis des couches JSON ATT&amp;amp;CK Navigator.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/attackmap/feature.png" />
+    </item>
+    
+  </channel>
+</rss>

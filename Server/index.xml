@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Accueil on HalfTimeOfLife</title>
+    <link>https://halftimeoflife.github.io/</link>
+    <description>Recent content in Accueil on HalfTimeOfLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>fr</language>
+    <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
+    <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
+    <copyright>© 2026 Elouan Charbonnier</copyright>
+    <lastBuildDate>Thu, 17 Sep 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://halftimeoflife.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>06 - Deuxième capteur : suivi du chargement des images et des DLL</title>
+      <link>https://halftimeoflife.github.io/posts/06-image-sensor/</link>
+      <pubDate>Thu, 17 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/posts/06-image-sensor/</guid>
+      <description>Implémentation du deuxième capteur de KDAMonitor : surveillance du chargement des images.</description>
+      
+    </item>
+    
+    <item>
+      <title>Analyse malware Mirai ARM64</title>
+      <link>https://halftimeoflife.github.io/projects/mirai-arm64-analysis/</link>
+      <pubDate>Tue, 15 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/projects/mirai-arm64-analysis/</guid>
+      <description>Analyse statique et dynamique d&amp;rsquo;un échantillon ELF ARM64 de la famille Mirai/Gafgyt.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/mirai-arm64-analysis/feature.png" />
+    </item>
+    
+    <item>
+      <title>02 - Premier boot : linker script, pile et premier message UART</title>
+      <link>https://halftimeoflife.github.io/posts/02-boot-uart/</link>
+      <pubDate>Fri, 11 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/posts/02-boot-uart/</guid>
+      <description>Mise en place du linker script, du code de boot et du premier driver UART.</description>
+      
+    </item>
+    
+    <item>
+      <title>01 - Introduction à mon kernel AArch64 bare-metal sur QEMU virt</title>
+      <link>https://halftimeoflife.github.io/posts/01-introduction-aarch64-kernel/</link>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/posts/01-introduction-aarch64-kernel/</guid>
+      <description>Introduction au projet de kernel bare-metal AArch64 et à ses objectifs.</description>
+      
+    </item>
+    
+    <item>
+      <title>05 - Premier capteur : surveillance de la création et de la terminaison des processus</title>
+      <link>https://halftimeoflife.github.io/posts/05-process-sensor/</link>
+      <pubDate>Mon, 07 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/posts/05-process-sensor/</guid>
+      <description>Implémentation du premier capteur de KDAMonitor : surveillance de la création et de la terminaison des processus.</description>
+      
+    </item>
+    
+    <item>
+      <title>04 - Écriture des événements sur disque : journalisation JSONL, événements de réveil et premier crash</title>
+      <link>https://halftimeoflife.github.io/posts/04-log-writer/</link>
+      <pubDate>Tue, 01 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/posts/04-log-writer/</guid>
+      <description>Écriture des logs sur disque et premier crash noyau du driver KDAMonitor.</description>
+      
+    </item>
+    
+    <item>
+      <title>AArch64 Bare-Metal Kernel</title>
+      <link>https://halftimeoflife.github.io/projects/aartch64baremetal/</link>
+      <pubDate>Sun, 23 Aug 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/projects/aartch64baremetal/</guid>
+      <description>Noyau bare-metal minimaliste pour AArch64, écrit de zéro et exécuté sur la machine virt de QEMU.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/aartch64baremetal/feature.svg" />
+    </item>
+    
+    <item>
+      <title>03 - La file d&#39;événements : structure et synchronisation dans le noyau</title>
+      <link>https://halftimeoflife.github.io/posts/03-event-queue/</link>
+      <pubDate>Fri, 21 Aug 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/posts/03-event-queue/</guid>
+      <description>Construction de la file d&amp;rsquo;événements du driver KDAMonitor.</description>
+      
+    </item>
+    
+    <item>
+      <title>02 - Fondations du driver : DriverEntry, device et communication IOCTL</title>
+      <link>https://halftimeoflife.github.io/posts/02-driver-foundation/</link>
+      <pubDate>Tue, 11 Aug 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/posts/02-driver-foundation/</guid>
+      <description>Construction du socle du driver KDAMonitor : device object et première communication IOCTL avec un client de test.</description>
+      
+    </item>
+    
+    <item>
+      <title>01 - Introduction à KDAMonitor : développer un driver Windows Kernel</title>
+      <link>https://halftimeoflife.github.io/posts/01-introduction-kdamonitor/</link>
+      <pubDate>Fri, 07 Aug 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/posts/01-introduction-kdamonitor/</guid>
+      <description>Introduction au projet KDAMonitor et ses objectifs.</description>
+      
+    </item>
+    
+    <item>
+      <title>KDAMonitor</title>
+      <link>https://halftimeoflife.github.io/projects/kdamonitor/</link>
+      <pubDate>Fri, 24 Jul 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/projects/kdamonitor/</guid>
+      <description>Driver noyau Windows pour l&amp;rsquo;analyse de malwares, journalisant en temps réel l&amp;rsquo;activité processus, chargement d&amp;rsquo;images, réseau et registre.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/kdamonitor/feature.svg" />
+    </item>
+    
+    <item>
+      <title>mispSK</title>
+      <link>https://halftimeoflife.github.io/projects/mispsk/</link>
+      <pubDate>Thu, 16 Jul 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/projects/mispsk/</guid>
+      <description>Collection de scripts Python automatisant des opérations sur des instances MISP via PyMISP.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/mispsk/feature.png" />
+    </item>
+    
+    <item>
+      <title>attackmap</title>
+      <link>https://halftimeoflife.github.io/projects/attackmap/</link>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/projects/attackmap/</guid>
+      <description>Outil CLI générant des heatmaps MITRE ATT&amp;amp;CK depuis des couches JSON ATT&amp;amp;CK Navigator.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/attackmap/feature.png" />
+    </item>
+    
+    <item>
+      <title>scOWL</title>
+      <link>https://halftimeoflife.github.io/projects/scowl/</link>
+      <pubDate>Fri, 19 Jun 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/projects/scowl/</guid>
+      <description>Bot Discord de triage et d&amp;rsquo;analyse statique de fichiers.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/scowl/feature.png" />
+    </item>
+    
+    <item>
+      <title>GhidraMAT</title>
+      <link>https://halftimeoflife.github.io/projects/ghidramat/</link>
+      <pubDate>Wed, 18 Feb 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/projects/ghidramat/</guid>
+      <description>Framework de scripts Ghidra pour la détection statique automatisée de comportements malveillants : anti-debug, anti-VM, packing, indicateurs C2, injection de processus, persistance et contournement des défenses.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/ghidramat/feature.png" />
+    </item>
+    
+    <item>
+      <title>Malauto</title>
+      <link>https://halftimeoflife.github.io/projects/malauto/</link>
+      <pubDate>Fri, 02 Jan 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/projects/malauto/</guid>
+      <description>Extension WinDbg pour l&amp;rsquo;analyse automatisée de malwares Windows. Prépare des breakpoints, dumpe les régions mémoire au format PE et génère des rapports structurés.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/malauto/feature.PNG" />
+    </item>
+    
+    <item>
+      <title>Techniques anti-émulation sur Windows</title>
+      <link>https://halftimeoflife.github.io/publications/anti-emulation-article/</link>
+      <pubDate>Fri, 29 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/publications/anti-emulation-article/</guid>
+      <description>Article expliquant les principales techniques de détection d&amp;rsquo;émulation utilisées par les malwares Windows, ainsi que des stratégies de contournement.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/publications/anti-emulation-article/feature.png" />
+    </item>
+    
+    <item>
+      <title>Mémoire – Détection de protections Anti-VM utilisées par les malwares</title>
+      <link>https://halftimeoflife.github.io/publications/master-thesis-anti-vm/</link>
+      <pubDate>Fri, 22 Aug 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/publications/master-thesis-anti-vm/</guid>
+      <description>Recherche approfondie sur les techniques anti-émulation et leur contournement dans le contexte du Time Travel Debugging (TTD) en émulation système complète.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/publications/master-thesis-anti-vm/feature.PNG" />
+    </item>
+    
+    <item>
+      <title>Analyse WINE – APT29 (2025)</title>
+      <link>https://halftimeoflife.github.io/projects/wine-apt29/</link>
+      <pubDate>Fri, 18 Jul 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/projects/wine-apt29/</guid>
+      <description>Analyse du malware WINE associé au groupe APT29 en 2025, incluant une preuve de concept.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/wine-apt29/feature.PNG" />
+    </item>
+    
+    <item>
+      <title>Panoptiv</title>
+      <link>https://halftimeoflife.github.io/projects/panoptiv/</link>
+      <pubDate>Fri, 06 Jun 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/projects/panoptiv/</guid>
+      <description>DLL utilisant des techniques de hooking pour contourner des protections anti-VM.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/panoptiv/feature.webp" />
+    </item>
+    
+    <item>
+      <title>Introduction aux protections anti-VM</title>
+      <link>https://halftimeoflife.github.io/publications/anti-vm-youtube/</link>
+      <pubDate>Fri, 28 Mar 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/publications/anti-vm-youtube/</guid>
+      <description>Série de vidéos pédagogiques présentant les mécanismes de détection de virtualisation et leurs implications dans l&amp;rsquo;analyse de malwares.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/publications/anti-vm-youtube/feature.png" />
+    </item>
+    
+    <item>
+      <title>Linux Kernel Rootkit en 2025</title>
+      <link>https://halftimeoflife.github.io/publications/linux-rootkit/</link>
+      <pubDate>Wed, 15 Jan 2025 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/publications/linux-rootkit/</guid>
+      <description>Étude de l&amp;rsquo;état des rootkits Linux en 2025 à travers l&amp;rsquo;exemple du rootkit KoviD. Analyse des techniques de furtivité, persistance et contournement du noyau.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/publications/linux-rootkit/feature.PNG" />
+    </item>
+    
+    <item>
+      <title>Protocole d&#39;interrogation anonyme de base de données</title>
+      <link>https://halftimeoflife.github.io/publications/pir-paillier/</link>
+      <pubDate>Wed, 15 May 2024 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/publications/pir-paillier/</guid>
+      <description>Implémentation d&amp;rsquo;un protocole PIR (Private Information Retrieval) en C, basé sur le chiffrement homomorphe de Paillier pour l&amp;rsquo;interrogation anonyme de bases de données.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/publications/pir-paillier/feature.PNG" />
+    </item>
+    
+    <item>
+      <title>À propos</title>
+      <link>https://halftimeoflife.github.io/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/about/</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

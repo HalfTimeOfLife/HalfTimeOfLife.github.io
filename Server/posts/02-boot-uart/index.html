@@ -1,0 +1,1972 @@
+<!doctype html>
+<html
+  lang="fr"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="light"
+  data-auto-appearance="true"><head>
+  <meta charset="utf-8">
+  
+    <meta http-equiv="content-language" content="fr">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color">
+
+  
+  
+    <title>02 - Premier boot : linker script, pile et premier message UART &middot; HalfTimeOfLife</title>
+    <meta name="title" content="02 - Premier boot : linker script, pile et premier message UART &middot; HalfTimeOfLife">
+  
+
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+  
+    <meta name="description" content="Mise en place du linker script, du code de boot et du premier driver UART.">
+  
+  
+    <meta name="keywords" content="AArch64,ARM,Kernel,Assembly,">
+  
+  
+  
+  <link rel="canonical" href="https://halftimeoflife.github.io/posts/02-boot-uart/">
+  
+    
+      
+      
+        <link rel="alternate" hreflang="fr" href="https://halftimeoflife.github.io/posts/02-boot-uart/">
+      
+    
+      
+      
+        <link rel="alternate" hreflang="en" href="https://halftimeoflife.github.io/en/posts/02-boot-uart/">
+      
+    
+  
+  
+
+  
+  
+    <meta name="author" content="Elouan Charbonnier">
+  
+  
+    
+      
+        
+          <link href="https://github.com/HalfTimeOfLife" rel="me">
+        
+      
+    
+      
+        
+          <link href="https://linkedin.com/in/elouan-charbonnier" rel="me">
+        
+      
+    
+  
+
+  
+  <meta property="og:url" content="https://halftimeoflife.github.io/posts/02-boot-uart/">
+	<meta property="og:site_name" content="HalfTimeOfLife">
+	<meta property="og:title" content="02 - Premier boot : linker script, pile et premier message UART">
+	<meta property="og:description" content="Mise en place du linker script, du code de boot et du premier driver UART.">
+	<meta property="og:locale" content="fr">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-09-11T00:00:00+00:00">
+		<meta property="article:modified_time" content="2026-09-11T00:00:00+00:00">
+		<meta property="article:tag" content="AArch64">
+		<meta property="article:tag" content="ARM">
+		<meta property="article:tag" content="Kernel">
+		<meta property="article:tag" content="Assembly">
+			<meta property="og:see_also" content="https://halftimeoflife.github.io/posts/01-introduction-aarch64-kernel/">
+
+  
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="02 - Premier boot : linker script, pile et premier message UART">
+	<meta name="twitter:description" content="Mise en place du linker script, du code de boot et du premier driver UART.">
+
+  
+  
+  
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+  
+    
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/css/main.bundle.min.1c77f9e9fb1dab7005e138a96699bb864f9ce7f5e9605285d7d050369da819a87da642940f0626bd590654813ae06c23e0b717da5e05deeff22912bacc8de78f.css"
+    integrity="sha512-HHf56fsdq3AF4TipZpm7hk&#43;c5/XpYFKF19BQNp2oGah9pkKUDwYmvVkGVIE64Gwj4LcX2l4F3u/yKRK6zI3njw==">
+
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/appearance.min.6f41174b3a05b680820fe08cadbfa5fb7a7ca347b76a0955cdc68b9d8aca1ce24f0547e138cea33bcc7904d551a90afcb1cc7f2d9fe8557075d501419046c08c.js"
+    integrity="sha512-b0EXSzoFtoCCD&#43;CMrb&#43;l&#43;3p8o0e3aglVzcaLnYrKHOJPBUfhOM6jO8x5BNVRqQr8scx/LZ/oVXB11QFBkEbAjA=="></script>
+  
+  
+  
+  
+  
+  
+    
+    <script src="/lib/zoom/zoom.min.umd.b4b722fcb5d42f34f52b30a92f3521b69f403ca9d96d0d6179eb537cb870f5d83fdf1fe836688d95d5c99fefbda4170487711006e56051fa67ea00da10521721.js" integrity="sha512-tLci/LXULzT1KzCpLzUhtp9APKnZbQ1heetTfLhw9dg/3x/oNmiNldXJn&#43;&#43;9pBcEh3EQBuVgUfpn6gDaEFIXIQ=="></script>
+  
+
+  
+  
+  
+    
+  
+  
+    
+    
+    
+  
+  
+  
+  
+  
+  
+  
+    
+    <script
+      defer
+      type="text/javascript"
+      id="script-bundle"
+      src="/js/main.bundle.min.ecde4393b7348405774ad47459b74f73673ea7e170d83b1858d04fa1ec8330281a5fb97d2d868e6411fbba964b8f2bc5b6dbabcc4115672779f264450dbd7f07.js"
+      integrity="sha512-7N5Dk7c0hAV3StR0WbdPc2c&#43;p&#43;Fw2DsYWNBPoeyDMCgaX7l9LYaOZBH7upZLjyvFtturzEEVZyd58mRFDb1/Bw=="
+      data-copy="Copier"
+      data-copied="Copié"></script>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+  
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Blog",
+    "name": "02 - Premier boot : linker script, pile et premier message UART",
+    "headline": "02 - Premier boot : linker script, pile et premier message UART",
+    "description": "Mise en place du linker script, du code de boot et du premier driver UART.",
+    "inLanguage": "fr",
+    "url" : "https://halftimeoflife.github.io/posts/02-boot-uart/",
+    "author" : {
+      "@type": "Person",
+      "name": "Elouan Charbonnier"
+    },
+    "copyrightYear": "2026",
+    "dateCreated": "2026-09-11T00:00:00\u002b00:00",
+    "datePublished": "2026-09-11T00:00:00\u002b00:00",
+    
+    "dateModified": "2026-09-11T00:00:00\u002b00:00",
+    
+    "keywords": ["AArch64","ARM","Kernel","Assembly"],
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "2120"
+  }]
+  </script>
+
+
+
+  
+  
+    
+
+
+
+
+  
+
+  
+  
+    
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js'
+    data-cf-beacon='{"token": "0c69b18f463449b596aae3c62b8068e4"}'></script>
+
+  
+
+  
+  
+
+  
+  
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <body class="flex flex-col h-screen m-auto leading-7 max-w-7xl px-6 sm:px-14 md:px-24 lg:px-32 text-lg bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral bf-scrollbar">
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content">
+        <span class="font-bold text-primary-600 pe-2 dark:text-primary-400">&darr;</span>
+        Aller au contenu
+      </a>
+    </div>
+    
+    
+      <div class="main-menu flex items-center w-full gap-2 p-1 pl-0">
+  
+  
+    <a href="/" class="text-base font-medium truncate min-w-0 shrink">
+      HalfTimeOfLife
+    </a>
+  
+  <div class="flex items-center ms-auto">
+    <div class="hidden md:flex">
+      <nav class="flex items-center gap-x-5 h-12">
+  
+    
+      
+  
+    <a
+      href="/about/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="À propos"
+      title="À propos">
+      
+      
+        <span class="text-base font-medium break-normal">
+          À propos
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/projects/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="Projets"
+      title="Projets">
+      
+      
+        <span class="text-base font-medium break-normal">
+          Projets
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/publications/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="Publications"
+      title="Publications">
+      
+      
+        <span class="text-base font-medium break-normal">
+          Publications
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <div class="nested-menu">
+      <div class="cursor-pointer flex items-center">
+        <a
+          
+            href="/posts/"
+            
+          
+          aria-label="Blog"
+          class="flex items-center text-base font-medium bf-icon-color-hover"
+          title="Blog">
+          
+          <span class="text-bg font-bg break-normal" title="Blog">
+            Blog
+          </span>
+          <span>
+            <span class="relative block icon"><svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 20 20"
+  fill="currentColor"
+  aria-hidden="true"
+>
+  <path
+    fill-rule="evenodd"
+    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+    clip-rule="evenodd"
+  />
+</svg>
+</span>
+          </span>
+        </a>
+      </div>
+      <div class="menuhide">
+        <div class="pt-2 p-5 mt-2 rounded-xl backdrop-blur shadow-2xl bg-neutral/25 dark:bg-neutral-800/25">
+          <div class="flex flex-col space-y-3">
+            
+              <a
+                href="/series/"
+                
+                aria-label="Séries"
+                class="flex items-center bf-icon-color-hover">
+                
+                <span class="text-sm font-sm" title="Series">
+                  Séries
+                </span>
+              </a>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+    
+  
+
+  
+  <div class="translation nested-menu">
+    <button class="cursor-pointer flex items-center">
+      <span class="me-1">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+    <path fill="currentColor" d="M0 128C0 92.7 28.7 64 64 64H256h48 16H576c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H320 304 256 64c-35.3 0-64-28.7-64-64V128zm320 0V384H576V128H320zM178.3 175.9c-3.2-7.2-10.4-11.9-18.3-11.9s-15.1 4.7-18.3 11.9l-64 144c-4.5 10.1 .1 21.9 10.2 26.4s21.9-.1 26.4-10.2l8.9-20.1h73.6l8.9 20.1c4.5 10.1 16.3 14.6 26.4 10.2s14.6-16.3 10.2-26.4l-64-144zM160 233.2L179 276H141l19-42.8zM448 164c11 0 20 9 20 20v4h44 16c11 0 20 9 20 20s-9 20-20 20h-2l-1.6 4.5c-8.9 24.4-22.4 46.6-39.6 65.4c.9 .6 1.8 1.1 2.7 1.6l18.9 11.3c9.5 5.7 12.5 18 6.9 27.4s-18 12.5-27.4 6.9l-18.9-11.3c-4.5-2.7-8.8-5.5-13.1-8.5c-10.6 7.5-21.9 14-34 19.4l-3.6 1.6c-10.1 4.5-21.9-.1-26.4-10.2s.1-21.9 10.2-26.4l3.6-1.6c6.4-2.9 12.6-6.1 18.5-9.8l-12.2-12.2c-7.8-7.8-7.8-20.5 0-28.3s20.5-7.8 28.3 0l14.6 14.6 .5 .5c12.4-13.1 22.5-28.3 29.8-45H448 376c-11 0-20-9-20-20s9-20 20-20h52v-4c0-11 9-20 20-20z"/></svg></span>
+      </span>
+      <span class="text-sm font-medium bf-icon-color-hover" title="02 - Premier boot : linker script, pile et premier message UART">FR</span>
+    </button>
+    <ul class="menuhide">
+      <li class="rounded-xl backdrop-blur shadow-2xl p-2 flex flex-col gap-1">
+        
+          <a href="/posts/02-boot-uart/" class="flex items-center bf-icon-color-hover px-3 py-1">
+            <span class="text-sm font-sm" title="02 - Premier boot : linker script, pile et premier message UART">
+              FR
+            </span>
+          </a>
+        
+          <a href="/en/posts/02-boot-uart/" class="flex items-center bf-icon-color-hover px-3 py-1">
+            <span class="text-sm font-sm" title="02 - First boot: linker script, stack and first UART message">
+              EN
+            </span>
+          </a>
+        
+      </li>
+    </ul>
+  </div>
+
+
+  
+
+  
+    <button
+      id="search-button"
+      aria-label="Search"
+      class="text-base bf-icon-color-hover"
+      title="Rechercher (/)">
+      <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+    </button>
+  
+
+  
+    <div class="flex items-center">
+      <button
+        id="appearance-switcher"
+        aria-label="Dark mode switcher"
+        type="button"
+        class="text-base bf-icon-color-hover">
+        <div class="flex items-center justify-center dark:hidden">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+        </div>
+        <div class="items-center justify-center hidden dark:flex">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+        </div>
+      </button>
+    </div>
+  
+</nav>
+
+
+
+    </div>
+    <div class="flex md:hidden">
+      <div class="flex items-center h-14 gap-4">
+  
+    <button
+      id="search-button-mobile"
+      aria-label="Search"
+      class="flex items-center justify-center bf-icon-color-hover"
+      title="Rechercher (/)">
+      <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+    </button>
+  
+
+  
+    <button
+      id="appearance-switcher-mobile"
+      type="button"
+      aria-label="Dark mode switcher"
+      class="flex items-center justify-center text-neutral-900 hover:text-primary-600 dark:text-neutral-200 dark:hover:text-primary-400">
+      <div class="dark:hidden">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+      </div>
+      <div class="hidden dark:block">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+      </div>
+    </button>
+  
+
+  
+    <input type="checkbox" id="mobile-menu-toggle" autocomplete="off" class="hidden peer">
+    <label for="mobile-menu-toggle" class="flex items-center justify-center cursor-pointer bf-icon-color-hover">
+      <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+</span>
+    </label>
+
+    <div
+      role="dialog"
+      aria-modal="true"
+      style="scrollbar-gutter: stable;"
+      class="fixed inset-0 z-50 invisible overflow-y-auto px-6 py-20 opacity-0 transition-[opacity,visibility] duration-300 peer-checked:visible peer-checked:opacity-100 bg-neutral-50/97 dark:bg-neutral-900/99
+      bf-scrollbar">
+      <label
+        for="mobile-menu-toggle"
+        class="fixed end-8 top-5 flex items-center justify-center z-50 h-12 w-12 cursor-pointer select-none rounded-full bf-icon-color-hover border bf-border-color bf-border-color-hover bg-neutral-50 dark:bg-neutral-900">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </label>
+      <nav class="mx-auto max-w-md space-y-6">
+        
+  
+    
+    <div class="px-2">
+      <a
+        href="/about/"
+        aria-label="À propos"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="À propos" class="text-2xl font-bold tracking-tight">
+          À propos
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/projects/"
+        aria-label="Projets"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="Projets" class="text-2xl font-bold tracking-tight">
+          Projets
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/publications/"
+        aria-label="Publications"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="Publications" class="text-2xl font-bold tracking-tight">
+          Publications
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/posts/"
+        aria-label="Blog"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="Blog" class="text-2xl font-bold tracking-tight">
+          Blog
+        </span>
+        
+          <label
+            for="fullscreen-submenu-blog"
+            class="ms-auto flex items-center justify-center h-10 w-10 cursor-pointer rounded-lg bf-icon-color-hover border bf-border-color bf-border-color-hover">
+            <span class="relative block icon"><svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 20 20"
+  fill="currentColor"
+  aria-hidden="true"
+>
+  <path
+    fill-rule="evenodd"
+    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+    clip-rule="evenodd"
+  />
+</svg>
+</span>
+          </label>
+        
+      </a>
+
+      
+        <input checked type="checkbox" id="fullscreen-submenu-blog" autocomplete="off" class="hidden peer/full">
+
+        <div
+          class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 peer-checked/full:grid-rows-[1fr]">
+          <div class="overflow-hidden">
+            <div class="ms-7 mt-4">
+              
+                <a
+                  href="/series/"
+                  aria-label="Séries"
+                  
+                  class="flex items-center gap-3 p-2 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+                  
+                  <span title="Series" class="text-lg">
+                    Séries
+                  </span>
+                </a>
+              
+            </div>
+          </div>
+        </div>
+      
+    </div>
+  
+
+        
+  
+
+        
+  
+    <div
+      class="flex flex-wrap items-center [&_span]:text-2xl [&_.translation_button_.icon]:text-4xl! [&_.translation_button_span]:text-base! [&_.translation_.menuhide_span]:text-sm! gap-x-6 ps-2 mt-8 pt-8 border-t bf-border-color">
+      
+  <div class="translation nested-menu">
+    <button class="cursor-pointer flex items-center">
+      <span class="me-1">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+    <path fill="currentColor" d="M0 128C0 92.7 28.7 64 64 64H256h48 16H576c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H320 304 256 64c-35.3 0-64-28.7-64-64V128zm320 0V384H576V128H320zM178.3 175.9c-3.2-7.2-10.4-11.9-18.3-11.9s-15.1 4.7-18.3 11.9l-64 144c-4.5 10.1 .1 21.9 10.2 26.4s21.9-.1 26.4-10.2l8.9-20.1h73.6l8.9 20.1c4.5 10.1 16.3 14.6 26.4 10.2s14.6-16.3 10.2-26.4l-64-144zM160 233.2L179 276H141l19-42.8zM448 164c11 0 20 9 20 20v4h44 16c11 0 20 9 20 20s-9 20-20 20h-2l-1.6 4.5c-8.9 24.4-22.4 46.6-39.6 65.4c.9 .6 1.8 1.1 2.7 1.6l18.9 11.3c9.5 5.7 12.5 18 6.9 27.4s-18 12.5-27.4 6.9l-18.9-11.3c-4.5-2.7-8.8-5.5-13.1-8.5c-10.6 7.5-21.9 14-34 19.4l-3.6 1.6c-10.1 4.5-21.9-.1-26.4-10.2s.1-21.9 10.2-26.4l3.6-1.6c6.4-2.9 12.6-6.1 18.5-9.8l-12.2-12.2c-7.8-7.8-7.8-20.5 0-28.3s20.5-7.8 28.3 0l14.6 14.6 .5 .5c12.4-13.1 22.5-28.3 29.8-45H448 376c-11 0-20-9-20-20s9-20 20-20h52v-4c0-11 9-20 20-20z"/></svg></span>
+      </span>
+      <span class="text-sm font-medium bf-icon-color-hover" title="02 - Premier boot : linker script, pile et premier message UART">FR</span>
+    </button>
+    <ul class="menuhide">
+      <li class="rounded-xl backdrop-blur shadow-2xl p-2 flex flex-col gap-1">
+        
+          <a href="/posts/02-boot-uart/" class="flex items-center bf-icon-color-hover px-3 py-1">
+            <span class="text-sm font-sm" title="02 - Premier boot : linker script, pile et premier message UART">
+              FR
+            </span>
+          </a>
+        
+          <a href="/en/posts/02-boot-uart/" class="flex items-center bf-icon-color-hover px-3 py-1">
+            <span class="text-sm font-sm" title="02 - First boot: linker script, stack and first UART message">
+              EN
+            </span>
+          </a>
+        
+      </li>
+    </ul>
+  </div>
+
+
+
+      
+    </div>
+  
+
+      </nav>
+    </div>
+  
+</div>
+
+
+
+
+
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+    
+    <div class="relative flex flex-col grow">
+      <main id="main-content" class="grow">
+        
+  
+  <article>
+    
+    
+
+    
+    <header id="single_header" class="mt-5 max-w-prose">
+      
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        02 - Premier boot : linker script, pile et premier message UART
+      </h1>
+      <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+        
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2026-09-11T00:00:00&#43;00:00">11 septembre 2026</time><span class="px-2 text-primary-500">&middot;</span><span>2120 mots</span><span class="px-2 text-primary-500">&middot;</span><span title="Temps de lecture">10 mins</span>
+    
+
+    
+    
+  </div>
+
+  
+
+  
+  
+    <div class="flex flex-row flex-wrap items-center">
+      
+        
+      
+        
+      
+        
+          
+            
+              
+            
+            
+              
+            
+          
+        
+      
+        
+          
+            
+              
+            
+            
+              
+                <a class="relative mt-[0.5rem] me-2" href="/tags/aarch64/">
+                  <span class="flex cursor-pointer">
+  
+  
+  
+  
+    <span
+      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+  
+    AArch64
+  </span>
+</span>
+
+                </a>
+              
+            
+          
+            
+              
+            
+            
+              
+                <a class="relative mt-[0.5rem] me-2" href="/tags/arm/">
+                  <span class="flex cursor-pointer">
+  
+  
+  
+  
+    <span
+      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+  
+    ARM
+  </span>
+</span>
+
+                </a>
+              
+            
+          
+            
+              
+            
+            
+              
+                <a class="relative mt-[0.5rem] me-2" href="/tags/kernel/">
+                  <span class="flex cursor-pointer">
+  
+  
+  
+  
+    <span
+      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+  
+    Kernel
+  </span>
+</span>
+
+                </a>
+              
+            
+          
+            
+              
+            
+            
+              
+                <a class="relative mt-[0.5rem] me-2" href="/tags/assembly/">
+                  <span class="flex cursor-pointer">
+  
+  
+  
+  
+    <span
+      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+  
+    Assembly
+  </span>
+</span>
+
+                </a>
+              
+            
+          
+        
+      
+    </div>
+  
+
+
+      </div>
+      
+        
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    
+    
+<div class="flex author">
+  
+    
+    
+      
+    
+    
+      
+      
+      
+        
+        
+        
+      
+      <img
+        class="!mt-0 !mb-0 h-24 w-24 rounded-full me-4"
+        width="96"
+        height="96"
+        alt="Elouan Charbonnier"
+        src="/img/avatar_hu_3b9cca9d7521dc79.jpg"
+        data-zoom-src="/img/avatar_hu_5766a73f7b96cebe.jpg">
+    
+  
+  <div class="place-self-center">
+    
+      <div class="text-[0.6rem] uppercase leading-3 text-neutral-500 dark:text-neutral-400">
+        Auteur
+      </div>
+      <div class="font-semibold leading-6 text-neutral-800 dark:text-neutral-300">
+        Elouan Charbonnier
+      </div>
+    
+    
+    <div class="text-2xl sm:text-lg">
+  <div class="flex flex-wrap text-neutral-400 dark:text-neutral-500 space-x-2">
+    
+      
+        
+        <a
+          class=" hover:text-primary-700 dark:hover:text-primary-400"
+          href="https://github.com/HalfTimeOfLife"
+          
+          target="_blank"
+          aria-label="Github"
+          title="Github"
+          rel="me noopener noreferrer"
+          ><span class="inline-block align-text-bottom"><span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></span></a
+        >
+      
+    
+      
+        
+        <a
+          class=" hover:text-primary-700 dark:hover:text-primary-400"
+          href="https://linkedin.com/in/elouan-charbonnier"
+          
+          target="_blank"
+          aria-label="Linkedin"
+          title="Linkedin"
+          rel="me noopener noreferrer"
+          ><span class="inline-block align-text-bottom"><span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+</span></span></a
+        >
+      
+    
+  </div>
+
+</div>
+  </div>
+</div>
+
+  
+
+  
+
+  
+    <div class="mb-5"></div>
+  
+
+      
+    </header>
+
+    
+    <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+      
+      
+      
+      
+      
+        <div class="order-first lg:ms-auto px-0 lg:order-last lg:ps-8 lg:max-w-2xs">
+          <div class="toc ps-5 print:hidden lg:sticky lg:top-10">
+            <details
+  open
+  id="TOCView"
+  class="toc-right mt-0 overflow-y-auto overscroll-contain bf-scrollbar rounded-lg -ms-5 ps-5 pe-2 hidden lg:block">
+  <summary
+    class="block py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 -ms-5 ps-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden">
+    Sommaire
+  </summary>
+  <div
+    class="min-w-[220px] py-2 border-dotted border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#qemu-virt-et-notions-aarch64-de-base">QEMU <code>virt</code> et notions AArch64 de base</a>
+      <ul>
+        <li><a href="#quest-ce-que-qemu-virt-">Qu’est-ce que QEMU <code>virt</code> ?</a></li>
+        <li><a href="#layout-mémoire-simplifié">Layout mémoire simplifié</a></li>
+        <li><a href="#registres-et-instructions-utilisés-dans-cet-article">Registres et instructions utilisés dans cet article</a>
+          <ul>
+            <li><a href="#instructions">Instructions</a></li>
+            <li><a href="#registres">Registres</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#le-linker-script">Le linker script</a>
+      <ul>
+        <li><a href="#pourquoi-un-linker-script-personnalisé-">Pourquoi un linker script personnalisé ?</a></li>
+        <li><a href="#les-sections-et-lalignement">Les sections et l&rsquo;alignement</a></li>
+        <li><a href="#_stack_bottom-et-_stack_top"><code>_stack_bottom</code> et <code>_stack_top</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#le-boot--initialiser-la-pile">Le boot : initialiser la pile</a>
+      <ul>
+        <li><a href="#ldr-x0-_stack_top--mov-sp-x0"><code>ldr x0, =_stack_top</code> / <code>mov sp, x0</code></a></li>
+        <li><a href="#pourquoi-cette-forme-précise-">Pourquoi cette forme précise ?</a></li>
+      </ul>
+    </li>
+    <li><a href="#le-driver-uart">Le driver UART</a>
+      <ul>
+        <li><a href="#quest-ce-que-luart-et-pourquoi-le-mmio-">Qu&rsquo;est-ce que l&rsquo;UART, et pourquoi le MMIO ?</a></li>
+        <li><a href="#uart_base-uart_fr-uart_dr"><code>UART_BASE</code>, <code>UART_FR</code>, <code>UART_DR</code></a></li>
+        <li><a href="#uart_putc"><code>uart_putc</code></a></li>
+        <li><a href="#uart_puts"><code>uart_puts</code></a></li>
+        <li><a href="#pourquoi-sauver-x19-">Pourquoi sauver <code>x19</code> ?</a></li>
+      </ul>
+    </li>
+    <li><a href="#compiler-et-lancer-le-noyau">Compiler et lancer le noyau</a>
+      <ul>
+        <li><a href="#le-makefile">Le Makefile</a></li>
+        <li><a href="#vérifier-les-symboles-avec-nm">Vérifier les symboles avec <code>nm</code></a></li>
+        <li><a href="#lancer-avec-qemu">Lancer avec QEMU</a></li>
+        <li><a href="#résultat">Résultat</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+  </div>
+</details>
+<details class="toc-inside mt-0 overflow-hidden rounded-lg -ms-5 ps-5 lg:hidden">
+  <summary
+    class="py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 -ms-5 ps-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden">
+    Sommaire
+  </summary>
+  <div
+    class="py-2 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#qemu-virt-et-notions-aarch64-de-base">QEMU <code>virt</code> et notions AArch64 de base</a>
+      <ul>
+        <li><a href="#quest-ce-que-qemu-virt-">Qu’est-ce que QEMU <code>virt</code> ?</a></li>
+        <li><a href="#layout-mémoire-simplifié">Layout mémoire simplifié</a></li>
+        <li><a href="#registres-et-instructions-utilisés-dans-cet-article">Registres et instructions utilisés dans cet article</a>
+          <ul>
+            <li><a href="#instructions">Instructions</a></li>
+            <li><a href="#registres">Registres</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#le-linker-script">Le linker script</a>
+      <ul>
+        <li><a href="#pourquoi-un-linker-script-personnalisé-">Pourquoi un linker script personnalisé ?</a></li>
+        <li><a href="#les-sections-et-lalignement">Les sections et l&rsquo;alignement</a></li>
+        <li><a href="#_stack_bottom-et-_stack_top"><code>_stack_bottom</code> et <code>_stack_top</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#le-boot--initialiser-la-pile">Le boot : initialiser la pile</a>
+      <ul>
+        <li><a href="#ldr-x0-_stack_top--mov-sp-x0"><code>ldr x0, =_stack_top</code> / <code>mov sp, x0</code></a></li>
+        <li><a href="#pourquoi-cette-forme-précise-">Pourquoi cette forme précise ?</a></li>
+      </ul>
+    </li>
+    <li><a href="#le-driver-uart">Le driver UART</a>
+      <ul>
+        <li><a href="#quest-ce-que-luart-et-pourquoi-le-mmio-">Qu&rsquo;est-ce que l&rsquo;UART, et pourquoi le MMIO ?</a></li>
+        <li><a href="#uart_base-uart_fr-uart_dr"><code>UART_BASE</code>, <code>UART_FR</code>, <code>UART_DR</code></a></li>
+        <li><a href="#uart_putc"><code>uart_putc</code></a></li>
+        <li><a href="#uart_puts"><code>uart_puts</code></a></li>
+        <li><a href="#pourquoi-sauver-x19-">Pourquoi sauver <code>x19</code> ?</a></li>
+      </ul>
+    </li>
+    <li><a href="#compiler-et-lancer-le-noyau">Compiler et lancer le noyau</a>
+      <ul>
+        <li><a href="#le-makefile">Le Makefile</a></li>
+        <li><a href="#vérifier-les-symboles-avec-nm">Vérifier les symboles avec <code>nm</code></a></li>
+        <li><a href="#lancer-avec-qemu">Lancer avec QEMU</a></li>
+        <li><a href="#résultat">Résultat</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+  </div>
+</details>
+
+
+
+          </div>
+        </div>
+      
+
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+  <details
+    class="mt-2 mb-5 overflow-hidden rounded-lg ms-0 ps-5"
+    >
+    
+  <summary
+    class="py-1 text-lg font-semibold cursor-pointer bg-primary-200 text-neutral-800 -ms-5 ps-5 dark:bg-primary-800 dark:text-neutral-100">
+    AArch64 Bare-Metal Kernel -
+    Cet article fait partie d&#39;une série.
+  </summary>
+  
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/posts/01-introduction-aarch64-kernel/">
+          Partie 1:
+          01 - Introduction à mon kernel AArch64 bare-metal sur QEMU virt
+        </a>
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        Partie 2:
+        Cet article
+      </div>
+    
+  
+
+
+  </details>
+
+
+        <div class="article-content max-w-prose mb-20">
+          <p>Bienvenue dans le deuxième article de la série sur le développement de mon noyau AArch64 bare-metal !</p>
+<p>Dans cet article, je vais présenter la version v0.1 de ce projet. Le but de cette version est de faire un noyau basique qui contiendra :</p>
+<ul>
+<li>le linker</li>
+<li>le boot</li>
+<li>et le code du driver UART</li>
+</ul>
+<p>À la fin, le noyau doit se lancer correctement dans QEMU et afficher une simple chaîne de caractères <code>Hello, AArch64!</code>.</p>
+<p>Voici les fichiers concernés par cet article, et la section qui les explique :</p>
+<table>
+	<thead>
+			<tr>
+					<th>Fichier</th>
+					<th>Rôle</th>
+					<th>Section</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>linker.ld</code></td>
+					<td>Script de link : position du code en mémoire, définition de <code>_stack_bottom</code> et <code>_stack_top</code></td>
+					<td><a href="/posts/02-boot-uart/#le-linker-script" >Le linker script</a></td>
+			</tr>
+			<tr>
+					<td><code>src/boot/boot.s</code></td>
+					<td>Point d&rsquo;entrée du noyau (<code>_start</code>), initialisation de la pile</td>
+					<td><a href="/posts/02-boot-uart/#le-boot--initialiser-la-pile" >Le boot : initialiser la pile</a></td>
+			</tr>
+			<tr>
+					<td><code>src/uart/uart.s</code></td>
+					<td>Driver UART minimal : <code>uart_putc</code> et <code>uart_puts</code></td>
+					<td><a href="/posts/02-boot-uart/#le-driver-uart" >Le driver UART</a></td>
+			</tr>
+			<tr>
+					<td><code>Makefile</code></td>
+					<td>Compilation des fichiers assembleur et génération de <code>kernel.elf</code></td>
+					<td><a href="/posts/02-boot-uart/#compiler-et-lancer-le-noyau" >Compiler et lancer le noyau</a></td>
+			</tr>
+	</tbody>
+</table>
+<blockquote><p>Le projet peut être retrouvé dans ce dépôt : <a href="https://github.com/HalfTimeOfLife/aarch64-baremetal-kernel"  target="_blank" rel="noreferrer">aarch64-baremetal-kernel</a>.</p>
+</blockquote><hr>
+
+<h2 class="relative group">QEMU <code>virt</code> et notions AArch64 de base
+    <div id="qemu-virt-et-notions-aarch64-de-base" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#qemu-virt-et-notions-aarch64-de-base" aria-label="Ancre">#</a>
+    </span>
+    
+</h2>
+
+<h3 class="relative group">Qu&rsquo;est-ce que QEMU <code>virt</code> ?
+    <div id="quest-ce-que-qemu-virt-" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#quest-ce-que-qemu-virt-" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Tout d&rsquo;abord, je vais expliquer rapidement ce qu&rsquo;est QEMU et la machine <code>virt</code>.</p>
+<p>QEMU est un émulateur qui va nous permettre de lancer notre noyau AArch64 sans avoir de composant ARM.</p>
+<p>La machine <code>virt</code> est une plateforme virtuelle générique conçue pour exécuter des systèmes invités. Elle permet de passer outre les contraintes d&rsquo;un matériel spécifique.</p>
+
+<h3 class="relative group">Layout mémoire simplifié
+    <div id="layout-mémoire-simplifié" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#layout-m%c3%a9moire-simplifi%c3%a9" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Voici la représentation de la mémoire simplifiée du projet :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl"> _______________ 0x00000000
+</span></span><span class="line"><span class="cl">|     Flash     |
+</span></span><span class="line"><span class="cl">|_______________|
+</span></span><span class="line"><span class="cl">|               |
+</span></span><span class="line"><span class="cl">|               |
+</span></span><span class="line"><span class="cl">|               |
+</span></span><span class="line"><span class="cl">|               |
+</span></span><span class="line"><span class="cl">|               |
+</span></span><span class="line"><span class="cl">|_______________|0x40000000
+</span></span><span class="line"><span class="cl">|      RAM      |
+</span></span><span class="line"><span class="cl">|_______________|</span></span></code></pre></div></div>
+
+<h3 class="relative group">Registres et instructions utilisés dans cet article
+    <div id="registres-et-instructions-utilisés-dans-cet-article" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#registres-et-instructions-utilis%c3%a9s-dans-cet-article" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Dans cette section, je ne fais que lister les instructions et registres utilisés, ils seront expliqués plus en détails lors de l&rsquo;explication du code.</p>
+
+<h4 class="relative group">Instructions
+    <div id="instructions" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#instructions" aria-label="Ancre">#</a>
+    </span>
+    
+</h4>
+<table>
+	<thead>
+			<tr>
+					<th>Instruction</th>
+					<th>Type</th>
+					<th>Rôle</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>ldr</code></td>
+					<td>Load</td>
+					<td>Charge une valeur depuis la mémoire, ou charge une adresse avec <code>ldr xN, =...</code></td>
+			</tr>
+			<tr>
+					<td><code>ldrb</code></td>
+					<td>Load</td>
+					<td>Charge 1 octet depuis la mémoire</td>
+			</tr>
+			<tr>
+					<td><code>str</code></td>
+					<td>Store</td>
+					<td>Écrit une valeur en mémoire</td>
+			</tr>
+			<tr>
+					<td><code>stp</code></td>
+					<td>Store Pair</td>
+					<td>Sauvegarde deux registres en mémoire</td>
+			</tr>
+			<tr>
+					<td><code>ldp</code></td>
+					<td>Load Pair</td>
+					<td>Restaure deux registres depuis la mémoire</td>
+			</tr>
+			<tr>
+					<td><code>mov</code></td>
+					<td>Data movement</td>
+					<td>Copie une valeur d&rsquo;un registre vers un autre</td>
+			</tr>
+			<tr>
+					<td><code>tst</code></td>
+					<td>Test</td>
+					<td>Effectue un AND logique et met à jour les flags</td>
+			</tr>
+			<tr>
+					<td><code>b</code></td>
+					<td>Branch</td>
+					<td>Effectue un saut inconditionnel</td>
+			</tr>
+			<tr>
+					<td><code>b.ne</code></td>
+					<td>Conditional branch</td>
+					<td>Saute si le résultat précédent n&rsquo;était pas zéro</td>
+			</tr>
+			<tr>
+					<td><code>cbz</code></td>
+					<td>Conditional branch</td>
+					<td>Saute si un registre vaut zéro</td>
+			</tr>
+			<tr>
+					<td><code>bl</code></td>
+					<td>Branch with Link</td>
+					<td>Appelle une fonction et sauvegarde l&rsquo;adresse de retour dans <code>x30</code></td>
+			</tr>
+			<tr>
+					<td><code>ret</code></td>
+					<td>Return</td>
+					<td>Retourne à l&rsquo;adresse contenue dans <code>x30</code></td>
+			</tr>
+	</tbody>
+</table>
+
+<h4 class="relative group">Registres
+    <div id="registres" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#registres" aria-label="Ancre">#</a>
+    </span>
+    
+</h4>
+<table>
+	<thead>
+			<tr>
+					<th>Registre</th>
+					<th>Utilisation dans le code</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>x0</code> / <code>w0</code></td>
+					<td>Argument de fonction / caractère à envoyer à l&rsquo;UART</td>
+			</tr>
+			<tr>
+					<td><code>x1</code></td>
+					<td>Adresse de base de l&rsquo;UART</td>
+			</tr>
+			<tr>
+					<td><code>w2</code></td>
+					<td>Contenu du registre <code>UART_FR</code></td>
+			</tr>
+			<tr>
+					<td><code>x19</code></td>
+					<td>Pointeur vers la chaîne de caractères</td>
+			</tr>
+			<tr>
+					<td><code>x30</code></td>
+					<td>Link Register (<code>LR</code>), adresse de retour après <code>bl</code></td>
+			</tr>
+			<tr>
+					<td><code>sp</code></td>
+					<td>Stack Pointer, pointeur de pile</td>
+			</tr>
+	</tbody>
+</table>
+<hr>
+
+<h2 class="relative group">Le linker script
+    <div id="le-linker-script" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#le-linker-script" aria-label="Ancre">#</a>
+    </span>
+    
+</h2>
+<p>Avant de pouvoir exécuter la moindre instruction, il faut dire au CPU où se trouve notre code en mémoire. C&rsquo;est le rôle du linker script, écrit en <code>linker command language</code>.</p>
+<blockquote><p>Voir : <a href="https://wiki.osdev.org/Linker_Scripts"  target="_blank" rel="noreferrer">Linker Scripts</a></p>
+</blockquote>
+<h3 class="relative group">Pourquoi un linker script personnalisé ?
+    <div id="pourquoi-un-linker-script-personnalisé-" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#pourquoi-un-linker-script-personnalis%c3%a9-" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Sans linker script personnalisé, <code>ld</code> utiliserait son script par défaut, pensé pour un système hébergé. Le problème dans notre cas est qu&rsquo;il n&rsquo;a aucune idée de l&rsquo;endroit où se trouve la RAM sur la machine QEMU virt, le code se retrouverait placé n&rsquo;importe où, potentiellement à une adresse où le CPU ne peut même pas l&rsquo;exécuter au démarrage.</p>
+<p>Voici le linker script utilisé :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">ENTRY(_start)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">SECTIONS
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    . = 0x40000000;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    .text : {
+</span></span><span class="line"><span class="cl">        *(.text*)
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    .rodata : {
+</span></span><span class="line"><span class="cl">        *(.rodata*)
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    .data : {
+</span></span><span class="line"><span class="cl">        *(.data*)
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    .bss : {
+</span></span><span class="line"><span class="cl">        *(.bss*)
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    . = ALIGN(16);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    .stack :
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        _stack_bottom = .;
+</span></span><span class="line"><span class="cl">        . += 0x10000;
+</span></span><span class="line"><span class="cl">        _stack_top = .;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}</span></span></code></pre></div></div>
+<p>Il faut donc lui dire explicitement où poser notre code. D&rsquo;après la documentation de la machine QEMU <code>virt</code>, la RAM commence à l&rsquo;adresse <code>0x40000000</code>. C&rsquo;est pour ça que le linker script démarre avec <code>. = 0x40000000;</code>.</p>
+<blockquote><p><code>.</code> représente l&rsquo;adresse mémoire courante.</p>
+</blockquote><blockquote><p>Voir : <a href="https://www.qemu.org/docs/master/system/arm/virt.html#hardware-configuration-information-for-bare-metal-programming"  target="_blank" rel="noreferrer">‘virt’ generic virtual platform (virt) - Hardware configuration information for bare-metal programming</a></p>
+</blockquote>
+<h3 class="relative group">Les sections et l&rsquo;alignement
+    <div id="les-sections-et-lalignement" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#les-sections-et-lalignement" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Une fois l&rsquo;adresse de départ fixée, le linker script organise le binaire en plusieurs sections :</p>
+<ul>
+<li><code>.text</code> : le code exécutable</li>
+<li><code>.rodata</code> : les données en lecture seule</li>
+<li><code>.data</code> : les données initialisées</li>
+<li><code>.bss</code> : les données non initialisées</li>
+</ul>
+<p>Chaque bloc utilise un caractère <code>*</code>, par exemple <code>*(.text*)</code> pour <code>.text</code>. C&rsquo;est nécessaire car les fichiers sources ne déclarent pas toujours une section <code>.text</code> brute. Par exemple <code>boot.s</code> utilise <code>.section .text.boot</code>. Le <code>*</code> après <code>.text</code> permet donc de regrouper dans une seule section finale toutes les sous-sections dont le nom commence par <code>.text</code>, quel que soit le fichier source d&rsquo;origine.</p>
+<p>Juste avant <code>.stack</code>, on trouve <code>. = ALIGN(16);</code>. La convention d&rsquo;appel AArch64 impose que le pointeur de pile (<code>sp</code>) soit toujours aligné sur 16 octets. En alignant explicitement le curseur du linker avant de définir la zone de pile, on garantit que <code>_stack_top</code> respectera cette contrainte dès la première instruction dans <code>boot.s</code>.</p>
+
+<h3 class="relative group"><code>_stack_bottom</code> et <code>_stack_top</code>
+    <div id="_stack_bottom-et-_stack_top" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#_stack_bottom-et-_stack_top" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Le bloc <code>.stack : { ... }</code> du linker script définit la zone mémoire réservée à la pile. Il pose d&rsquo;abord le symbole <code>_stack_bottom</code> à l&rsquo;adresse courante (le bas de la pile) puis avance le &ldquo;curseur&rdquo; du linker de <code>0x10000</code> (64 Ko) avec <code>. += 0x10000;</code>, avant de poser <code>_stack_top</code> à la nouvelle position (le haut de la pile).</p>
+<blockquote><p>La taille de 64 Ko est totalement arbitraire, mais largement suffisante à ce stade du projet.</p>
+</blockquote><hr>
+
+<h2 class="relative group">Le boot : initialiser la pile
+    <div id="le-boot--initialiser-la-pile" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#le-boot--initialiser-la-pile" aria-label="Ancre">#</a>
+    </span>
+    
+</h2>
+<p>Une fois le linker script en place, on peut écrire le tout premier code exécuté par le CPU au démarrage : <code>_start</code>.</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="na">.section</span> <span class="no">.text.boot</span>
+</span></span><span class="line"><span class="cl"><span class="na">.global</span> <span class="no">_start</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">_start:</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">ldr</span> <span class="no">x0</span><span class="p">,</span> <span class="err">=</span><span class="no">_stack_top</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">mov</span> <span class="no">sp</span><span class="p">,</span> <span class="no">x0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">b</span> <span class="p">.</span></span></span></code></pre></div></div>
+<p><code>.section .text.boot</code> place ce code dans une sous-section de <code>.text</code>, ce qui lui permet d&rsquo;être récupéré par le <code>*(.text*)</code> du linker script vu précédemment. <code>.global _start</code> rend le symbole visible en dehors de ce fichier, ce qui est nécessaire puisque le linker script référence ce même symbole via <code>ENTRY(_start)</code>. La commande <code>ENTRY()</code> indique là où le CPU doit commencer.</p>
+
+<h3 class="relative group"><code>ldr x0, =_stack_top</code> / <code>mov sp, x0</code>
+    <div id="ldr-x0-_stack_top--mov-sp-x0" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#ldr-x0-_stack_top--mov-sp-x0" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Ces deux instructions initialisent la pile :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">ldr</span> <span class="no">x0</span><span class="p">,</span> <span class="err">=</span><span class="no">_stack_top</span>
+</span></span><span class="line"><span class="cl"><span class="nf">mov</span> <span class="no">sp</span><span class="p">,</span> <span class="no">x0</span></span></span></code></pre></div></div>
+<p><code>ldr x0, =_stack_top</code> charge dans <code>x0</code> l&rsquo;adresse du symbole <code>_stack_top</code> qui est défini par le linker script (le haut de la zone de pile réservée). <code>mov sp, x0</code> copie ensuite cette adresse dans le registre <code>sp</code>, le pointeur de pile.</p>
+
+<h3 class="relative group">Pourquoi cette forme précise ?
+    <div id="pourquoi-cette-forme-précise-" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#pourquoi-cette-forme-pr%c3%a9cise-" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p><strong>Pourquoi <code>ldr x0, =_stack_top</code> et pas un simple <code>mov</code> ?</strong>
+L&rsquo;instruction <code>mov</code> avec une valeur immédiate ne peut encoder qu&rsquo;un nombre limité de bits directement dans l&rsquo;instruction. L&rsquo;adresse de <code>_stack_top</code> étant une adresse 64 bits complète, elle ne peut pas toujours tenir dans cet espace. La pseudo-instruction <code>ldr x0, =...</code> demande à l&rsquo;assembleur de générer le code nécessaire pour charger l&rsquo;adresse complète.</p>
+<p><strong>Pourquoi passer par <code>x0</code> plutôt que d&rsquo;écrire directement dans <code>sp</code> ?</strong>
+Le jeu d&rsquo;instructions AArch64 n&rsquo;autorise pas <code>sp</code> comme registre de destination pour cette forme de <code>ldr</code>. On passe donc par <code>x0</code> comme intermédiaire.</p>
+<hr>
+
+<h2 class="relative group">Le driver UART
+    <div id="le-driver-uart" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#le-driver-uart" aria-label="Ancre">#</a>
+    </span>
+    
+</h2>
+<p>Maintenant que notre noyau boot, il est temps de faire quelque chose avec. L&rsquo;objectif maintenant est de permettre à notre noyau d&rsquo;afficher des caractères à l&rsquo;écran. Pour cela nous allons utiliser un UART.</p>
+<blockquote><p>Tout le code décrit dans cette partie peut se trouver dans le fichier <code>src/uart/uart.s</code>.</p>
+</blockquote>
+<h3 class="relative group">Qu&rsquo;est-ce que l&rsquo;UART, et pourquoi le MMIO ?
+    <div id="quest-ce-que-luart-et-pourquoi-le-mmio-" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#quest-ce-que-luart-et-pourquoi-le-mmio-" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Tout d&rsquo;abord, un UART (<em>Universal Asynchronous Receiver Transmitter</em>) est un périphérique matériel utilisé pour la communication série.</p>
+<p>Le MMIO (<em>Memory-mapped I/O</em>) fait en sorte que les registres de l&rsquo;UART soient mappés à des adresses mémoire précises. Donc lire et écrire à ces adresses permet de dialoguer directement avec le matériel. Cela permet donc d&rsquo;utiliser directement les instructions <code>ldr</code> et <code>str</code>.</p>
+
+<h3 class="relative group"><code>UART_BASE</code>, <code>UART_FR</code>, <code>UART_DR</code>
+    <div id="uart_base-uart_fr-uart_dr" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#uart_base-uart_fr-uart_dr" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>L&rsquo;adresse de base de l&rsquo;UART (<code>UART_BASE</code>) est <code>0x09000000</code>, elle est fixée par QEMU <code>virt</code>.
+<code>UART_FR</code> correspond au <em>flag register</em>, autrement dit, à l&rsquo;état du périphérique : si dans ce registre le bit <code>TXFF</code> (mask <code>0x20</code>) est set alors la file de transmission est pleine et donc on ne peut envoyer des données au périphérique. Il est à l&rsquo;offset <code>0x18</code>.</p>
+<p><code>UART_DR</code> correspond au <em>data register</em>, autrement dit, à l&rsquo;endroit où le périphérique reçoit des données, c&rsquo;est donc ici que l&rsquo;on va écrire un caractère. Il est à l&rsquo;offset <code>0x00</code>.</p>
+<p>On va donc ajouter cela dans notre fichier :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="na">.equ</span> <span class="no">UART_BASE</span><span class="p">,</span> <span class="mi">0x09000000</span>
+</span></span><span class="line"><span class="cl"><span class="na">.equ</span> <span class="no">UART_FR</span><span class="p">,</span>   <span class="mi">0x18</span>
+</span></span><span class="line"><span class="cl"><span class="na">.equ</span> <span class="no">UART_DR</span><span class="p">,</span>   <span class="mi">0x00</span>
+</span></span><span class="line"><span class="cl"><span class="na">.equ</span> <span class="no">UART_TXFF</span><span class="p">,</span> <span class="mi">0x20</span></span></span></code></pre></div></div>
+
+<h3 class="relative group"><code>uart_putc</code>
+    <div id="uart_putc" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#uart_putc" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Tout d&rsquo;abord nous allons écrire un seul caractère, pour cela on fait une boucle <code>wait:</code> qui charge le contenu de <code>UART_FR</code> dans <code>w2</code>, teste le bit TXFF avec <code>tst</code> et reboucle tant que la file est pleine (<code>b.ne wait</code>).</p>
+<p>Une fois la file libre, on écrit le caractère dans <code>UART_DR</code> (<code>str w0, [x1, #UART_DR]</code>), d&rsquo;après la convention d&rsquo;appel AArch64 <code>x0</code> est le premier argument et <code>w0</code> est la partie inférieure de <code>x0</code> (32 premiers bits).</p>
+<p>Enfin, on fait un retour à l&rsquo;appelant avec <code>ret</code>.</p>
+<p>Voici le code complet de la fonction :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nl">uart_putc:</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">ldr</span> <span class="no">x1</span><span class="p">,</span> <span class="err">=</span><span class="no">UART_BASE</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">wait:</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">ldr</span> <span class="no">w2</span><span class="p">,</span> <span class="p">[</span><span class="no">x1</span><span class="p">,</span> <span class="c1">#UART_FR]
+</span></span></span><span class="line"><span class="cl">    <span class="nf">tst</span> <span class="no">w2</span><span class="p">,</span> <span class="c1">#UART_TXFF
+</span></span></span><span class="line"><span class="cl">    <span class="nf">b.ne</span> <span class="no">wait</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">str</span> <span class="no">w0</span><span class="p">,</span> <span class="p">[</span><span class="no">x1</span><span class="p">,</span> <span class="c1">#UART_DR]
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">ret</span></span></span></code></pre></div></div>
+
+<h3 class="relative group"><code>uart_puts</code>
+    <div id="uart_puts" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#uart_puts" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Maintenant il faut être capable d&rsquo;afficher une chaîne de caractères. On va donc écrire une fonction <code>uart_puts</code> qui reçoit un pointeur vers une chaîne terminée par <code>\0</code> dans <code>x0</code> et qui va boucler sur cette chaîne, en appelant <code>uart_putc</code> pour chaque caractère.</p>
+<p>Voici le code de la fonction :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nl">uart_puts:</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">stp</span> <span class="no">x19</span><span class="p">,</span> <span class="no">x30</span><span class="p">,</span> <span class="p">[</span><span class="no">sp</span><span class="p">,</span> <span class="c1">#-16]!
+</span></span></span><span class="line"><span class="cl">    <span class="nf">mov</span> <span class="no">x19</span><span class="p">,</span> <span class="no">x0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">loop:</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">ldrb</span> <span class="no">w0</span><span class="p">,</span> <span class="p">[</span><span class="no">x19</span><span class="p">],</span> <span class="c1">#1
+</span></span></span><span class="line"><span class="cl">    <span class="nf">cbz</span> <span class="no">w0</span><span class="p">,</span> <span class="no">done</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">bl</span> <span class="no">uart_putc</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">b</span> <span class="no">loop</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">done:</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">ldp</span> <span class="no">x19</span><span class="p">,</span> <span class="no">x30</span><span class="p">,</span> <span class="p">[</span><span class="no">sp</span><span class="p">],</span> <span class="c1">#16
+</span></span></span><span class="line"><span class="cl">    <span class="nf">ret</span></span></span></code></pre></div></div>
+<p>Tout d&rsquo;abord, on sauvegarde <code>x19</code> et <code>x30</code> sur la pile (voir <a href="/posts/02-boot-uart/#pourquoi-sauver-x19-" >Pourquoi sauver <code>x19</code> ?</a>). On copie le contenu de <code>x0</code> dans <code>x19</code> puis on charge le caractère courant de <code>x19</code> dans <code>w0</code> et ensuite on incrémente <code>x19</code> d&rsquo;un octet.</p>
+<p>À chaque caractère, on teste si ce dernier est un caractère de fin de chaîne : <code>cbz w0, done</code>. Si c&rsquo;est le cas, on sort de la boucle (branche vers <code>done</code>) sinon on appelle <code>uart_putc</code> sur le caractère et on revient au début de la boucle.</p>
+<p>Si la chaîne est entièrement affichée, on restaure <code>x19</code> et <code>x30</code> puis on fait un retour à l&rsquo;appelant avec <code>ret</code>.</p>
+
+<h3 class="relative group">Pourquoi sauver <code>x19</code> ?
+    <div id="pourquoi-sauver-x19-" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#pourquoi-sauver-x19-" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>En AArch64, <code>x19</code> est un registre callee-saved, ainsi <code>uart_puts</code> doit le sauvegarder avant de l&rsquo;utiliser, car <code>uart_putc</code> pourrait le modifier, puis le restaurer avant de retourner. L&rsquo;instruction <code>stp x19, x30, [sp, #-16]!</code> sauvegarde à la fois <code>x19</code> et l&rsquo;adresse de retour <code>x30</code> en 16 octets, tout en respectant l&rsquo;alignement de la pile sur 16 octets.</p>
+<hr>
+
+<h2 class="relative group">Compiler et lancer le noyau
+    <div id="compiler-et-lancer-le-noyau" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#compiler-et-lancer-le-noyau" aria-label="Ancre">#</a>
+    </span>
+    
+</h2>
+<p>Maintenant que le code est écrit, on doit compiler et lancer le noyau.</p>
+
+<h3 class="relative group">Le Makefile
+    <div id="le-makefile" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#le-makefile" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Dans cette partie, je ne vais pas détailler tout le Makefile, juste les composantes importantes.</p>
+<blockquote><p>Le Makefile complet du projet peut être trouvé dans le dépôt : <a href="https://github.com/HalfTimeOfLife/aarch64-baremetal-kernel"  target="_blank" rel="noreferrer">aarch64-baremetal-kernel</a>.</p>
+</blockquote><p>Je vais expliquer ce bout du Makefile :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-makefile" data-lang="makefile"><span class="line"><span class="cl"><span class="nv">SRC</span> <span class="o">:=</span> <span class="k">$(</span>wildcard src/*/*.s<span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">OUTPUT_DIR</span> <span class="o">:=</span> build
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">OBJ</span> <span class="o">:=</span> <span class="k">$(</span>patsubst src/%.s,<span class="k">$(</span>OUTPUT_DIR<span class="k">)</span>/%.o,<span class="k">$(</span>SRC<span class="k">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">$(OUTPUT_DIR)/%.o</span><span class="o">:</span> <span class="n">src</span>/%.<span class="n">s</span>
+</span></span><span class="line"><span class="cl">	mkdir -p <span class="k">$(</span>@D<span class="k">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">$(</span>AS<span class="k">)</span> -c $&lt; -o <span class="nv">$@</span>
+</span></span></code></pre></div></div>
+<ul>
+<li><code>$(wildcard src/*/*.s)</code> : Cherche tous les fichiers <code>.s</code> dans n&rsquo;importe quel sous-dossier de <code>src/</code> (donc <code>src/boot/boot.s</code>, <code>src/uart/uart.s</code>, etc.)</li>
+<li><code>$(patsubst src/%.s,$(OUTPUT_DIR)/%.o,$(SRC))</code> : Reconstruit le même chemin sous <code>build/</code> pour chaque fichier objet correspondant</li>
+<li><code>mkdir -p $(@D)</code> crée les sous-dossiers nécessaires dans <code>build/</code> à la volée</li>
+</ul>
+<p>Le Makefile va donc créer l&rsquo;arborescence suivante :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">├── Makefile
+</span></span><span class="line"><span class="cl">└── build/
+</span></span><span class="line"><span class="cl">    ├── boot/
+</span></span><span class="line"><span class="cl">    │   └── boot.o
+</span></span><span class="line"><span class="cl">    ├── uart/
+</span></span><span class="line"><span class="cl">    │   └── uart.o
+</span></span><span class="line"><span class="cl">    └── kernel.elf</span></span></code></pre></div></div>
+
+<h3 class="relative group">Vérifier les symboles avec <code>nm</code>
+    <div id="vérifier-les-symboles-avec-nm" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#v%c3%a9rifier-les-symboles-avec-nm" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Avant de lancer le noyau avec QEMU, on vérifie que le binaire contient bien ce qu&rsquo;on attend. Pour cela, on utilise la commande <code>aarch64-none-elf-nm build/kernel.elf</code> qui permet de vérifier que les symboles existent et sont résolus, on doit donc retrouver les symboles suivants :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">_start
+</span></span><span class="line"><span class="cl">uart_putc
+</span></span><span class="line"><span class="cl">uart_puts
+</span></span><span class="line"><span class="cl">_stack_bottom
+</span></span><span class="line"><span class="cl">_stack_top</span></span></code></pre></div></div>
+<p>On peut aussi utiliser <code>objdump -d build/kernel.elf</code> pour voir le désassemblage du binaire.</p>
+
+<h3 class="relative group">Lancer avec QEMU
+    <div id="lancer-avec-qemu" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#lancer-avec-qemu" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Voici la commande complète pour lancer notre noyau avec QEMU :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">qemu-system-aarch64 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -M virt <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -cpu cortex-a57 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -nographic <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -kernel build/kernel.elf</span></span></code></pre></div></div>
+<p>Voici en détail ce que fait chaque option :</p>
+<ul>
+<li><code>-M virt</code> : demande à utiliser la machine virtuelle <code>virt</code></li>
+<li><code>-cpu cortex-a57</code> : modèle de CPU AArch64 émulé</li>
+<li><code>-nographic</code> : pas de fenêtre graphique, l&rsquo;UART redirigé vers stdout</li>
+<li><code>-kernel build/kernel.elf</code> : charge directement notre ELF</li>
+</ul>
+
+<h3 class="relative group">Résultat
+    <div id="résultat" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#r%c3%a9sultat" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>On obtient donc cela :</p>
+<video controls width="100%">
+  <source src="demo-uart.mp4" type="video/mp4">
+</video>
+<hr>
+
+<h2 class="relative group">Conclusion
+    <div id="conclusion" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#conclusion" aria-label="Ancre">#</a>
+    </span>
+    
+</h2>
+<p>À l&rsquo;issue de cette première version, ce projet a maintenant un linker script qui place le code exactement où le CPU s&rsquo;attend à le trouver, une pile correctement initialisée, et un premier driver matériel qui fonctionne.</p>
+<p>Merci d&rsquo;avoir lu jusqu&rsquo;au bout, et à bientôt pour le prochain article : <strong>Les exceptions : construire la table de vecteurs</strong>.</p>
+
+          
+          
+          
+        </div>
+        
+        
+  <details class="mt-2 mb-5 overflow-hidden rounded-lg ms-0 ps-5">
+    
+  <summary
+    class="py-1 text-lg font-semibold cursor-pointer bg-primary-200 text-neutral-800 -ms-5 ps-5 dark:bg-primary-800 dark:text-neutral-100">
+    AArch64 Bare-Metal Kernel -
+    Cet article fait partie d&#39;une série.
+  </summary>
+  
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/posts/01-introduction-aarch64-kernel/">
+          Partie 1:
+          01 - Introduction à mon kernel AArch64 bare-metal sur QEMU virt
+        </a>
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        Partie 2:
+        Cet article
+      </div>
+    
+  
+
+
+  </details>
+
+
+        
+
+        
+
+      </div>
+    </section>
+
+    
+    <footer class="pt-8 max-w-prose print:hidden">
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600">
+      <div class="flex justify-between pt-3">
+        <span class="flex flex-col">
+          
+            <a
+              class="flex text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+              href="/posts/01-introduction-aarch64-kernel/">
+              <span class="leading-6">
+                <span class="inline-block rtl:rotate-180">&larr;</span>&ensp;01 - Introduction à mon kernel AArch64 bare-metal sur QEMU virt
+              </span>
+            </a>
+            
+              <span class="ms-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                <time datetime="2026-09-08T00:00:00&#43;00:00">8 septembre 2026</time>
+              </span>
+            
+          
+        </span>
+        <span class="flex flex-col items-end">
+          
+            <a
+              class="flex text-right text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+              href="/posts/06-image-sensor/">
+              <span class="leading-6">
+                06 - Deuxième capteur : suivi du chargement des images et des DLL&ensp;<span class="inline-block rtl:rotate-180">&rarr;</span>
+              </span>
+            </a>
+            
+              <span class="me-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                <time datetime="2026-09-17T00:00:00&#43;00:00">17 septembre 2026</time>
+              </span>
+            
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+      
+    </footer>
+  </article>
+
+        
+
+
+  
+
+
+
+
+
+
+<div
+  id="scroll-to-top"
+  class="fixed bottom-6 end-6 z-50 transform translate-y-4 opacity-0 duration-200">
+  <a
+    href="#the-top"
+    class="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="Faire défiler jusqu&#39;au bas de la page"
+    title="Faire défiler jusqu&#39;au bas de la page">
+    &uarr;
+  </a>
+</div>
+
+      </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+    
+    
+      <p class="text-sm text-neutral-500 dark:text-neutral-400">
+          &copy;
+          2026
+          Elouan Charbonnier
+      </p>
+    
+
+    
+    
+      <p class="text-xs text-neutral-500 dark:text-neutral-400">
+        
+        
+        Propulsé par <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+          href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+          href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a>
+      </p>
+    
+  </div>
+  
+    <script>
+      mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+        margin: 24,
+        background: "rgba(0,0,0,0.5)",
+        scrollOffset: 0,
+      });
+    </script>
+  
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh] z-500"
+  data-url="https://halftimeoflife.github.io/">
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800">
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Rechercher"
+          tabindex="0">
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Fermer (Esc)">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+    </div>
+  </body>
+  
+</html>

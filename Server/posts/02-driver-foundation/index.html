@@ -1,0 +1,2003 @@
+<!doctype html>
+<html
+  lang="fr"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="light"
+  data-auto-appearance="true"><head>
+  <meta charset="utf-8">
+  
+    <meta http-equiv="content-language" content="fr">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color">
+
+  
+  
+    <title>02 - Fondations du driver : DriverEntry, device et communication IOCTL &middot; HalfTimeOfLife</title>
+    <meta name="title" content="02 - Fondations du driver : DriverEntry, device et communication IOCTL &middot; HalfTimeOfLife">
+  
+
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+  
+    <meta name="description" content="Construction du socle du driver KDAMonitor : device object et première communication IOCTL avec un client de test.">
+  
+  
+    <meta name="keywords" content="KDAMonitor,Windows Kernel,Kernel Driver,C,">
+  
+  
+  
+  <link rel="canonical" href="https://halftimeoflife.github.io/posts/02-driver-foundation/">
+  
+    
+      
+      
+        <link rel="alternate" hreflang="fr" href="https://halftimeoflife.github.io/posts/02-driver-foundation/">
+      
+    
+      
+      
+        <link rel="alternate" hreflang="en" href="https://halftimeoflife.github.io/en/posts/02-driver-foundation/">
+      
+    
+  
+  
+
+  
+  
+    <meta name="author" content="Elouan Charbonnier">
+  
+  
+    
+      
+        
+          <link href="https://github.com/HalfTimeOfLife" rel="me">
+        
+      
+    
+      
+        
+          <link href="https://linkedin.com/in/elouan-charbonnier" rel="me">
+        
+      
+    
+  
+
+  
+  <meta property="og:url" content="https://halftimeoflife.github.io/posts/02-driver-foundation/">
+	<meta property="og:site_name" content="HalfTimeOfLife">
+	<meta property="og:title" content="02 - Fondations du driver : DriverEntry, device et communication IOCTL">
+	<meta property="og:description" content="Construction du socle du driver KDAMonitor : device object et première communication IOCTL avec un client de test.">
+	<meta property="og:locale" content="fr">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-08-11T00:00:00+00:00">
+		<meta property="article:modified_time" content="2026-08-11T00:00:00+00:00">
+		<meta property="article:tag" content="KDAMonitor">
+		<meta property="article:tag" content="Windows Kernel">
+		<meta property="article:tag" content="Kernel Driver">
+		<meta property="article:tag" content="C">
+			<meta property="og:see_also" content="https://halftimeoflife.github.io/posts/06-image-sensor/">
+			<meta property="og:see_also" content="https://halftimeoflife.github.io/posts/05-process-sensor/">
+			<meta property="og:see_also" content="https://halftimeoflife.github.io/posts/04-log-writer/">
+			<meta property="og:see_also" content="https://halftimeoflife.github.io/posts/03-event-queue/">
+			<meta property="og:see_also" content="https://halftimeoflife.github.io/posts/01-introduction-kdamonitor/">
+
+  
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="02 - Fondations du driver : DriverEntry, device et communication IOCTL">
+	<meta name="twitter:description" content="Construction du socle du driver KDAMonitor : device object et première communication IOCTL avec un client de test.">
+
+  
+  
+  
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+  
+    
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/css/main.bundle.min.1c77f9e9fb1dab7005e138a96699bb864f9ce7f5e9605285d7d050369da819a87da642940f0626bd590654813ae06c23e0b717da5e05deeff22912bacc8de78f.css"
+    integrity="sha512-HHf56fsdq3AF4TipZpm7hk&#43;c5/XpYFKF19BQNp2oGah9pkKUDwYmvVkGVIE64Gwj4LcX2l4F3u/yKRK6zI3njw==">
+
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/appearance.min.6f41174b3a05b680820fe08cadbfa5fb7a7ca347b76a0955cdc68b9d8aca1ce24f0547e138cea33bcc7904d551a90afcb1cc7f2d9fe8557075d501419046c08c.js"
+    integrity="sha512-b0EXSzoFtoCCD&#43;CMrb&#43;l&#43;3p8o0e3aglVzcaLnYrKHOJPBUfhOM6jO8x5BNVRqQr8scx/LZ/oVXB11QFBkEbAjA=="></script>
+  
+  
+  
+  
+  
+  
+    
+    <script src="/lib/zoom/zoom.min.umd.b4b722fcb5d42f34f52b30a92f3521b69f403ca9d96d0d6179eb537cb870f5d83fdf1fe836688d95d5c99fefbda4170487711006e56051fa67ea00da10521721.js" integrity="sha512-tLci/LXULzT1KzCpLzUhtp9APKnZbQ1heetTfLhw9dg/3x/oNmiNldXJn&#43;&#43;9pBcEh3EQBuVgUfpn6gDaEFIXIQ=="></script>
+  
+
+  
+  
+  
+    
+  
+  
+    
+    
+    
+  
+  
+  
+  
+  
+  
+  
+    
+    <script
+      defer
+      type="text/javascript"
+      id="script-bundle"
+      src="/js/main.bundle.min.ecde4393b7348405774ad47459b74f73673ea7e170d83b1858d04fa1ec8330281a5fb97d2d868e6411fbba964b8f2bc5b6dbabcc4115672779f264450dbd7f07.js"
+      integrity="sha512-7N5Dk7c0hAV3StR0WbdPc2c&#43;p&#43;Fw2DsYWNBPoeyDMCgaX7l9LYaOZBH7upZLjyvFtturzEEVZyd58mRFDb1/Bw=="
+      data-copy="Copier"
+      data-copied="Copié"></script>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+  
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Blog",
+    "name": "02 - Fondations du driver : DriverEntry, device et communication IOCTL",
+    "headline": "02 - Fondations du driver : DriverEntry, device et communication IOCTL",
+    "description": "Construction du socle du driver KDAMonitor : device object et première communication IOCTL avec un client de test.",
+    "inLanguage": "fr",
+    "url" : "https://halftimeoflife.github.io/posts/02-driver-foundation/",
+    "author" : {
+      "@type": "Person",
+      "name": "Elouan Charbonnier"
+    },
+    "copyrightYear": "2026",
+    "dateCreated": "2026-08-11T00:00:00\u002b00:00",
+    "datePublished": "2026-08-11T00:00:00\u002b00:00",
+    
+    "dateModified": "2026-08-11T00:00:00\u002b00:00",
+    
+    "keywords": ["KDAMonitor","Windows Kernel","Kernel Driver","C"],
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "3291"
+  }]
+  </script>
+
+
+
+  
+  
+    
+
+
+
+
+  
+
+  
+  
+    
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js'
+    data-cf-beacon='{"token": "0c69b18f463449b596aae3c62b8068e4"}'></script>
+
+  
+
+  
+  
+
+  
+  
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <body class="flex flex-col h-screen m-auto leading-7 max-w-7xl px-6 sm:px-14 md:px-24 lg:px-32 text-lg bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral bf-scrollbar">
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content">
+        <span class="font-bold text-primary-600 pe-2 dark:text-primary-400">&darr;</span>
+        Aller au contenu
+      </a>
+    </div>
+    
+    
+      <div class="main-menu flex items-center w-full gap-2 p-1 pl-0">
+  
+  
+    <a href="/" class="text-base font-medium truncate min-w-0 shrink">
+      HalfTimeOfLife
+    </a>
+  
+  <div class="flex items-center ms-auto">
+    <div class="hidden md:flex">
+      <nav class="flex items-center gap-x-5 h-12">
+  
+    
+      
+  
+    <a
+      href="/about/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="À propos"
+      title="À propos">
+      
+      
+        <span class="text-base font-medium break-normal">
+          À propos
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/projects/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="Projets"
+      title="Projets">
+      
+      
+        <span class="text-base font-medium break-normal">
+          Projets
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/publications/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="Publications"
+      title="Publications">
+      
+      
+        <span class="text-base font-medium break-normal">
+          Publications
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <div class="nested-menu">
+      <div class="cursor-pointer flex items-center">
+        <a
+          
+            href="/posts/"
+            
+          
+          aria-label="Blog"
+          class="flex items-center text-base font-medium bf-icon-color-hover"
+          title="Blog">
+          
+          <span class="text-bg font-bg break-normal" title="Blog">
+            Blog
+          </span>
+          <span>
+            <span class="relative block icon"><svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 20 20"
+  fill="currentColor"
+  aria-hidden="true"
+>
+  <path
+    fill-rule="evenodd"
+    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+    clip-rule="evenodd"
+  />
+</svg>
+</span>
+          </span>
+        </a>
+      </div>
+      <div class="menuhide">
+        <div class="pt-2 p-5 mt-2 rounded-xl backdrop-blur shadow-2xl bg-neutral/25 dark:bg-neutral-800/25">
+          <div class="flex flex-col space-y-3">
+            
+              <a
+                href="/series/"
+                
+                aria-label="Séries"
+                class="flex items-center bf-icon-color-hover">
+                
+                <span class="text-sm font-sm" title="Series">
+                  Séries
+                </span>
+              </a>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+    
+  
+
+  
+  <div class="translation nested-menu">
+    <button class="cursor-pointer flex items-center">
+      <span class="me-1">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+    <path fill="currentColor" d="M0 128C0 92.7 28.7 64 64 64H256h48 16H576c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H320 304 256 64c-35.3 0-64-28.7-64-64V128zm320 0V384H576V128H320zM178.3 175.9c-3.2-7.2-10.4-11.9-18.3-11.9s-15.1 4.7-18.3 11.9l-64 144c-4.5 10.1 .1 21.9 10.2 26.4s21.9-.1 26.4-10.2l8.9-20.1h73.6l8.9 20.1c4.5 10.1 16.3 14.6 26.4 10.2s14.6-16.3 10.2-26.4l-64-144zM160 233.2L179 276H141l19-42.8zM448 164c11 0 20 9 20 20v4h44 16c11 0 20 9 20 20s-9 20-20 20h-2l-1.6 4.5c-8.9 24.4-22.4 46.6-39.6 65.4c.9 .6 1.8 1.1 2.7 1.6l18.9 11.3c9.5 5.7 12.5 18 6.9 27.4s-18 12.5-27.4 6.9l-18.9-11.3c-4.5-2.7-8.8-5.5-13.1-8.5c-10.6 7.5-21.9 14-34 19.4l-3.6 1.6c-10.1 4.5-21.9-.1-26.4-10.2s.1-21.9 10.2-26.4l3.6-1.6c6.4-2.9 12.6-6.1 18.5-9.8l-12.2-12.2c-7.8-7.8-7.8-20.5 0-28.3s20.5-7.8 28.3 0l14.6 14.6 .5 .5c12.4-13.1 22.5-28.3 29.8-45H448 376c-11 0-20-9-20-20s9-20 20-20h52v-4c0-11 9-20 20-20z"/></svg></span>
+      </span>
+      <span class="text-sm font-medium bf-icon-color-hover" title="02 - Fondations du driver : DriverEntry, device et communication IOCTL">FR</span>
+    </button>
+    <ul class="menuhide">
+      <li class="rounded-xl backdrop-blur shadow-2xl p-2 flex flex-col gap-1">
+        
+          <a href="/posts/02-driver-foundation/" class="flex items-center bf-icon-color-hover px-3 py-1">
+            <span class="text-sm font-sm" title="02 - Fondations du driver : DriverEntry, device et communication IOCTL">
+              FR
+            </span>
+          </a>
+        
+          <a href="/en/posts/02-driver-foundation/" class="flex items-center bf-icon-color-hover px-3 py-1">
+            <span class="text-sm font-sm" title="02 - Building the Driver Foundation: DriverEntry, Device Object and IOCTL Communication">
+              EN
+            </span>
+          </a>
+        
+      </li>
+    </ul>
+  </div>
+
+
+  
+
+  
+    <button
+      id="search-button"
+      aria-label="Search"
+      class="text-base bf-icon-color-hover"
+      title="Rechercher (/)">
+      <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+    </button>
+  
+
+  
+    <div class="flex items-center">
+      <button
+        id="appearance-switcher"
+        aria-label="Dark mode switcher"
+        type="button"
+        class="text-base bf-icon-color-hover">
+        <div class="flex items-center justify-center dark:hidden">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+        </div>
+        <div class="items-center justify-center hidden dark:flex">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+        </div>
+      </button>
+    </div>
+  
+</nav>
+
+
+
+    </div>
+    <div class="flex md:hidden">
+      <div class="flex items-center h-14 gap-4">
+  
+    <button
+      id="search-button-mobile"
+      aria-label="Search"
+      class="flex items-center justify-center bf-icon-color-hover"
+      title="Rechercher (/)">
+      <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+    </button>
+  
+
+  
+    <button
+      id="appearance-switcher-mobile"
+      type="button"
+      aria-label="Dark mode switcher"
+      class="flex items-center justify-center text-neutral-900 hover:text-primary-600 dark:text-neutral-200 dark:hover:text-primary-400">
+      <div class="dark:hidden">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+      </div>
+      <div class="hidden dark:block">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+      </div>
+    </button>
+  
+
+  
+    <input type="checkbox" id="mobile-menu-toggle" autocomplete="off" class="hidden peer">
+    <label for="mobile-menu-toggle" class="flex items-center justify-center cursor-pointer bf-icon-color-hover">
+      <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+</span>
+    </label>
+
+    <div
+      role="dialog"
+      aria-modal="true"
+      style="scrollbar-gutter: stable;"
+      class="fixed inset-0 z-50 invisible overflow-y-auto px-6 py-20 opacity-0 transition-[opacity,visibility] duration-300 peer-checked:visible peer-checked:opacity-100 bg-neutral-50/97 dark:bg-neutral-900/99
+      bf-scrollbar">
+      <label
+        for="mobile-menu-toggle"
+        class="fixed end-8 top-5 flex items-center justify-center z-50 h-12 w-12 cursor-pointer select-none rounded-full bf-icon-color-hover border bf-border-color bf-border-color-hover bg-neutral-50 dark:bg-neutral-900">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </label>
+      <nav class="mx-auto max-w-md space-y-6">
+        
+  
+    
+    <div class="px-2">
+      <a
+        href="/about/"
+        aria-label="À propos"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="À propos" class="text-2xl font-bold tracking-tight">
+          À propos
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/projects/"
+        aria-label="Projets"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="Projets" class="text-2xl font-bold tracking-tight">
+          Projets
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/publications/"
+        aria-label="Publications"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="Publications" class="text-2xl font-bold tracking-tight">
+          Publications
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/posts/"
+        aria-label="Blog"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="Blog" class="text-2xl font-bold tracking-tight">
+          Blog
+        </span>
+        
+          <label
+            for="fullscreen-submenu-blog"
+            class="ms-auto flex items-center justify-center h-10 w-10 cursor-pointer rounded-lg bf-icon-color-hover border bf-border-color bf-border-color-hover">
+            <span class="relative block icon"><svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 20 20"
+  fill="currentColor"
+  aria-hidden="true"
+>
+  <path
+    fill-rule="evenodd"
+    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+    clip-rule="evenodd"
+  />
+</svg>
+</span>
+          </label>
+        
+      </a>
+
+      
+        <input checked type="checkbox" id="fullscreen-submenu-blog" autocomplete="off" class="hidden peer/full">
+
+        <div
+          class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 peer-checked/full:grid-rows-[1fr]">
+          <div class="overflow-hidden">
+            <div class="ms-7 mt-4">
+              
+                <a
+                  href="/series/"
+                  aria-label="Séries"
+                  
+                  class="flex items-center gap-3 p-2 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+                  
+                  <span title="Series" class="text-lg">
+                    Séries
+                  </span>
+                </a>
+              
+            </div>
+          </div>
+        </div>
+      
+    </div>
+  
+
+        
+  
+
+        
+  
+    <div
+      class="flex flex-wrap items-center [&_span]:text-2xl [&_.translation_button_.icon]:text-4xl! [&_.translation_button_span]:text-base! [&_.translation_.menuhide_span]:text-sm! gap-x-6 ps-2 mt-8 pt-8 border-t bf-border-color">
+      
+  <div class="translation nested-menu">
+    <button class="cursor-pointer flex items-center">
+      <span class="me-1">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+    <path fill="currentColor" d="M0 128C0 92.7 28.7 64 64 64H256h48 16H576c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H320 304 256 64c-35.3 0-64-28.7-64-64V128zm320 0V384H576V128H320zM178.3 175.9c-3.2-7.2-10.4-11.9-18.3-11.9s-15.1 4.7-18.3 11.9l-64 144c-4.5 10.1 .1 21.9 10.2 26.4s21.9-.1 26.4-10.2l8.9-20.1h73.6l8.9 20.1c4.5 10.1 16.3 14.6 26.4 10.2s14.6-16.3 10.2-26.4l-64-144zM160 233.2L179 276H141l19-42.8zM448 164c11 0 20 9 20 20v4h44 16c11 0 20 9 20 20s-9 20-20 20h-2l-1.6 4.5c-8.9 24.4-22.4 46.6-39.6 65.4c.9 .6 1.8 1.1 2.7 1.6l18.9 11.3c9.5 5.7 12.5 18 6.9 27.4s-18 12.5-27.4 6.9l-18.9-11.3c-4.5-2.7-8.8-5.5-13.1-8.5c-10.6 7.5-21.9 14-34 19.4l-3.6 1.6c-10.1 4.5-21.9-.1-26.4-10.2s.1-21.9 10.2-26.4l3.6-1.6c6.4-2.9 12.6-6.1 18.5-9.8l-12.2-12.2c-7.8-7.8-7.8-20.5 0-28.3s20.5-7.8 28.3 0l14.6 14.6 .5 .5c12.4-13.1 22.5-28.3 29.8-45H448 376c-11 0-20-9-20-20s9-20 20-20h52v-4c0-11 9-20 20-20z"/></svg></span>
+      </span>
+      <span class="text-sm font-medium bf-icon-color-hover" title="02 - Fondations du driver : DriverEntry, device et communication IOCTL">FR</span>
+    </button>
+    <ul class="menuhide">
+      <li class="rounded-xl backdrop-blur shadow-2xl p-2 flex flex-col gap-1">
+        
+          <a href="/posts/02-driver-foundation/" class="flex items-center bf-icon-color-hover px-3 py-1">
+            <span class="text-sm font-sm" title="02 - Fondations du driver : DriverEntry, device et communication IOCTL">
+              FR
+            </span>
+          </a>
+        
+          <a href="/en/posts/02-driver-foundation/" class="flex items-center bf-icon-color-hover px-3 py-1">
+            <span class="text-sm font-sm" title="02 - Building the Driver Foundation: DriverEntry, Device Object and IOCTL Communication">
+              EN
+            </span>
+          </a>
+        
+      </li>
+    </ul>
+  </div>
+
+
+
+      
+    </div>
+  
+
+      </nav>
+    </div>
+  
+</div>
+
+
+
+
+
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+    
+    <div class="relative flex flex-col grow">
+      <main id="main-content" class="grow">
+        
+  
+  <article>
+    
+    
+
+    
+    <header id="single_header" class="mt-5 max-w-prose">
+      
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        02 - Fondations du driver : DriverEntry, device et communication IOCTL
+      </h1>
+      <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+        
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2026-08-11T00:00:00&#43;00:00">11 août 2026</time><span class="px-2 text-primary-500">&middot;</span><span>3291 mots</span><span class="px-2 text-primary-500">&middot;</span><span title="Temps de lecture">16 mins</span>
+    
+
+    
+    
+  </div>
+
+  
+
+  
+  
+    <div class="flex flex-row flex-wrap items-center">
+      
+        
+      
+        
+      
+        
+          
+            
+              
+            
+            
+              
+            
+          
+        
+      
+        
+          
+            
+              
+            
+            
+              
+                <a class="relative mt-[0.5rem] me-2" href="/tags/kdamonitor/">
+                  <span class="flex cursor-pointer">
+  
+  
+  
+  
+    <span
+      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+  
+    KDAMonitor
+  </span>
+</span>
+
+                </a>
+              
+            
+          
+            
+              
+            
+            
+              
+                <a class="relative mt-[0.5rem] me-2" href="/tags/windows-kernel/">
+                  <span class="flex cursor-pointer">
+  
+  
+  
+  
+    <span
+      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+  
+    Windows Kernel
+  </span>
+</span>
+
+                </a>
+              
+            
+          
+            
+              
+            
+            
+              
+                <a class="relative mt-[0.5rem] me-2" href="/tags/kernel-driver/">
+                  <span class="flex cursor-pointer">
+  
+  
+  
+  
+    <span
+      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+  
+    Kernel Driver
+  </span>
+</span>
+
+                </a>
+              
+            
+          
+            
+              
+            
+            
+              
+                <a class="relative mt-[0.5rem] me-2" href="/tags/c/">
+                  <span class="flex cursor-pointer">
+  
+  
+  
+  
+    <span
+      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+  
+    C
+  </span>
+</span>
+
+                </a>
+              
+            
+          
+        
+      
+    </div>
+  
+
+
+      </div>
+      
+        
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    
+    
+<div class="flex author">
+  
+    
+    
+      
+    
+    
+      
+      
+      
+        
+        
+        
+      
+      <img
+        class="!mt-0 !mb-0 h-24 w-24 rounded-full me-4"
+        width="96"
+        height="96"
+        alt="Elouan Charbonnier"
+        src="/img/avatar_hu_3b9cca9d7521dc79.jpg"
+        data-zoom-src="/img/avatar_hu_5766a73f7b96cebe.jpg">
+    
+  
+  <div class="place-self-center">
+    
+      <div class="text-[0.6rem] uppercase leading-3 text-neutral-500 dark:text-neutral-400">
+        Auteur
+      </div>
+      <div class="font-semibold leading-6 text-neutral-800 dark:text-neutral-300">
+        Elouan Charbonnier
+      </div>
+    
+    
+    <div class="text-2xl sm:text-lg">
+  <div class="flex flex-wrap text-neutral-400 dark:text-neutral-500 space-x-2">
+    
+      
+        
+        <a
+          class=" hover:text-primary-700 dark:hover:text-primary-400"
+          href="https://github.com/HalfTimeOfLife"
+          
+          target="_blank"
+          aria-label="Github"
+          title="Github"
+          rel="me noopener noreferrer"
+          ><span class="inline-block align-text-bottom"><span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></span></a
+        >
+      
+    
+      
+        
+        <a
+          class=" hover:text-primary-700 dark:hover:text-primary-400"
+          href="https://linkedin.com/in/elouan-charbonnier"
+          
+          target="_blank"
+          aria-label="Linkedin"
+          title="Linkedin"
+          rel="me noopener noreferrer"
+          ><span class="inline-block align-text-bottom"><span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+</span></span></a
+        >
+      
+    
+  </div>
+
+</div>
+  </div>
+</div>
+
+  
+
+  
+
+  
+    <div class="mb-5"></div>
+  
+
+      
+    </header>
+
+    
+    <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+      
+      
+      
+      
+      
+        <div class="order-first lg:ms-auto px-0 lg:order-last lg:ps-8 lg:max-w-2xs">
+          <div class="toc ps-5 print:hidden lg:sticky lg:top-10">
+            <details
+  open
+  id="TOCView"
+  class="toc-right mt-0 overflow-y-auto overscroll-contain bf-scrollbar rounded-lg -ms-5 ps-5 pe-2 hidden lg:block">
+  <summary
+    class="block py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 -ms-5 ps-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden">
+    Sommaire
+  </summary>
+  <div
+    class="min-w-[220px] py-2 border-dotted border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#quest-ce-quun-driver-">Qu&rsquo;est-ce qu&rsquo;un driver ?</a>
+      <ul>
+        <li><a href="#driverentry-et-driverunload">DriverEntry et DriverUnload</a></li>
+        <li><a href="#exemple--afficher-la-version-de-windows">Exemple : afficher la version de Windows</a></li>
+      </ul>
+    </li>
+    <li><a href="#comment-communiquer-avec-le-driver-">Comment communiquer avec le driver ?</a>
+      <ul>
+        <li><a href="#créer-un-device-avec-iocreatedevice">Créer un device avec IoCreateDevice</a></li>
+        <li><a href="#rendre-le-device-accessible--iocreatesymboliclink">Rendre le device accessible : IoCreateSymbolicLink</a></li>
+        <li><a href="#buffered-io-vs-direct-io">Buffered I/O vs Direct I/O</a></li>
+        <li><a href="#le-tout-assemblé--devicec">Le tout assemblé : device.c</a></li>
+      </ul>
+    </li>
+    <li><a href="#ioctl">IOCTL</a>
+      <ul>
+        <li><a href="#quest-ce-quun-irp-">Qu&rsquo;est-ce qu&rsquo;un IRP ?</a></li>
+        <li><a href="#le-dispatch-des-irp-create-close-device_control">Le dispatch des IRP (CREATE, CLOSE, DEVICE_CONTROL)</a></li>
+        <li><a href="#anatomie-dun-code-ioctl">Anatomie d&rsquo;un code IOCTL</a></li>
+        <li><a href="#le-tout-assemblé--ioctlc">Le tout assemblé : ioctl.c</a></li>
+      </ul>
+    </li>
+    <li><a href="#exemple--le-client-de-test">Exemple : le client de test</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+  </div>
+</details>
+<details class="toc-inside mt-0 overflow-hidden rounded-lg -ms-5 ps-5 lg:hidden">
+  <summary
+    class="py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 -ms-5 ps-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden">
+    Sommaire
+  </summary>
+  <div
+    class="py-2 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#quest-ce-quun-driver-">Qu&rsquo;est-ce qu&rsquo;un driver ?</a>
+      <ul>
+        <li><a href="#driverentry-et-driverunload">DriverEntry et DriverUnload</a></li>
+        <li><a href="#exemple--afficher-la-version-de-windows">Exemple : afficher la version de Windows</a></li>
+      </ul>
+    </li>
+    <li><a href="#comment-communiquer-avec-le-driver-">Comment communiquer avec le driver ?</a>
+      <ul>
+        <li><a href="#créer-un-device-avec-iocreatedevice">Créer un device avec IoCreateDevice</a></li>
+        <li><a href="#rendre-le-device-accessible--iocreatesymboliclink">Rendre le device accessible : IoCreateSymbolicLink</a></li>
+        <li><a href="#buffered-io-vs-direct-io">Buffered I/O vs Direct I/O</a></li>
+        <li><a href="#le-tout-assemblé--devicec">Le tout assemblé : device.c</a></li>
+      </ul>
+    </li>
+    <li><a href="#ioctl">IOCTL</a>
+      <ul>
+        <li><a href="#quest-ce-quun-irp-">Qu&rsquo;est-ce qu&rsquo;un IRP ?</a></li>
+        <li><a href="#le-dispatch-des-irp-create-close-device_control">Le dispatch des IRP (CREATE, CLOSE, DEVICE_CONTROL)</a></li>
+        <li><a href="#anatomie-dun-code-ioctl">Anatomie d&rsquo;un code IOCTL</a></li>
+        <li><a href="#le-tout-assemblé--ioctlc">Le tout assemblé : ioctl.c</a></li>
+      </ul>
+    </li>
+    <li><a href="#exemple--le-client-de-test">Exemple : le client de test</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+  </div>
+</details>
+
+
+
+          </div>
+        </div>
+      
+
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+  <details
+    class="mt-2 mb-5 overflow-hidden rounded-lg ms-0 ps-5"
+    >
+    
+  <summary
+    class="py-1 text-lg font-semibold cursor-pointer bg-primary-200 text-neutral-800 -ms-5 ps-5 dark:bg-primary-800 dark:text-neutral-100">
+    KDAMonitor -
+    Cet article fait partie d&#39;une série.
+  </summary>
+  
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/posts/01-introduction-kdamonitor/">
+          Partie 1:
+          01 - Introduction à KDAMonitor : développer un driver Windows Kernel
+        </a>
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        Partie 2:
+        Cet article
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/posts/03-event-queue/">
+          Partie 3:
+          03 - La file d&#39;événements : structure et synchronisation dans le noyau
+        </a>
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/posts/04-log-writer/">
+          Partie 4:
+          04 - Écriture des événements sur disque : journalisation JSONL, événements de réveil et premier crash
+        </a>
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/posts/05-process-sensor/">
+          Partie 5:
+          05 - Premier capteur : surveillance de la création et de la terminaison des processus
+        </a>
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/posts/06-image-sensor/">
+          Partie 6:
+          06 - Deuxième capteur : suivi du chargement des images et des DLL
+        </a>
+      </div>
+    
+  
+
+
+  </details>
+
+
+        <div class="article-content max-w-prose mb-20">
+          <p>Bienvenue dans le deuxième article de la série sur le développement de KDAMonitor !</p>
+<p>Dans cet article, je vais couvrir les versions v0.1 et v0.2 de ce projet. Pour rappel :</p>
+<ul>
+<li><strong>v0.1</strong> : Base du driver (<code>DriverEntry</code>) et un court exemple</li>
+<li><strong>v0.2</strong> : Ajout d&rsquo;un device et communication IOCTL avec un exemple de client</li>
+</ul>
+<p>Voici les fichiers concernés par cet article, et la section qui les explique :</p>
+<table>
+	<thead>
+			<tr>
+					<th>Fichier</th>
+					<th>Rôle</th>
+					<th>Section</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>driver_entry.c</code></td>
+					<td>Point d&rsquo;entrée du driver, enregistrement des routines</td>
+					<td><a href="/posts/02-driver-foundation/#quest-ce-quun-driver-" >Qu&rsquo;est-ce qu&rsquo;un driver ?</a></td>
+			</tr>
+			<tr>
+					<td><code>device.c</code></td>
+					<td>Création du device et du lien symbolique</td>
+					<td><a href="/posts/02-driver-foundation/#comment-communiquer-avec-le-driver-" >Comment communiquer avec le driver ?</a></td>
+			</tr>
+			<tr>
+					<td><code>ioctl.c</code></td>
+					<td>Dispatch des IRP et traitement de l&rsquo;IOCTL echo</td>
+					<td><a href="/posts/02-driver-foundation/#ioctl" >IOCTL</a></td>
+			</tr>
+			<tr>
+					<td><code>kdamon_shared.h</code></td>
+					<td>Code IOCTL et structures partagées driver/client</td>
+					<td><a href="/posts/02-driver-foundation/#anatomie-dun-code-ioctl" >Anatomie d&rsquo;un code IOCTL</a></td>
+			</tr>
+			<tr>
+					<td><code>kdamon_config.h</code></td>
+					<td>Constantes centralisées (nom du device, du lien symbolique, tag de log)</td>
+					<td>-</td>
+			</tr>
+			<tr>
+					<td><code>client/src/client.c</code></td>
+					<td>Client usermode de test, valide l&rsquo;échange echo</td>
+					<td><a href="/posts/02-driver-foundation/#exemple--le-client-de-test" >Exemple : le client de test</a></td>
+			</tr>
+	</tbody>
+</table>
+<blockquote><p>Le projet peut être retrouvé dans ce dépôt : <a href="https://github.com/HalfTimeOfLife/KDAMonitor"  target="_blank" rel="noreferrer">KDAMonitor</a>.</p>
+</blockquote><hr>
+
+<h2 class="relative group">Qu&rsquo;est-ce qu&rsquo;un driver ?
+    <div id="quest-ce-quun-driver-" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#quest-ce-quun-driver-" aria-label="Ancre">#</a>
+    </span>
+    
+</h2>
+<p>Un driver (ou pilote en bon français) est un programme qui permet au système d&rsquo;exploitation de communiquer avec les composants d&rsquo;une machine. Sans pilote, le système d&rsquo;exploitation ne saurait pas comment communiquer avec la carte graphique, la carte réseau, le clavier, la souris, etc. Sous Windows, ces programmes possèdent l&rsquo;extension <code>.sys</code>.</p>
+<p>Néanmoins, il existe des drivers qui ne servent pas qu&rsquo;à la communication entre les composants et le système. En effet, on distingue plusieurs types de driver :</p>
+<ul>
+<li>les <strong>drivers matériels</strong> décrits ci-dessus</li>
+<li>les <strong>drivers logiciels</strong> qui sont des drivers qui ne dépendent pas d&rsquo;un composant particulier</li>
+</ul>
+<p>Par exemple, KDAMonitor est un <strong>driver logiciel</strong>, il ne dépend pas d&rsquo;un composant physique de la machine sur laquelle il est installé.</p>
+<p>On peut alors se demander quel est l&rsquo;intérêt d&rsquo;un driver par rapport à un exécutable classique (<code>.exe</code>). L&rsquo;avantage principal d&rsquo;un driver est qu&rsquo;il s&rsquo;exécute en kernel space, ce qui lui permet d&rsquo;avoir des privilèges bien plus élevés, de pouvoir accéder directement à la mémoire physique, au matériel, et de n&rsquo;être protégé par (presque) aucune des barrières de sécurité qui isolent normalement les processus usermode entre eux. Voici un diagramme illustrant la communication entre les composants user-mode et kernel-mode :</p>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="kernelmodeusermode"
+    src="./userandkernelmode01.png"
+    ></figure>
+
+<em>Source : <a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/gettingstarted/user-mode-and-kernel-mode"  target="_blank" rel="noreferrer">Microsoft - User Mode and Kernel Mode</a></em></p>
+<p>Concrètement, pour KDAMonitor, ce niveau de privilège va nous permettre d&rsquo;observer des événements système (création de processus, connexions réseau, etc.) qu&rsquo;une application standard (en usermode) ne peut pas observer.</p>
+<p>Cependant, bien qu&rsquo;apportant beaucoup d&rsquo;avantages, un driver vient avec quelques désagréments, notamment lorsqu&rsquo;un crash se produit. Dans un exécutable classique, la plupart du temps, si le programme rencontre une erreur ou crash, le système continue sa vie. À l&rsquo;inverse, une erreur dans un driver (crash, mauvais accès mémoire) peut faire planter tout le système (<strong>Blue Screen Of Death (BSOD)</strong>).</p>
+<blockquote><p>Dans un article prochain, j&rsquo;expliquerai le premier problème que j&rsquo;ai rencontré qui a fait crasher la VM de test :-)</p>
+</blockquote><p>De plus, contrairement à un exécutable où il suffit de <em>cliquer</em> sur le fichier pour le lancer, un driver nécessite plus d&rsquo;étapes. En effet, un driver est chargé dynamiquement dans l&rsquo;espace mémoire du noyau par le <strong>Windows I/O Manager</strong>, via le <strong>Service Control Manager (SCM)</strong>.</p>
+<p>Maintenant que la notion de driver est plus claire, je vais commencer par montrer comment créer un driver, pour cela, il faut d&rsquo;abord comprendre la structure du programme.</p>
+
+<h3 class="relative group">DriverEntry et DriverUnload
+    <div id="driverentry-et-driverunload" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#driverentry-et-driverunload" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p><code>DriverEntry</code> est le point d&rsquo;entrée d&rsquo;un driver, c&rsquo;est l&rsquo;équivalent d&rsquo;un <code>main()</code> mais avec certaines différences. La signature standard de <code>DriverEntry</code> est :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">NTSTATUS</span> <span class="nf">DriverEntry</span><span class="p">(</span><span class="n">_In_</span> <span class="n">PDRIVER_OBJECT</span> <span class="n">DriverObject</span><span class="p">,</span> <span class="n">_In_</span> <span class="n">PUNICODE_STRING</span> <span class="n">RegistryPath</span><span class="p">);</span></span></span></code></pre></div></div>
+<p>Voici une explication des arguments de la fonction :</p>
+<ul>
+<li><code>DriverObject</code> : la structure représentant le driver dans le système</li>
+<li><code>RegistryPath</code> : le chemin registre associé au driver</li>
+</ul>
+<blockquote><p>Les annotations <strong>_In_</strong> font partie du <em>Source (Code) Annotation Language (SAL)</em>. Elles sont transparentes pour le compilateur, mais fournissent des métadonnées utiles pour les lecteurs humains et les outils d&rsquo;analyse statique. Pour plus d&rsquo;informations sur le SAL, voici la documentation Microsoft le concernant : <a href="https://learn.microsoft.com/en-us/cpp/code-quality/understanding-sal?view=msvc-170"  target="_blank" rel="noreferrer">Understanding SAL</a>.</p>
+</blockquote><p><code>DriverEntry</code> <strong>DOIT</strong> retourner un <code>NTSTATUS</code>, cela peut prendre beaucoup de valeurs différentes, mais la plus importante est <code>STATUS_SUCCESS</code>. Si <code>DriverEntry</code> ne retourne pas <code>STATUS_SUCCESS</code> alors le chargement du driver échoue.</p>
+<blockquote><p>Voir <a href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55"  target="_blank" rel="noreferrer">2.3.1 NTSTATUS Values</a> pour la liste des valeurs possibles de <code>NTSTATUS</code>.</p>
+</blockquote><p>Et si on veut retirer proprement le driver ? Pour cela, on utilise la routine <code>DriverUnload</code> du <code>DriverObject</code> :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">DriverObject</span><span class="o">-&gt;</span><span class="n">DriverUnload</span> <span class="o">=</span> <span class="p">...;</span></span></span></code></pre></div></div>
+<p>Cette routine est facultative, mais fortement recommandée afin que le driver soit proprement déchargé.</p>
+
+<h3 class="relative group">Exemple : afficher la version de Windows
+    <div id="exemple--afficher-la-version-de-windows" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#exemple--afficher-la-version-de-windows" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Dans le livre de Pavel Yosifovich, <strong>Windows Kernel Programming</strong>, un exercice est proposé. En se basant sur le squelette suivant de <code>DriverEntry</code>, il faut faire en sorte que le driver affiche via <code>KdPrint</code> la version du système Windows (major, minor et build number) en utilisant la fonction <code>RtlGetVersion</code> :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;driver.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// DRIVER_TAG is defined in driver.h : #define DRIVER_TAG &#34;[KDAMonitor]&#34;
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">DriverUnload</span><span class="p">(</span><span class="n">_In_</span> <span class="n">PDRIVER_OBJECT</span> <span class="n">DriverObject</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">UNREFERENCED_PARAMETER</span><span class="p">(</span><span class="n">DriverObject</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nf">KdPrint</span><span class="p">((</span><span class="n">DRIVER_TAG</span> <span class="s">&#34; [SUCCESS]: Driver Unload called</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">NTSTATUS</span> <span class="nf">DriverEntry</span><span class="p">(</span><span class="n">_In_</span> <span class="n">PDRIVER_OBJECT</span> <span class="n">DriverObject</span><span class="p">,</span> <span class="n">_In_</span> <span class="n">PUNICODE_STRING</span> <span class="n">RegistryPath</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">UNREFERENCED_PARAMETER</span><span class="p">(</span><span class="n">RegistryPath</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">DriverObject</span><span class="o">-&gt;</span><span class="n">DriverUnload</span> <span class="o">=</span> <span class="n">DriverUnload</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nf">KdPrint</span><span class="p">((</span><span class="n">DRIVER_TAG</span> <span class="s">&#34; [SUCCESS]: Initialized successfully</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">STATUS_SUCCESS</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<p>Pour répondre à cet exercice, il faut utiliser la fonction <code>RtlGetVersion</code>, qui remplit une structure <code>RTL_OSVERSIONINFOW</code> contenant les informations de version recherchées. Un point important à ne pas oublier : le champ <code>dwOSVersionInfoSize</code> de cette structure doit être renseigné <strong>avant</strong> l&rsquo;appel à <code>RtlGetVersion</code>, sans quoi la fonction échoue.</p>
+<p>Voici le <code>DriverEntry</code> complété avec cette logique, juste avant le <code>return STATUS_SUCCESS</code> :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">NTSTATUS</span> <span class="nf">DriverEntry</span><span class="p">(</span><span class="n">_In_</span> <span class="n">PDRIVER_OBJECT</span> <span class="n">DriverObject</span><span class="p">,</span> <span class="n">_In_</span> <span class="n">PUNICODE_STRING</span> <span class="n">RegistryPath</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">UNREFERENCED_PARAMETER</span><span class="p">(</span><span class="n">RegistryPath</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">DriverObject</span><span class="o">-&gt;</span><span class="n">DriverUnload</span> <span class="o">=</span> <span class="n">DriverUnload</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">KdPrint</span><span class="p">((</span><span class="n">DRIVER_TAG</span> <span class="s">&#34; [SUCCESS]: Initialized successfully</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">RTL_OSVERSIONINFOW</span> <span class="n">lpVersionInformation</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">	<span class="n">lpVersionInformation</span><span class="p">.</span><span class="n">dwOSVersionInfoSize</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">lpVersionInformation</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">NTSTATUS</span> <span class="n">status</span> <span class="o">=</span> <span class="nf">RtlGetVersion</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lpVersionInformation</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="nf">NT_SUCCESS</span><span class="p">(</span><span class="n">status</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	<span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nf">KdPrint</span><span class="p">((</span><span class="n">DRIVER_TAG</span> <span class="s">&#34; [SUCCESS]: Windows %lu.%lu Build %lu</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="n">lpVersionInformation</span><span class="p">.</span><span class="n">dwMajorVersion</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="n">lpVersionInformation</span><span class="p">.</span><span class="n">dwMinorVersion</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="n">lpVersionInformation</span><span class="p">.</span><span class="n">dwBuildNumber</span>
+</span></span><span class="line"><span class="cl">			<span class="p">));</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">else</span>
+</span></span><span class="line"><span class="cl">	<span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nf">KdPrint</span><span class="p">((</span><span class="n">DRIVER_TAG</span> <span class="s">&#34; [ERROR]: Windows version not found</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">STATUS_SUCCESS</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<blockquote><p>Pour plus d&rsquo;info sur la fonction <code>RtlGetVersion</code>, voir la documentation microsoft : <a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-rtlgetversion"  target="_blank" rel="noreferrer">RtlGetVersion function (wdm.h)</a>.</p>
+</blockquote><p>On notera l&rsquo;usage de la macro <code>NT_SUCCESS</code>, qui vérifie si un <code>NTSTATUS</code> représente un succès, cette macro sera utilisée tout au long de ce projet.</p>
+<p>Enfin, un dernier détail important : les messages envoyés via <code>KdPrint</code> ne s&rsquo;affichent <strong>pas</strong> dans une console classique. Ils ne sont visibles qu&rsquo;à travers un débuggeur kernel comme <strong>WinDbg</strong>, ou un outil comme <strong>DebugView</strong> (Sysinternals). Par défaut, <code>KdPrint</code> ne fonctionne d&rsquo;ailleurs qu&rsquo;en build debug. Pour le reste du projet, je vais utiliser <strong>DebugView</strong>.</p>
+<hr>
+
+<h2 class="relative group">Comment communiquer avec le driver ?
+    <div id="comment-communiquer-avec-le-driver-" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#comment-communiquer-avec-le-driver-" aria-label="Ancre">#</a>
+    </span>
+    
+</h2>
+<p>De par la séparation user/kernel qui existe dans les systèmes, le driver reste injoignable depuis l&rsquo;espace utilisateur.</p>
+<p>Pour l&rsquo;instant, ce problème ne concerne pas notre driver, mais lorsqu&rsquo;un client sera ajouté au projet il deviendra nécessaire de permettre au driver de communiquer avec ce client. Pour faire cela, nous avons besoin de créer un device.</p>
+<p>Un device est l&rsquo;objet que le driver va exposer au reste du système à travers lequel les messages (entre driver et client) vont transiter.</p>
+<p>Ces messages échangés entre le client et le driver prennent la forme d&rsquo;I/O Request Packet (IRP), la structure de données standard que Windows utilise pour transmettre toute requête d&rsquo;entrée/sortie à un driver. Chaque action (ouvrir le device, envoyer une commande, le fermer) génère un IRP différent, que le driver doit savoir traiter.</p>
+<p>Dans le code, un device est une instance de la structure <code>DEVICE_OBJECT</code> et nous allons voir comment le créer.</p>
+
+<h3 class="relative group">Créer un device avec IoCreateDevice
+    <div id="créer-un-device-avec-iocreatedevice" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#cr%c3%a9er-un-device-avec-iocreatedevice" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Pour créer un device, nous avons besoin de la fonction <a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iocreatedevice"  target="_blank" rel="noreferrer">IoCreateDevice</a>. Voici ses paramètres les plus importants :</p>
+<ul>
+<li><code>DriverObject</code> : le driver auquel le device sera &ldquo;attaché&rdquo;</li>
+<li><code>DeviceName</code> : le nom kernel du device (pour KDAMonitor, <code>L&quot;\\Device\\KDAMonitor&quot;</code>)</li>
+<li><code>DeviceType</code> : le type de device, <code>FILE_DEVICE_UNKNOWN</code> dans notre cas, puisque KDAMonitor n&rsquo;est lié à aucun matériel spécifique</li>
+<li><code>Exclusive</code> : si <code>TRUE</code>, un seul client peut ouvrir un handle à la fois ; <code>FALSE</code> autorise plusieurs connexions simultanées</li>
+<li><code>DeviceObject</code> : reçoit en sortie le <code>DEVICE_OBJECT</code> nouvellement créé</li>
+</ul>
+<p>Comme la plupart des fonctions kernel, elle retourne un <code>NTSTATUS</code> à vérifier.</p>
+<p><code>IoCreateDevice</code> laisse le flag <code>DO_DEVICE_INITIALIZING</code> actif sur le device créé, ce qui empêche tout client de l&rsquo;ouvrir. Il faut le retirer explicitement une fois l&rsquo;initialisation terminée :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="p">(</span><span class="o">*</span><span class="n">DeviceObject</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">Flags</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">DO_DEVICE_INITIALIZING</span><span class="p">;</span></span></span></code></pre></div></div>
+<p>Le device doit enfin être détruit avec <code>IoDeleteDevice</code> quand il n&rsquo;est plus utilisé, c&rsquo;est le rôle de <code>KdaMonDeleteDevice</code>, appelé depuis <code>DriverUnload</code>.</p>
+
+<h3 class="relative group">Rendre le device accessible : IoCreateSymbolicLink
+    <div id="rendre-le-device-accessible--iocreatesymboliclink" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#rendre-le-device-accessible--iocreatesymboliclink" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Même une fois créé, le device reste identifié uniquement par son nom kernel (<code>\Device\KDAMonitor</code>). Pour permettre à un client d&rsquo;ouvrir ce device avec un simple <code>CreateFileW</code>, il faut faire le pont entre l&rsquo;espace de noms kernel et l&rsquo;espace de noms usermode. C&rsquo;est le rôle de <a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iocreatesymboliclink"  target="_blank" rel="noreferrer">IoCreateSymbolicLink</a>.</p>
+<p>Cette fonction prend en paramètres :</p>
+<ul>
+<li><code>SymbolicLinkName</code> : le nom accessible depuis l&rsquo;espace utilisateur (par exemple <code>\DosDevices\KDAMonitor</code>, qu&rsquo;un client ouvrira sous la forme <code>\\.\KDAMonitor</code>)</li>
+<li><code>DeviceName</code> : le nom kernel du device visé, celui donné précédemment à <code>IoCreateDevice</code></li>
+</ul>
+<p>Elle retourne, comme d&rsquo;habitude, un <code>NTSTATUS</code> à vérifier.</p>
+<blockquote><p>Microsoft précise que cette fonction n&rsquo;est en principe pas recommandée pour les drivers WDM : un vrai driver WDM devrait exposer son device via <code>IoRegisterDeviceInterface</code>.</p>
+</blockquote><p>Sans ce lien symbolique, le device existerait bien en mémoire, mais resterait complètement injoignable depuis n&rsquo;importe quel programme usermode.</p>
+
+<h3 class="relative group">Buffered I/O vs Direct I/O
+    <div id="buffered-io-vs-direct-io" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#buffered-io-vs-direct-io" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<blockquote><p>Cette section touche un peu à la structure IRP, présentée en détail dans la partie suivante. N&rsquo;hésitez pas à la sauter pour lire la partie suivante.</p>
+</blockquote><p>Quand un client envoie ou reçoit des données via le device, il faut bien que ces données transitent quelque part entre l&rsquo;espace utilisateur et l&rsquo;espace kernel. Windows propose plusieurs méthodes pour ça, et notre driver utilise le flag <code>DO_BUFFERED_IO</code>.</p>
+<p>Avec le <strong>Buffered I/O</strong>, le gestionnaire d&rsquo;I/O (I/O Manager) alloue un buffer intermédiaire en mémoire kernel, copie les données du client vers ce buffer (ou l&rsquo;inverse), puis rend ce buffer accessible au driver via <code>Irp-&gt;AssociatedIrp.SystemBuffer</code> (un champ de la structure IRP que je détaillerai dans la partie suivante). Le driver n&rsquo;accède donc jamais directement à la mémoire du client.</p>
+<p>L&rsquo;alternative est le <strong>Direct I/O</strong> (<code>DO_DIRECT_IO</code>), qui utilise des <em>Memory Descriptor Lists</em> (MDL) pour laisser le driver accéder directement aux pages physiques du buffer client, sans copie intermédiaire. C&rsquo;est plus rapide pour de gros volumes de données (car ça évite la copie), mais plus complexe à mettre en œuvre (un exemple est donné dans le livre de Pavel Yosifovich, <em>Windows Kernel Programming</em>, Chapitre 7).</p>
+<p>Pour KDAMonitor, les échanges restent petits (un echo pour l&rsquo;instant, des événements JSON plus tard), donc Buffered I/O est largement suffisant et bien plus simple à implémenter.</p>
+
+<h3 class="relative group">Le tout assemblé : device.c
+    <div id="le-tout-assemblé--devicec" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#le-tout-assembl%c3%a9--devicec" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Voici à quoi ressemble <code>KdaMonCreateDevice</code> et <code>KdaMonDeleteDevice</code> une fois toutes ces briques réunies :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;device.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;kdamon_config.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="c1">// KDAMON_DEVICE_NAME est défini dans le header kdamon_config.h : L&#34;\\Device\\KDAMonitor&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1">// KDAMON_SYMLINK_NAME est défini dans le header kdamon_config.h : L&#34;\\DosDevices\\KDAMonitor&#34;
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">NTSTATUS</span> <span class="nf">KdaMonCreateDevice</span><span class="p">(</span><span class="n">_In_</span> <span class="n">PDRIVER_OBJECT</span> <span class="n">DriverObject</span><span class="p">,</span> <span class="n">_Outptr_</span> <span class="n">PDEVICE_OBJECT</span><span class="o">*</span> <span class="n">DeviceObject</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">UNICODE_STRING</span> <span class="n">devName</span> <span class="o">=</span> <span class="nf">RTL_CONSTANT_STRING</span><span class="p">(</span><span class="n">KDAMON_DEVICE_NAME</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">UNICODE_STRING</span> <span class="n">symLink</span> <span class="o">=</span> <span class="nf">RTL_CONSTANT_STRING</span><span class="p">(</span><span class="n">KDAMON_SYMLINK_NAME</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">NTSTATUS</span> <span class="n">status</span> <span class="o">=</span> <span class="nf">IoCreateDevice</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">		<span class="n">DriverObject</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="o">&amp;</span><span class="n">devName</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="n">FILE_DEVICE_UNKNOWN</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="n">FALSE</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="n">DeviceObject</span>
+</span></span><span class="line"><span class="cl">	<span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nf">NT_SUCCESS</span><span class="p">(</span><span class="n">status</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	<span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nf">KdPrint</span><span class="p">((</span><span class="n">DRIVER_TAG</span> <span class="s">&#34; [ERROR]: IoCreateDevice failed (0x%08X)</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">status</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">status</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="o">*</span><span class="n">DeviceObject</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">Flags</span> <span class="o">|=</span> <span class="n">DO_BUFFERED_IO</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">status</span> <span class="o">=</span> <span class="nf">IoCreateSymbolicLink</span><span class="p">(</span><span class="o">&amp;</span><span class="n">symLink</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">devName</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nf">NT_SUCCESS</span><span class="p">(</span><span class="n">status</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	<span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nf">KdPrint</span><span class="p">((</span><span class="n">DRIVER_TAG</span> <span class="s">&#34; [ERROR]: IoCreateSymbolicLink failed (0x%08X)</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">status</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">		<span class="nf">IoDeleteDevice</span><span class="p">(</span><span class="o">*</span><span class="n">DeviceObject</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="o">*</span><span class="n">DeviceObject</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">status</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="o">*</span><span class="n">DeviceObject</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">Flags</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">DO_DEVICE_INITIALIZING</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">KdPrint</span><span class="p">((</span><span class="n">DRIVER_TAG</span> <span class="s">&#34; [SUCCESS]: Device object and symbolic link created</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">STATUS_SUCCESS</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">KdaMonDeleteDevice</span><span class="p">(</span><span class="n">_In_opt_</span> <span class="n">PDEVICE_OBJECT</span> <span class="n">DeviceObject</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">UNICODE_STRING</span> <span class="n">symLink</span> <span class="o">=</span> <span class="nf">RTL_CONSTANT_STRING</span><span class="p">(</span><span class="n">KDAMON_SYMLINK_NAME</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">IoDeleteSymbolicLink</span><span class="p">(</span><span class="o">&amp;</span><span class="n">symLink</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">DeviceObject</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nf">IoDeleteDevice</span><span class="p">(</span><span class="n">DeviceObject</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">KdPrint</span><span class="p">((</span><span class="n">DRIVER_TAG</span> <span class="s">&#34; [SUCCESS]: Device object and symbolic link deleted</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<hr>
+
+<h2 class="relative group">IOCTL
+    <div id="ioctl" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#ioctl" aria-label="Ancre">#</a>
+    </span>
+    
+</h2>
+<p>Un device ouvert ne suffit pas à lui seul : il faut encore un moyen pour qu&rsquo;un client envoie une commande au driver, et que le driver y réponde. C&rsquo;est le rôle des <strong>IOCTL</strong> (I/O Control), une requête générique qu&rsquo;un programme usermode envoie à un driver via l&rsquo;appel Win32 <code>DeviceIoControl</code>, en dehors des simples opérations de lecture/écriture classiques (<code>ReadFile</code>/<code>WriteFile</code>). C&rsquo;est le mécanisme qui permet de définir des &ldquo;commandes&rdquo; propres à chaque driver. Dans notre cas, cela sera un simple echo pour commencer.</p>
+
+<h3 class="relative group">Qu&rsquo;est-ce qu&rsquo;un IRP ?
+    <div id="quest-ce-quun-irp-" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#quest-ce-quun-irp-" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Chaque fois qu&rsquo;un client interagit avec le device (l&rsquo;ouvrir, envoyer une commande, le fermer), Windows encapsule cette requête dans une structure appelée <strong>I/O Request Packet (IRP)</strong>.</p>
+<blockquote><p>Pour plus d&rsquo;informations sur cette structure, voici la documentation officielle : <a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/ns-wdm-_irp"  target="_blank" rel="noreferrer">IRP structure (wdm.h)</a>.</p>
+</blockquote><p>C&rsquo;est le gestionnaire d&rsquo;I/O (I/O Manager) qui crée l&rsquo;IRP et l&rsquo;envoie au driver via la fonction <code>IoCallDriver</code>. Une fois la requête traitée, le driver signale sa complétion via <code>IoCompleteRequest</code>.</p>
+<p>Un IRP est toujours accompagné d&rsquo;au moins une structure <strong>I/O Stack Location</strong> (<code>IO_STACK_LOCATION</code>), qui contient les paramètres propres à la requête (le code IOCTL demandé, la taille du buffer, etc.). Pour y accéder, le driver utilise la macro <code>IoGetCurrentIrpStackLocation</code>.</p>
+<p>C&rsquo;est précisément dans l&rsquo;IRP que réside le champ <code>SystemBuffer</code> mentionné dans la partie précédente : quand le code IOCTL utilise <code>METHOD_BUFFERED</code>, c&rsquo;est via <code>Irp-&gt;AssociatedIrp.SystemBuffer</code> que le driver accède aux données envoyées par le client.</p>
+
+<h3 class="relative group">Le dispatch des IRP (CREATE, CLOSE, DEVICE_CONTROL)
+    <div id="le-dispatch-des-irp-create-close-device_control" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#le-dispatch-des-irp-create-close-device_control" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Chaque IRP contient un <strong>code de fonction majeur</strong> (<code>IRP_MJ_XXX</code>), qui indique au driver quelle opération accomplir. Pour chaque code que le driver souhaite gérer, il doit enregistrer une <strong>routine de dispatch</strong> correspondante, autrement dit, une fonction appelée automatiquement par le système dès qu&rsquo;un IRP portant ce code arrive. Toutes les routines de dispatch partagent la même signature :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">NTSTATUS</span> <span class="nf">DriverDispatch</span><span class="p">(</span><span class="n">PDEVICE_OBJECT</span> <span class="n">DeviceObject</span><span class="p">,</span> <span class="n">PIRP</span> <span class="n">Irp</span><span class="p">);</span></span></span></code></pre></div></div>
+<p>Cet enregistrement se fait dans <code>DriverEntry</code>, via le tableau <code>DriverObject-&gt;MajorFunction[...]</code>. Dans le cas de KDAMonitor, il faut rajouter cela dans <code>DriverEntry</code> :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">DriverObject</span><span class="o">-&gt;</span><span class="n">MajorFunction</span><span class="p">[</span><span class="n">IRP_MJ_CREATE</span><span class="p">]</span> <span class="o">=</span> <span class="n">KdaMonCreateClose</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">DriverObject</span><span class="o">-&gt;</span><span class="n">MajorFunction</span><span class="p">[</span><span class="n">IRP_MJ_CLOSE</span><span class="p">]</span> <span class="o">=</span> <span class="n">KdaMonCreateClose</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">DriverObject</span><span class="o">-&gt;</span><span class="n">MajorFunction</span><span class="p">[</span><span class="n">IRP_MJ_DEVICE_CONTROL</span><span class="p">]</span> <span class="o">=</span> <span class="n">KdaMonDeviceControl</span><span class="p">;</span></span></span></code></pre></div></div>
+<ul>
+<li><code>IRP_MJ_CREATE</code> correspond à un appel <code>CreateFile</code> côté client. La plupart des drivers se contentent de compléter l&rsquo;IRP avec un statut de succès, ce qui est le cas de KDAMonitor à ce stade</li>
+<li><code>IRP_MJ_CLOSE</code> est l&rsquo;opposé, déclenché par <code>CloseHandle</code></li>
+<li><code>IRP_MJ_DEVICE_CONTROL</code> est le véritable point d&rsquo;entrée de la communication : c&rsquo;est via ce code que transitent toutes les requêtes <code>DeviceIoControl</code> du client, avec le code IOCTL demandé stocké dans l&rsquo;<code>IO_STACK_LOCATION</code> de l&rsquo;IRP</li>
+</ul>
+<blockquote><p>Il y a d&rsquo;autres routines de dispatch. Voici la documentation officielle : <a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nc-wdm-driver_dispatch"  target="_blank" rel="noreferrer">DRIVER_DISPATCH callback function (wdm.h)</a>.</p>
+</blockquote><p>Une fois qu&rsquo;une routine de dispatch décide de traiter un IRP, elle doit impérativement le <strong>compléter</strong> via <code>IoCompleteRequest</code>.</p>
+
+<h3 class="relative group">Anatomie d&rsquo;un code IOCTL
+    <div id="anatomie-dun-code-ioctl" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#anatomie-dun-code-ioctl" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Un <strong>code IOCTL</strong> est simplement une valeur numérique qui identifie une commande précise auprès du driver. Le code en question n&rsquo;est donc pas aléatoire, il doit être construit via la macro <code>CTL_CODE</code>, qui encode plusieurs informations dans un seul entier 32 bits :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#define CTL_CODE(DeviceType, Function, Method, Access) \
+</span></span></span><span class="line"><span class="cl"><span class="cp">    (((DeviceType) &lt;&lt; 16) | ((Access) &lt;&lt; 14) | ((Function) &lt;&lt; 2) | (Method))</span></span></span></code></pre></div></div>
+<ul>
+<li><strong>DeviceType</strong> : le type de device visé. Les valeurs 0–32767 sont réservées à Microsoft, 32768 (<code>0x8000</code>) et au-delà sont libres pour les développeurs tiers, c&rsquo;est justement la valeur utilisée par <code>KDAMON_DEVICE_TYPE</code></li>
+<li><strong>Function</strong> : le code interne de l&rsquo;opération demandée. Les valeurs 0–2047 sont réservées à Microsoft, 2048 (<code>0x800</code>) et au-delà sont libres, encore une fois la valeur de départ choisie pour <code>IOCTL_KDAMON_ECHO</code></li>
+<li><strong>Method</strong> : la méthode de transfert des buffers, <code>METHOD_BUFFERED</code>, déjà vu dans la partie précédente, ou les variantes Direct I/O (<code>METHOD_IN_DIRECT</code>, <code>METHOD_OUT_DIRECT</code>), ou encore <code>METHOD_NEITHER</code> où le driver reçoit directement des pointeurs bruts et doit les valider lui-même</li>
+<li><strong>Access</strong> : le niveau d&rsquo;accès requis pour envoyer cet IOCTL, <code>FILE_ANY_ACCESS</code> dans notre cas, qui n&rsquo;impose aucune restriction particulière</li>
+</ul>
+<p>Voici comment ces éléments se combinent dans <code>kdamon_shared.h</code> pour définir notre premier IOCTL, un simple echo :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#define KDAMON_DEVICE_TYPE 0x8000
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define IOCTL_KDAMON_ECHO CTL_CODE(KDAMON_DEVICE_TYPE, 0x800, METHOD_BUFFERED, FILE_ANY_ACCESS)</span></span></span></code></pre></div></div>
+<p>Ce fichier définit aussi les structures de requête et réponse associées à cet IOCTL :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_KDAMON_ECHO_REQUEST</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ULONG</span> <span class="n">Value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">KDAMON_ECHO_REQUEST</span><span class="p">,</span> <span class="o">*</span> <span class="n">PKDAMON_ECHO_REQUEST</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_KDAMON_ECHO_REPLY</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ULONG</span> <span class="n">Value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">KDAMON_ECHO_REPLY</span><span class="p">,</span> <span class="o">*</span> <span class="n">PKDAMON_ECHO_REPLY</span><span class="p">;</span></span></span></code></pre></div></div>
+<p>Ce fichier <code>kdamon_shared.h</code> est destiné à être <strong>partagé</strong> entre le driver et le client afin de garantir que les deux côtés s&rsquo;accordent sur le même code IOCTL et les mêmes structures de données.</p>
+
+<h3 class="relative group">Le tout assemblé : ioctl.c
+    <div id="le-tout-assemblé--ioctlc" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#le-tout-assembl%c3%a9--ioctlc" aria-label="Ancre">#</a>
+    </span>
+    
+</h3>
+<p>Voici comment tous ces éléments (dispatch IRP, IRP_MJ_CREATE/CLOSE/DEVICE_CONTROL, I/O Stack Location, <code>SystemBuffer</code>, code IOCTL) s&rsquo;assemblent concrètement dans <code>ioctl.c</code> :</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;ioctl.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;kdamon_shared.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;kdamon_config.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">NTSTATUS</span> <span class="nf">KdaMonCreateClose</span><span class="p">(</span><span class="n">_In_</span> <span class="n">PDEVICE_OBJECT</span> <span class="n">DeviceObject</span><span class="p">,</span> <span class="n">_In_</span> <span class="n">PIRP</span> <span class="n">Irp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">UNREFERENCED_PARAMETER</span><span class="p">(</span><span class="n">DeviceObject</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Irp</span><span class="o">-&gt;</span><span class="n">IoStatus</span><span class="p">.</span><span class="n">Status</span> <span class="o">=</span> <span class="n">STATUS_SUCCESS</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Irp</span><span class="o">-&gt;</span><span class="n">IoStatus</span><span class="p">.</span><span class="n">Information</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">IoCompleteRequest</span><span class="p">(</span><span class="n">Irp</span><span class="p">,</span> <span class="n">IO_NO_INCREMENT</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">STATUS_SUCCESS</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">NTSTATUS</span> <span class="nf">KdaMonDeviceControl</span><span class="p">(</span><span class="n">_In_</span> <span class="n">PDEVICE_OBJECT</span> <span class="n">DeviceObject</span><span class="p">,</span> <span class="n">_In_</span> <span class="n">PIRP</span> <span class="n">Irp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">UNREFERENCED_PARAMETER</span><span class="p">(</span><span class="n">DeviceObject</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">PIO_STACK_LOCATION</span> <span class="n">stack</span> <span class="o">=</span> <span class="nf">IoGetCurrentIrpStackLocation</span><span class="p">(</span><span class="n">Irp</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">NTSTATUS</span> <span class="n">status</span> <span class="o">=</span> <span class="n">STATUS_SUCCESS</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ULONG_PTR</span> <span class="n">information</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">switch</span> <span class="p">(</span><span class="n">stack</span><span class="o">-&gt;</span><span class="n">Parameters</span><span class="p">.</span><span class="n">DeviceIoControl</span><span class="p">.</span><span class="n">IoControlCode</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nl">IOCTL_KDAMON_ECHO</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ULONG</span> <span class="n">inLen</span> <span class="o">=</span> <span class="n">stack</span><span class="o">-&gt;</span><span class="n">Parameters</span><span class="p">.</span><span class="n">DeviceIoControl</span><span class="p">.</span><span class="n">InputBufferLength</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ULONG</span> <span class="n">outLen</span> <span class="o">=</span> <span class="n">stack</span><span class="o">-&gt;</span><span class="n">Parameters</span><span class="p">.</span><span class="n">DeviceIoControl</span><span class="p">.</span><span class="n">OutputBufferLength</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">inLen</span> <span class="o">&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">KDAMON_ECHO_REQUEST</span><span class="p">)</span> <span class="o">||</span> <span class="n">outLen</span> <span class="o">&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">KDAMON_ECHO_REPLY</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">status</span> <span class="o">=</span> <span class="n">STATUS_BUFFER_TOO_SMALL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">PKDAMON_ECHO_REQUEST</span> <span class="n">request</span> <span class="o">=</span> <span class="p">(</span><span class="n">PKDAMON_ECHO_REQUEST</span><span class="p">)</span><span class="n">Irp</span><span class="o">-&gt;</span><span class="n">AssociatedIrp</span><span class="p">.</span><span class="n">SystemBuffer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">KDAMON_ECHO_REPLY</span> <span class="n">reply</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">reply</span><span class="p">.</span><span class="n">Value</span> <span class="o">=</span> <span class="n">request</span><span class="o">-&gt;</span><span class="n">Value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nf">RtlCopyMemory</span><span class="p">(</span><span class="n">Irp</span><span class="o">-&gt;</span><span class="n">AssociatedIrp</span><span class="p">.</span><span class="n">SystemBuffer</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">reply</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">reply</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">information</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">reply</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">default</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">status</span> <span class="o">=</span> <span class="n">STATUS_INVALID_DEVICE_REQUEST</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">KdPrint</span><span class="p">((</span><span class="n">DRIVER_TAG</span> <span class="s">&#34; [ERROR]: Unknown IOCTL 0x%08X</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">stack</span><span class="o">-&gt;</span><span class="n">Parameters</span><span class="p">.</span><span class="n">DeviceIoControl</span><span class="p">.</span><span class="n">IoControlCode</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Irp</span><span class="o">-&gt;</span><span class="n">IoStatus</span><span class="p">.</span><span class="n">Status</span> <span class="o">=</span> <span class="n">status</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Irp</span><span class="o">-&gt;</span><span class="n">IoStatus</span><span class="p">.</span><span class="n">Information</span> <span class="o">=</span> <span class="n">information</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">IoCompleteRequest</span><span class="p">(</span><span class="n">Irp</span><span class="p">,</span> <span class="n">IO_NO_INCREMENT</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">status</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<p>Quelques points à noter sur ce code :</p>
+<ul>
+<li><code>KdaMonCreateClose</code> gère à la fois <code>IRP_MJ_CREATE</code> et <code>IRP_MJ_CLOSE</code></li>
+<li><code>KdaMonDeviceControl</code> récupère d&rsquo;abord l&rsquo;<code>IO_STACK_LOCATION</code> courante via <code>IoGetCurrentIrpStackLocation</code>, pour accéder au code IOCTL demandé (<code>stack-&gt;Parameters.DeviceIoControl.IoControlCode</code>)</li>
+<li>Avant de traiter la requête, on vérifie que les buffers d&rsquo;entrée et de sortie sont assez grands</li>
+<li>On accède aux données envoyées par le client via <code>Irp-&gt;AssociatedIrp.SystemBuffer</code></li>
+<li>Comme Buffered I/O utilise le même buffer pour l&rsquo;entrée et la sortie, on écrit directement la réponse par-dessus la requête reçue avec <code>RtlCopyMemory</code></li>
+<li>Si le code IOCTL reçu ne correspond à rien de connu, on retourne <code>STATUS_INVALID_DEVICE_REQUEST</code></li>
+<li>Dans tous les cas, la requête est complétée avec <code>IoCompleteRequest</code>, comme vu dans la partie sur le dispatch</li>
+</ul>
+<hr>
+
+<h2 class="relative group">Exemple : le client de test
+    <div id="exemple--le-client-de-test" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#exemple--le-client-de-test" aria-label="Ancre">#</a>
+    </span>
+    
+</h2>
+<p>Ce client est volontairement minimal. Son seul but est de valider que la chaîne complète fonctionne : ouverture du device, envoi d&rsquo;une requête IOCTL, réception de la réponse. Ce n&rsquo;est pas le client final du projet, qui sera développé en détail dans l&rsquo;article 12 (v0.12).</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;windows.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;..\include\client.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;..\..\driver\include\kdamon_shared.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="c1">// CLIENT_TAG is defined in client.h as : &#34;[KDAMonitor-Client]&#34;
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">Error</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">message</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="n">CLIENT_TAG</span> <span class="s">&#34; [ERROR]: %s (error=%lu)</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="nf">GetLastError</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HANDLE</span> <span class="n">hDevice</span> <span class="o">=</span> <span class="nf">CreateFileW</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="sa">L</span><span class="s">&#34;</span><span class="se">\\\\</span><span class="s">.</span><span class="se">\\</span><span class="s">KDAMonitor&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">GENERIC_READ</span> <span class="o">|</span> <span class="n">GENERIC_WRITE</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">NULL</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">OPEN_EXISTING</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">NULL</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">hDevice</span> <span class="o">==</span> <span class="n">INVALID_HANDLE_VALUE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nf">Error</span><span class="p">(</span><span class="s">&#34;Failed to open device&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="n">CLIENT_TAG</span> <span class="s">&#34; [SUCCESS]: Device opened successfully</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">KDAMON_ECHO_REQUEST</span> <span class="n">request</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">request</span><span class="p">.</span><span class="n">Value</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">KDAMON_ECHO_REPLY</span> <span class="n">reply</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DWORD</span> <span class="n">bytesReturned</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">BOOL</span> <span class="n">success</span> <span class="o">=</span> <span class="nf">DeviceIoControl</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hDevice</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">IOCTL_KDAMON_ECHO</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="o">&amp;</span><span class="n">request</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">request</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="o">&amp;</span><span class="n">reply</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">reply</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="o">&amp;</span><span class="n">bytesReturned</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">NULL</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">success</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">CloseHandle</span><span class="p">(</span><span class="n">hDevice</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nf">Error</span><span class="p">(</span><span class="s">&#34;DeviceIoControl failed&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="n">CLIENT_TAG</span> <span class="s">&#34; [INFO]: Sent %lu, received %lu (bytes returned: %lu)</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">request</span><span class="p">.</span><span class="n">Value</span><span class="p">,</span> <span class="n">reply</span><span class="p">.</span><span class="n">Value</span><span class="p">,</span> <span class="n">bytesReturned</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">reply</span><span class="p">.</span><span class="n">Value</span> <span class="o">==</span> <span class="n">request</span><span class="p">.</span><span class="n">Value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="n">CLIENT_TAG</span> <span class="s">&#34; [SUCCESS]: Echo matches</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="n">CLIENT_TAG</span> <span class="s">&#34; [ERROR]: Echo mismatch</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">CloseHandle</span><span class="p">(</span><span class="n">hDevice</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<p>Le déroulement est simple :</p>
+<ol>
+<li><strong>Ouverture du device</strong> via <code>CreateFileW</code> sur <code>\\.\KDAMonitor</code>, c&rsquo;est ici que le lien symbolique créé dans <code>device.c</code> est utilisé et que l&rsquo;IRP <code>IRP_MJ_CREATE</code> est déclenché côté driver</li>
+<li><strong>Préparation de la requête</strong> : une structure <code>KDAMON_ECHO_REQUEST</code> avec une valeur arbitraire (<code>42</code>)</li>
+<li><strong>Envoi via <code>DeviceIoControl</code></strong>, avec le code <code>IOCTL_KDAMON_ECHO</code>, ce qui déclenche <code>IRP_MJ_DEVICE_CONTROL</code> côté driver, et fait entrer en jeu tout le mécanisme de dispatch vu précédemment</li>
+<li><strong>Vérification</strong> : si <code>reply.Value</code> correspond bien à la valeur envoyée, l&rsquo;aller-retour usermode -&gt; kernel -&gt; usermode a fonctionné de bout en bout</li>
+<li><strong>Fermeture du handle</strong> via <code>CloseHandle</code>, qui déclenche <code>IRP_MJ_CLOSE</code></li>
+</ol>
+<p>Ce petit programme suffit à valider toute la mécanique construite dans cet article : device, lien symbolique, dispatch IRP, et traitement d&rsquo;un IOCTL. Ci-dessous, un gif démontrant la fonctionnalité du projet :</p>
+<video controls width="100%">
+  <source src="demo-echo.mp4" type="video/mp4">
+</video>
+<blockquote><p><strong>Point d&rsquo;attention</strong> : le driver est compilé en configuration <strong>Debug</strong> (pour que les <code>KdPrint</code> fonctionnent), mais le client, lui, est compilé en <strong>Release</strong>. En Debug, le client compile correctement mais ne se lance pas (certaines DLL sont introuvables au démarrage). Le compiler en <strong>Release</strong> contourne le problème.</p>
+</blockquote><hr>
+
+<h2 class="relative group">Conclusion
+    <div id="conclusion" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#conclusion" aria-label="Ancre">#</a>
+    </span>
+    
+</h2>
+<p>Avec ces deux premières versions, KDAMonitor dispose maintenant du strict nécessaire pour exister en tant que driver : un point d&rsquo;entrée (<code>DriverEntry</code>), un device accessible depuis l&rsquo;espace utilisateur, et un premier échange IOCTL fonctionnel.</p>
+<p>Cet article est plus long que prévu, il sera peut-être raccourci ultérieurement.</p>
+<blockquote><p>Les prochains articles seront moins longs :-)</p>
+</blockquote><p>Merci d&rsquo;avoir lu jusqu&rsquo;au bout et à bientôt pour le prochain et troisième article de cette série : <strong>La file d&rsquo;événements : structure et synchronisation dans le noyau</strong>.</p>
+
+          
+          
+          
+        </div>
+        
+        
+  <details class="mt-2 mb-5 overflow-hidden rounded-lg ms-0 ps-5">
+    
+  <summary
+    class="py-1 text-lg font-semibold cursor-pointer bg-primary-200 text-neutral-800 -ms-5 ps-5 dark:bg-primary-800 dark:text-neutral-100">
+    KDAMonitor -
+    Cet article fait partie d&#39;une série.
+  </summary>
+  
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/posts/01-introduction-kdamonitor/">
+          Partie 1:
+          01 - Introduction à KDAMonitor : développer un driver Windows Kernel
+        </a>
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        Partie 2:
+        Cet article
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/posts/03-event-queue/">
+          Partie 3:
+          03 - La file d&#39;événements : structure et synchronisation dans le noyau
+        </a>
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/posts/04-log-writer/">
+          Partie 4:
+          04 - Écriture des événements sur disque : journalisation JSONL, événements de réveil et premier crash
+        </a>
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/posts/05-process-sensor/">
+          Partie 5:
+          05 - Premier capteur : surveillance de la création et de la terminaison des processus
+        </a>
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/posts/06-image-sensor/">
+          Partie 6:
+          06 - Deuxième capteur : suivi du chargement des images et des DLL
+        </a>
+      </div>
+    
+  
+
+
+  </details>
+
+
+        
+
+        
+
+      </div>
+    </section>
+
+    
+    <footer class="pt-8 max-w-prose print:hidden">
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600">
+      <div class="flex justify-between pt-3">
+        <span class="flex flex-col">
+          
+            <a
+              class="flex text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+              href="/posts/01-introduction-kdamonitor/">
+              <span class="leading-6">
+                <span class="inline-block rtl:rotate-180">&larr;</span>&ensp;01 - Introduction à KDAMonitor : développer un driver Windows Kernel
+              </span>
+            </a>
+            
+              <span class="ms-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                <time datetime="2026-08-07T00:00:00&#43;00:00">7 août 2026</time>
+              </span>
+            
+          
+        </span>
+        <span class="flex flex-col items-end">
+          
+            <a
+              class="flex text-right text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+              href="/posts/03-event-queue/">
+              <span class="leading-6">
+                03 - La file d'événements : structure et synchronisation dans le noyau&ensp;<span class="inline-block rtl:rotate-180">&rarr;</span>
+              </span>
+            </a>
+            
+              <span class="me-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                <time datetime="2026-08-21T00:00:00&#43;00:00">21 août 2026</time>
+              </span>
+            
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+      
+    </footer>
+  </article>
+
+        
+
+
+  
+
+
+
+
+
+
+<div
+  id="scroll-to-top"
+  class="fixed bottom-6 end-6 z-50 transform translate-y-4 opacity-0 duration-200">
+  <a
+    href="#the-top"
+    class="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="Faire défiler jusqu&#39;au bas de la page"
+    title="Faire défiler jusqu&#39;au bas de la page">
+    &uarr;
+  </a>
+</div>
+
+      </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+    
+    
+      <p class="text-sm text-neutral-500 dark:text-neutral-400">
+          &copy;
+          2026
+          Elouan Charbonnier
+      </p>
+    
+
+    
+    
+      <p class="text-xs text-neutral-500 dark:text-neutral-400">
+        
+        
+        Propulsé par <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+          href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+          href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a>
+      </p>
+    
+  </div>
+  
+    <script>
+      mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+        margin: 24,
+        background: "rgba(0,0,0,0.5)",
+        scrollOffset: 0,
+      });
+    </script>
+  
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh] z-500"
+  data-url="https://halftimeoflife.github.io/">
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800">
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Rechercher"
+          tabindex="0">
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Fermer (Esc)">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+    </div>
+  </body>
+  
+</html>

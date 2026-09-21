@@ -1,0 +1,1903 @@
+<!doctype html>
+<html
+  lang="en"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="light"
+  data-auto-appearance="true"><head>
+  <meta charset="utf-8">
+  
+    <meta http-equiv="content-language" content="en">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color">
+
+  
+  
+    <title>03 - The Event Queue: Structure and Synchronization in the Kernel &middot; HalfTimeOfLife</title>
+    <meta name="title" content="03 - The Event Queue: Structure and Synchronization in the Kernel &middot; HalfTimeOfLife">
+  
+
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+  
+    <meta name="description" content="Building the event queue for the KDAMonitor driver.">
+  
+  
+    <meta name="keywords" content="KDAMonitor,Windows Kernel,Kernel Driver,C,">
+  
+  
+  
+  <link rel="canonical" href="https://halftimeoflife.github.io/en/posts/03-event-queue/">
+  
+    
+      
+      
+        <link rel="alternate" hreflang="fr" href="https://halftimeoflife.github.io/posts/03-event-queue/">
+      
+    
+      
+      
+        <link rel="alternate" hreflang="en" href="https://halftimeoflife.github.io/en/posts/03-event-queue/">
+      
+    
+  
+  
+
+  
+  
+    <meta name="author" content="Elouan Charbonnier">
+  
+  
+    
+      
+        
+          <link href="https://github.com/HalfTimeOfLife" rel="me">
+        
+      
+    
+      
+        
+          <link href="https://linkedin.com/in/elouan-charbonnier" rel="me">
+        
+      
+    
+  
+
+  
+  <meta property="og:url" content="https://halftimeoflife.github.io/en/posts/03-event-queue/">
+	<meta property="og:site_name" content="HalfTimeOfLife">
+	<meta property="og:title" content="03 - The Event Queue: Structure and Synchronization in the Kernel">
+	<meta property="og:description" content="Building the event queue for the KDAMonitor driver.">
+	<meta property="og:locale" content="en">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-08-21T00:00:00+00:00">
+		<meta property="article:modified_time" content="2026-08-21T00:00:00+00:00">
+		<meta property="article:tag" content="KDAMonitor">
+		<meta property="article:tag" content="Windows Kernel">
+		<meta property="article:tag" content="Kernel Driver">
+		<meta property="article:tag" content="C">
+			<meta property="og:see_also" content="https://halftimeoflife.github.io/en/posts/06-image-sensor/">
+			<meta property="og:see_also" content="https://halftimeoflife.github.io/en/posts/05-process-sensor/">
+			<meta property="og:see_also" content="https://halftimeoflife.github.io/en/posts/04-log-writer/">
+			<meta property="og:see_also" content="https://halftimeoflife.github.io/en/posts/02-driver-foundation/">
+			<meta property="og:see_also" content="https://halftimeoflife.github.io/en/posts/01-introduction-kdamonitor/">
+
+  
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="03 - The Event Queue: Structure and Synchronization in the Kernel">
+	<meta name="twitter:description" content="Building the event queue for the KDAMonitor driver.">
+
+  
+  
+  
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+  
+    
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/css/main.bundle.min.1c77f9e9fb1dab7005e138a96699bb864f9ce7f5e9605285d7d050369da819a87da642940f0626bd590654813ae06c23e0b717da5e05deeff22912bacc8de78f.css"
+    integrity="sha512-HHf56fsdq3AF4TipZpm7hk&#43;c5/XpYFKF19BQNp2oGah9pkKUDwYmvVkGVIE64Gwj4LcX2l4F3u/yKRK6zI3njw==">
+
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/appearance.min.6f41174b3a05b680820fe08cadbfa5fb7a7ca347b76a0955cdc68b9d8aca1ce24f0547e138cea33bcc7904d551a90afcb1cc7f2d9fe8557075d501419046c08c.js"
+    integrity="sha512-b0EXSzoFtoCCD&#43;CMrb&#43;l&#43;3p8o0e3aglVzcaLnYrKHOJPBUfhOM6jO8x5BNVRqQr8scx/LZ/oVXB11QFBkEbAjA=="></script>
+  
+  
+  
+  
+  
+  
+    
+    <script src="/lib/zoom/zoom.min.umd.b4b722fcb5d42f34f52b30a92f3521b69f403ca9d96d0d6179eb537cb870f5d83fdf1fe836688d95d5c99fefbda4170487711006e56051fa67ea00da10521721.js" integrity="sha512-tLci/LXULzT1KzCpLzUhtp9APKnZbQ1heetTfLhw9dg/3x/oNmiNldXJn&#43;&#43;9pBcEh3EQBuVgUfpn6gDaEFIXIQ=="></script>
+  
+
+  
+  
+  
+    
+  
+  
+    
+    
+    
+  
+  
+  
+  
+  
+  
+  
+    
+    <script
+      defer
+      type="text/javascript"
+      id="script-bundle"
+      src="/js/main.bundle.min.ecde4393b7348405774ad47459b74f73673ea7e170d83b1858d04fa1ec8330281a5fb97d2d868e6411fbba964b8f2bc5b6dbabcc4115672779f264450dbd7f07.js"
+      integrity="sha512-7N5Dk7c0hAV3StR0WbdPc2c&#43;p&#43;Fw2DsYWNBPoeyDMCgaX7l9LYaOZBH7upZLjyvFtturzEEVZyd58mRFDb1/Bw=="
+      data-copy="Copy"
+      data-copied="Copied"></script>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+  
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Blog",
+    "name": "03 - The Event Queue: Structure and Synchronization in the Kernel",
+    "headline": "03 - The Event Queue: Structure and Synchronization in the Kernel",
+    "description": "Building the event queue for the KDAMonitor driver.",
+    "inLanguage": "en",
+    "url" : "https://halftimeoflife.github.io/en/posts/03-event-queue/",
+    "author" : {
+      "@type": "Person",
+      "name": "Elouan Charbonnier"
+    },
+    "copyrightYear": "2026",
+    "dateCreated": "2026-08-21T00:00:00\u002b00:00",
+    "datePublished": "2026-08-21T00:00:00\u002b00:00",
+    
+    "dateModified": "2026-08-21T00:00:00\u002b00:00",
+    
+    "keywords": ["KDAMonitor","Windows Kernel","Kernel Driver","C"],
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "2601"
+  }]
+  </script>
+
+
+
+  
+  
+    
+
+
+
+
+  
+
+  
+  
+    
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js'
+    data-cf-beacon='{"token": "0c69b18f463449b596aae3c62b8068e4"}'></script>
+
+  
+
+  
+  
+
+  
+  
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <body class="flex flex-col h-screen m-auto leading-7 max-w-7xl px-6 sm:px-14 md:px-24 lg:px-32 text-lg bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral bf-scrollbar">
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content">
+        <span class="font-bold text-primary-600 pe-2 dark:text-primary-400">&darr;</span>
+        Skip to main content
+      </a>
+    </div>
+    
+    
+      <div class="main-menu flex items-center w-full gap-2 p-1 pl-0">
+  
+  
+    <a href="/en/" class="text-base font-medium truncate min-w-0 shrink">
+      HalfTimeOfLife
+    </a>
+  
+  <div class="flex items-center ms-auto">
+    <div class="hidden md:flex">
+      <nav class="flex items-center gap-x-5 h-12">
+  
+    
+      
+  
+    <a
+      href="/en/about/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="About"
+      title="About">
+      
+      
+        <span class="text-base font-medium break-normal">
+          About
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/en/projects/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="Projects"
+      title="Projects">
+      
+      
+        <span class="text-base font-medium break-normal">
+          Projects
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/en/publications/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="Publications"
+      title="Publications">
+      
+      
+        <span class="text-base font-medium break-normal">
+          Publications
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <div class="nested-menu">
+      <div class="cursor-pointer flex items-center">
+        <a
+          
+            href="/en/posts/"
+            
+          
+          aria-label="Blog"
+          class="flex items-center text-base font-medium bf-icon-color-hover"
+          title="Blog">
+          
+          <span class="text-bg font-bg break-normal" title="Blog">
+            Blog
+          </span>
+          <span>
+            <span class="relative block icon"><svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 20 20"
+  fill="currentColor"
+  aria-hidden="true"
+>
+  <path
+    fill-rule="evenodd"
+    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+    clip-rule="evenodd"
+  />
+</svg>
+</span>
+          </span>
+        </a>
+      </div>
+      <div class="menuhide">
+        <div class="pt-2 p-5 mt-2 rounded-xl backdrop-blur shadow-2xl bg-neutral/25 dark:bg-neutral-800/25">
+          <div class="flex flex-col space-y-3">
+            
+              <a
+                href="/en/series/"
+                
+                aria-label="Series"
+                class="flex items-center bf-icon-color-hover">
+                
+                <span class="text-sm font-sm" title="Series">
+                  Series
+                </span>
+              </a>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+    
+  
+
+  
+  <div class="translation nested-menu">
+    <button class="cursor-pointer flex items-center">
+      <span class="me-1">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+    <path fill="currentColor" d="M0 128C0 92.7 28.7 64 64 64H256h48 16H576c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H320 304 256 64c-35.3 0-64-28.7-64-64V128zm320 0V384H576V128H320zM178.3 175.9c-3.2-7.2-10.4-11.9-18.3-11.9s-15.1 4.7-18.3 11.9l-64 144c-4.5 10.1 .1 21.9 10.2 26.4s21.9-.1 26.4-10.2l8.9-20.1h73.6l8.9 20.1c4.5 10.1 16.3 14.6 26.4 10.2s14.6-16.3 10.2-26.4l-64-144zM160 233.2L179 276H141l19-42.8zM448 164c11 0 20 9 20 20v4h44 16c11 0 20 9 20 20s-9 20-20 20h-2l-1.6 4.5c-8.9 24.4-22.4 46.6-39.6 65.4c.9 .6 1.8 1.1 2.7 1.6l18.9 11.3c9.5 5.7 12.5 18 6.9 27.4s-18 12.5-27.4 6.9l-18.9-11.3c-4.5-2.7-8.8-5.5-13.1-8.5c-10.6 7.5-21.9 14-34 19.4l-3.6 1.6c-10.1 4.5-21.9-.1-26.4-10.2s.1-21.9 10.2-26.4l3.6-1.6c6.4-2.9 12.6-6.1 18.5-9.8l-12.2-12.2c-7.8-7.8-7.8-20.5 0-28.3s20.5-7.8 28.3 0l14.6 14.6 .5 .5c12.4-13.1 22.5-28.3 29.8-45H448 376c-11 0-20-9-20-20s9-20 20-20h52v-4c0-11 9-20 20-20z"/></svg></span>
+      </span>
+      <span class="text-sm font-medium bf-icon-color-hover" title="03 - The Event Queue: Structure and Synchronization in the Kernel">EN</span>
+    </button>
+    <ul class="menuhide">
+      <li class="rounded-xl backdrop-blur shadow-2xl p-2 flex flex-col gap-1">
+        
+          <a href="/posts/03-event-queue/" class="flex items-center bf-icon-color-hover px-3 py-1">
+            <span class="text-sm font-sm" title="03 - La file d&#39;événements : structure et synchronisation dans le noyau">
+              FR
+            </span>
+          </a>
+        
+          <a href="/en/posts/03-event-queue/" class="flex items-center bf-icon-color-hover px-3 py-1">
+            <span class="text-sm font-sm" title="03 - The Event Queue: Structure and Synchronization in the Kernel">
+              EN
+            </span>
+          </a>
+        
+      </li>
+    </ul>
+  </div>
+
+
+  
+
+  
+    <button
+      id="search-button"
+      aria-label="Search"
+      class="text-base bf-icon-color-hover"
+      title="Search (/)">
+      <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+    </button>
+  
+
+  
+    <div class="flex items-center">
+      <button
+        id="appearance-switcher"
+        aria-label="Dark mode switcher"
+        type="button"
+        class="text-base bf-icon-color-hover">
+        <div class="flex items-center justify-center dark:hidden">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+        </div>
+        <div class="items-center justify-center hidden dark:flex">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+        </div>
+      </button>
+    </div>
+  
+</nav>
+
+
+
+    </div>
+    <div class="flex md:hidden">
+      <div class="flex items-center h-14 gap-4">
+  
+    <button
+      id="search-button-mobile"
+      aria-label="Search"
+      class="flex items-center justify-center bf-icon-color-hover"
+      title="Search (/)">
+      <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+    </button>
+  
+
+  
+    <button
+      id="appearance-switcher-mobile"
+      type="button"
+      aria-label="Dark mode switcher"
+      class="flex items-center justify-center text-neutral-900 hover:text-primary-600 dark:text-neutral-200 dark:hover:text-primary-400">
+      <div class="dark:hidden">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+      </div>
+      <div class="hidden dark:block">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+      </div>
+    </button>
+  
+
+  
+    <input type="checkbox" id="mobile-menu-toggle" autocomplete="off" class="hidden peer">
+    <label for="mobile-menu-toggle" class="flex items-center justify-center cursor-pointer bf-icon-color-hover">
+      <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+</span>
+    </label>
+
+    <div
+      role="dialog"
+      aria-modal="true"
+      style="scrollbar-gutter: stable;"
+      class="fixed inset-0 z-50 invisible overflow-y-auto px-6 py-20 opacity-0 transition-[opacity,visibility] duration-300 peer-checked:visible peer-checked:opacity-100 bg-neutral-50/97 dark:bg-neutral-900/99
+      bf-scrollbar">
+      <label
+        for="mobile-menu-toggle"
+        class="fixed end-8 top-5 flex items-center justify-center z-50 h-12 w-12 cursor-pointer select-none rounded-full bf-icon-color-hover border bf-border-color bf-border-color-hover bg-neutral-50 dark:bg-neutral-900">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </label>
+      <nav class="mx-auto max-w-md space-y-6">
+        
+  
+    
+    <div class="px-2">
+      <a
+        href="/en/about/"
+        aria-label="About"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="About" class="text-2xl font-bold tracking-tight">
+          About
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/en/projects/"
+        aria-label="Projects"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="Projects" class="text-2xl font-bold tracking-tight">
+          Projects
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/en/publications/"
+        aria-label="Publications"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="Publications" class="text-2xl font-bold tracking-tight">
+          Publications
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/en/posts/"
+        aria-label="Blog"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="Blog" class="text-2xl font-bold tracking-tight">
+          Blog
+        </span>
+        
+          <label
+            for="fullscreen-submenu-blog"
+            class="ms-auto flex items-center justify-center h-10 w-10 cursor-pointer rounded-lg bf-icon-color-hover border bf-border-color bf-border-color-hover">
+            <span class="relative block icon"><svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 20 20"
+  fill="currentColor"
+  aria-hidden="true"
+>
+  <path
+    fill-rule="evenodd"
+    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+    clip-rule="evenodd"
+  />
+</svg>
+</span>
+          </label>
+        
+      </a>
+
+      
+        <input checked type="checkbox" id="fullscreen-submenu-blog" autocomplete="off" class="hidden peer/full">
+
+        <div
+          class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 peer-checked/full:grid-rows-[1fr]">
+          <div class="overflow-hidden">
+            <div class="ms-7 mt-4">
+              
+                <a
+                  href="/en/series/"
+                  aria-label="Series"
+                  
+                  class="flex items-center gap-3 p-2 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+                  
+                  <span title="Series" class="text-lg">
+                    Series
+                  </span>
+                </a>
+              
+            </div>
+          </div>
+        </div>
+      
+    </div>
+  
+
+        
+  
+
+        
+  
+    <div
+      class="flex flex-wrap items-center [&_span]:text-2xl [&_.translation_button_.icon]:text-4xl! [&_.translation_button_span]:text-base! [&_.translation_.menuhide_span]:text-sm! gap-x-6 ps-2 mt-8 pt-8 border-t bf-border-color">
+      
+  <div class="translation nested-menu">
+    <button class="cursor-pointer flex items-center">
+      <span class="me-1">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+    <path fill="currentColor" d="M0 128C0 92.7 28.7 64 64 64H256h48 16H576c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H320 304 256 64c-35.3 0-64-28.7-64-64V128zm320 0V384H576V128H320zM178.3 175.9c-3.2-7.2-10.4-11.9-18.3-11.9s-15.1 4.7-18.3 11.9l-64 144c-4.5 10.1 .1 21.9 10.2 26.4s21.9-.1 26.4-10.2l8.9-20.1h73.6l8.9 20.1c4.5 10.1 16.3 14.6 26.4 10.2s14.6-16.3 10.2-26.4l-64-144zM160 233.2L179 276H141l19-42.8zM448 164c11 0 20 9 20 20v4h44 16c11 0 20 9 20 20s-9 20-20 20h-2l-1.6 4.5c-8.9 24.4-22.4 46.6-39.6 65.4c.9 .6 1.8 1.1 2.7 1.6l18.9 11.3c9.5 5.7 12.5 18 6.9 27.4s-18 12.5-27.4 6.9l-18.9-11.3c-4.5-2.7-8.8-5.5-13.1-8.5c-10.6 7.5-21.9 14-34 19.4l-3.6 1.6c-10.1 4.5-21.9-.1-26.4-10.2s.1-21.9 10.2-26.4l3.6-1.6c6.4-2.9 12.6-6.1 18.5-9.8l-12.2-12.2c-7.8-7.8-7.8-20.5 0-28.3s20.5-7.8 28.3 0l14.6 14.6 .5 .5c12.4-13.1 22.5-28.3 29.8-45H448 376c-11 0-20-9-20-20s9-20 20-20h52v-4c0-11 9-20 20-20z"/></svg></span>
+      </span>
+      <span class="text-sm font-medium bf-icon-color-hover" title="03 - The Event Queue: Structure and Synchronization in the Kernel">EN</span>
+    </button>
+    <ul class="menuhide">
+      <li class="rounded-xl backdrop-blur shadow-2xl p-2 flex flex-col gap-1">
+        
+          <a href="/posts/03-event-queue/" class="flex items-center bf-icon-color-hover px-3 py-1">
+            <span class="text-sm font-sm" title="03 - La file d&#39;événements : structure et synchronisation dans le noyau">
+              FR
+            </span>
+          </a>
+        
+          <a href="/en/posts/03-event-queue/" class="flex items-center bf-icon-color-hover px-3 py-1">
+            <span class="text-sm font-sm" title="03 - The Event Queue: Structure and Synchronization in the Kernel">
+              EN
+            </span>
+          </a>
+        
+      </li>
+    </ul>
+  </div>
+
+
+
+      
+    </div>
+  
+
+      </nav>
+    </div>
+  
+</div>
+
+
+
+
+
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+    
+    <div class="relative flex flex-col grow">
+      <main id="main-content" class="grow">
+        
+  
+  <article>
+    
+    
+
+    
+    <header id="single_header" class="mt-5 max-w-prose">
+      
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        03 - The Event Queue: Structure and Synchronization in the Kernel
+      </h1>
+      <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+        
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2026-08-21T00:00:00&#43;00:00">21 August 2026</time><span class="px-2 text-primary-500">&middot;</span><span>2601 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">13 mins</span>
+    
+
+    
+    
+  </div>
+
+  
+
+  
+  
+    <div class="flex flex-row flex-wrap items-center">
+      
+        
+      
+        
+      
+        
+          
+            
+              
+            
+            
+              
+            
+          
+        
+      
+        
+          
+            
+              
+            
+            
+              
+                <a class="relative mt-[0.5rem] me-2" href="/en/tags/kdamonitor/">
+                  <span class="flex cursor-pointer">
+  
+  
+  
+  
+    <span
+      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+  
+    KDAMonitor
+  </span>
+</span>
+
+                </a>
+              
+            
+          
+            
+              
+            
+            
+              
+                <a class="relative mt-[0.5rem] me-2" href="/en/tags/windows-kernel/">
+                  <span class="flex cursor-pointer">
+  
+  
+  
+  
+    <span
+      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+  
+    Windows Kernel
+  </span>
+</span>
+
+                </a>
+              
+            
+          
+            
+              
+            
+            
+              
+                <a class="relative mt-[0.5rem] me-2" href="/en/tags/kernel-driver/">
+                  <span class="flex cursor-pointer">
+  
+  
+  
+  
+    <span
+      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+  
+    Kernel Driver
+  </span>
+</span>
+
+                </a>
+              
+            
+          
+            
+              
+            
+            
+              
+                <a class="relative mt-[0.5rem] me-2" href="/en/tags/c/">
+                  <span class="flex cursor-pointer">
+  
+  
+  
+  
+    <span
+      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+  
+    C
+  </span>
+</span>
+
+                </a>
+              
+            
+          
+        
+      
+    </div>
+  
+
+
+      </div>
+      
+        
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    
+    
+<div class="flex author">
+  
+    
+    
+      
+    
+    
+      
+      
+      
+        
+        
+        
+      
+      <img
+        class="!mt-0 !mb-0 h-24 w-24 rounded-full me-4"
+        width="96"
+        height="96"
+        alt="Elouan Charbonnier"
+        src="/img/avatar_hu_3b9cca9d7521dc79.jpg"
+        data-zoom-src="/img/avatar_hu_5766a73f7b96cebe.jpg">
+    
+  
+  <div class="place-self-center">
+    
+      <div class="text-[0.6rem] uppercase leading-3 text-neutral-500 dark:text-neutral-400">
+        Author
+      </div>
+      <div class="font-semibold leading-6 text-neutral-800 dark:text-neutral-300">
+        Elouan Charbonnier
+      </div>
+    
+    
+    <div class="text-2xl sm:text-lg">
+  <div class="flex flex-wrap text-neutral-400 dark:text-neutral-500 space-x-2">
+    
+      
+        
+        <a
+          class=" hover:text-primary-700 dark:hover:text-primary-400"
+          href="https://github.com/HalfTimeOfLife"
+          
+          target="_blank"
+          aria-label="Github"
+          title="Github"
+          rel="me noopener noreferrer"
+          ><span class="inline-block align-text-bottom"><span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></span></a
+        >
+      
+    
+      
+        
+        <a
+          class=" hover:text-primary-700 dark:hover:text-primary-400"
+          href="https://linkedin.com/in/elouan-charbonnier"
+          
+          target="_blank"
+          aria-label="Linkedin"
+          title="Linkedin"
+          rel="me noopener noreferrer"
+          ><span class="inline-block align-text-bottom"><span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+</span></span></a
+        >
+      
+    
+  </div>
+
+</div>
+  </div>
+</div>
+
+  
+
+  
+
+  
+    <div class="mb-5"></div>
+  
+
+      
+    </header>
+
+    
+    <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+      
+      
+      
+      
+      
+        <div class="order-first lg:ms-auto px-0 lg:order-last lg:ps-8 lg:max-w-2xs">
+          <div class="toc ps-5 print:hidden lg:sticky lg:top-10">
+            <details
+  open
+  id="TOCView"
+  class="toc-right mt-0 overflow-y-auto overscroll-contain bf-scrollbar rounded-lg -ms-5 ps-5 pe-2 hidden lg:block">
+  <summary
+    class="block py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 -ms-5 ps-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden">
+    Table of Contents
+  </summary>
+  <div
+    class="min-w-[220px] py-2 border-dotted border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#defining-an-event-in-the-context-of-kdamonitor">Defining an Event in the Context of KDAMonitor</a></li>
+    <li><a href="#data-structure-used">Data Structure Used</a>
+      <ul>
+        <li><a href="#what-is-a-queue">What Is a Queue?</a></li>
+        <li><a href="#why-use-a-queue">Why Use a Queue?</a></li>
+        <li><a href="#synchronization">Synchronization</a></li>
+        <li><a href="#synchronization-primitives-the-spinlock">Synchronization Primitives: The Spinlock</a></li>
+      </ul>
+    </li>
+    <li><a href="#implementing-the-queue">Implementing the Queue</a>
+      <ul>
+        <li><a href="#initialization-and-destruction-of-the-queue">Initialization (and Destruction of the Queue)</a></li>
+        <li><a href="#adding-and-removing-events">Adding and Removing Events</a></li>
+        <li><a href="#current-size-of-the-queue">Current Size of the Queue</a></li>
+      </ul>
+    </li>
+    <li><a href="#example-testing-the-event-queue">Example: Testing the Event Queue</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+  </div>
+</details>
+<details class="toc-inside mt-0 overflow-hidden rounded-lg -ms-5 ps-5 lg:hidden">
+  <summary
+    class="py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 -ms-5 ps-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden">
+    Table of Contents
+  </summary>
+  <div
+    class="py-2 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#defining-an-event-in-the-context-of-kdamonitor">Defining an Event in the Context of KDAMonitor</a></li>
+    <li><a href="#data-structure-used">Data Structure Used</a>
+      <ul>
+        <li><a href="#what-is-a-queue">What Is a Queue?</a></li>
+        <li><a href="#why-use-a-queue">Why Use a Queue?</a></li>
+        <li><a href="#synchronization">Synchronization</a></li>
+        <li><a href="#synchronization-primitives-the-spinlock">Synchronization Primitives: The Spinlock</a></li>
+      </ul>
+    </li>
+    <li><a href="#implementing-the-queue">Implementing the Queue</a>
+      <ul>
+        <li><a href="#initialization-and-destruction-of-the-queue">Initialization (and Destruction of the Queue)</a></li>
+        <li><a href="#adding-and-removing-events">Adding and Removing Events</a></li>
+        <li><a href="#current-size-of-the-queue">Current Size of the Queue</a></li>
+      </ul>
+    </li>
+    <li><a href="#example-testing-the-event-queue">Example: Testing the Event Queue</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+  </div>
+</details>
+
+
+
+          </div>
+        </div>
+      
+
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+  <details
+    class="mt-2 mb-5 overflow-hidden rounded-lg ms-0 ps-5"
+    >
+    
+  <summary
+    class="py-1 text-lg font-semibold cursor-pointer bg-primary-200 text-neutral-800 -ms-5 ps-5 dark:bg-primary-800 dark:text-neutral-100">
+    KDAMonitor -
+    This article is part of a series.
+  </summary>
+  
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/en/posts/01-introduction-kdamonitor/">
+          Part 1:
+          01 - Introduction to KDAMonitor: Building a Windows Kernel Driver
+        </a>
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/en/posts/02-driver-foundation/">
+          Part 2:
+          02 - Building the Driver Foundation: DriverEntry, Device Object and IOCTL Communication
+        </a>
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        Part 3:
+        This Article
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/en/posts/04-log-writer/">
+          Part 4:
+          04 - Writing Events to Disk: JSONL Logging, Wake Events and the First Crash
+        </a>
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/en/posts/05-process-sensor/">
+          Part 5:
+          05 - First Sensor: Monitoring Process Creation and Termination
+        </a>
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/en/posts/06-image-sensor/">
+          Part 6:
+          06 - The Second Sensor: Tracking Image and DLL Loads
+        </a>
+      </div>
+    
+  
+
+
+  </details>
+
+
+        <div class="article-content max-w-prose mb-20">
+          <p>Welcome to the third article in the series on developing KDAMonitor!</p>
+<p>In this article, I&rsquo;ll cover version v0.3 of the project. In this version, I focused on implementing the data structure (a queue, in this case) that will store, transmit, and remove the &ldquo;events&rdquo; (see <a href="/en/posts/03-event-queue/#defining-an-event-in-the-context-of-kdamonitor" >Defining an Event in the Context of KDAMonitor</a>) collected by the sensors.</p>
+<p>Here are the files covered in this article, along with the section that explains each one:</p>
+<table>
+	<thead>
+			<tr>
+					<th>File</th>
+					<th>Role</th>
+					<th>Section</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>event_types.h</code></td>
+					<td>Event types and the <code>KDAMON_EVENT</code> structure</td>
+					<td><a href="/en/posts/03-event-queue/#defining-an-event-in-the-context-of-kdamonitor" >Defining an Event in the Context of KDAMonitor</a></td>
+			</tr>
+			<tr>
+					<td><code>event_queue.h</code></td>
+					<td>Event queue interface and function declarations</td>
+					<td><a href="/en/posts/03-event-queue/#implementing-the-queue" >Implementing the Queue</a></td>
+			</tr>
+			<tr>
+					<td><code>event_queue.c</code></td>
+					<td>Event queue implementation and synchronization</td>
+					<td><a href="/en/posts/03-event-queue/#implementing-the-queue" >Implementing the Queue</a></td>
+			</tr>
+			<tr>
+					<td><code>driver_entry.c</code></td>
+					<td>Driver entry point, event queue initialization, and test</td>
+					<td><a href="/en/posts/03-event-queue/#example--testing-the-event-queue" >Example: Testing the Event Queue</a></td>
+			</tr>
+	</tbody>
+</table>
+<blockquote><p>The project can be found in this repository: <a href="https://github.com/HalfTimeOfLife/KDAMonitor"  target="_blank" rel="noreferrer">KDAMonitor</a>.</p>
+</blockquote><hr>
+
+<h2 class="relative group">Defining an Event in the Context of KDAMonitor
+    <div id="defining-an-event-in-the-context-of-kdamonitor" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#defining-an-event-in-the-context-of-kdamonitor" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>Before explaining in detail the data structure I used, let&rsquo;s look at what I consider an event. Here&rsquo;s how the structure is defined in the code:</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_KDAMON_EVENT</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">KDAMON_EVENT_TYPE</span> <span class="n">Type</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LARGE_INTEGER</span> <span class="n">Timestamp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ULONG</span> <span class="n">Id</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// future members for event data
+</span></span></span><span class="line"><span class="cl">    <span class="c1">//union
+</span></span></span><span class="line"><span class="cl">    <span class="c1">//{
+</span></span></span><span class="line"><span class="cl">    <span class="c1">//
+</span></span></span><span class="line"><span class="cl">    <span class="c1">//} Data;
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">KDAMON_EVENT</span><span class="p">,</span> <span class="o">*</span> <span class="n">PKDAMON_EVENT</span><span class="p">;</span></span></span></code></pre></div></div>
+<p>Let&rsquo;s start with the first three fields of the <code>KDAMON_EVENT</code> structure:</p>
+<ul>
+<li><code>Type</code>: This field holds a value corresponding to a type defined in the <code>KDAMON_EVENT_TYPE</code> enum.</li>
+<li><code>Timestamp</code>: The timestamp of when the associated callback/callout received the event, which also marks the moment the event was created.</li>
+<li><code>Id</code>: A unique identifier, scoped to the capture session, assigned to the event.</li>
+</ul>
+<blockquote><p>In this version (v0.3), events only contain <code>Type</code>, <code>Timestamp</code>, and <code>Id</code>. Also, since no callback/callout is implemented yet in this version, the timestamp is set manually.</p>
+</blockquote><p>The <code>Type</code> field distinguishes events from one another. Here&rsquo;s the enum it&rsquo;s tied to:</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">enum</span> <span class="n">_KDAMON_EVENT_TYPE</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">KdaMonEventImageLoad</span><span class="p">,</span> <span class="c1">// TODO: implemented in v0.6
+</span></span></span><span class="line"><span class="cl">    <span class="n">KdaMonEventNetwork</span><span class="p">,</span>   <span class="c1">// TODO: implemented in v0.8
+</span></span></span><span class="line"><span class="cl">    <span class="n">KdaMonEventProcess</span><span class="p">,</span>   <span class="c1">// TODO: implemented in v0.5
+</span></span></span><span class="line"><span class="cl">    <span class="n">KdaMonEventRegistry</span><span class="p">,</span>  <span class="c1">// TODO: implemented in v0.9
+</span></span></span><span class="line"><span class="cl">    <span class="n">KdaMonEventThread</span>     <span class="c1">// TODO: implemented in v0.10
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">KDAMON_EVENT_TYPE</span><span class="p">;</span></span></span></code></pre></div></div>
+<p>The last field, a union named <code>Data</code>, will hold the event&rsquo;s structure depending on its type. As a reminder, the supported events will be:</p>
+<ul>
+<li>Process creation/termination</li>
+<li>Image load</li>
+<li>Network connection</li>
+<li>Registry key creation/deletion/modification</li>
+<li>Thread creation/termination</li>
+</ul>
+<p>Each of these types will get a corresponding structure with the relevant details. Events will share a common base, but a good number of details will differ. For example, for a DLL load event (a <code>KdaMonEventImageLoad</code>), the DLL&rsquo;s path will be captured. Similarly, for a process creation event, it&rsquo;s the executable&rsquo;s path that will be kept. On the other hand, a destination IP address only concerns <code>KdaMonEventNetwork</code>, just as a registry key path only concerns <code>KdaMonEventRegistry</code>.</p>
+<blockquote><p>The specific content of these events (i.e., the fields of their corresponding structures) will be detailed in the articles covering each associated sensor.</p>
+</blockquote><hr>
+
+<h2 class="relative group">Data Structure Used
+    <div id="data-structure-used" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#data-structure-used" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+
+<h3 class="relative group">What Is a Queue?
+    <div id="what-is-a-queue" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#what-is-a-queue" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p>A queue is a data structure &hellip; that behaves, well, like a queue :-). More precisely, it&rsquo;s what&rsquo;s known as a FIFO data structure — First In, First Out — just like a line at a store, where the first person to arrive is the first to be served.</p>
+<p>In programming, a queue keeps, in practice, a reference to the last element added (the tail) and the first one (the head). Adding an element to this structure means placing it at the tail of the queue.</p>
+<p>There are other types of data structures:</p>
+<ul>
+<li>A stack, which is a LIFO structure — Last In, First Out — like a stack of plates: the last one placed on top is also the first one removed.</li>
+<li>A linked list (or simply a list) is a structure that allows elements to be added at the beginning, the end, or anywhere in the middle.</li>
+</ul>
+<p>Here&rsquo;s the structure we use to represent the queue:</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_KDAMON_EVENT_QUEUE</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">KDAMON_EVENT</span> <span class="n">Buffer</span><span class="p">[</span><span class="n">KDAMON_EVENT_QUEUE_SIZE</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ULONG</span> <span class="n">Head</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ULONG</span> <span class="n">Tail</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ULONG</span> <span class="n">Count</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ULONG</span> <span class="n">DroppedEvents</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ULONG</span> <span class="n">NextId</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">KSPIN_LOCK</span> <span class="n">Lock</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">KDAMON_EVENT_QUEUE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">static</span> <span class="n">KDAMON_EVENT_QUEUE</span> <span class="n">g_EventQueue</span><span class="p">;</span></span></span></code></pre></div></div>
+<p>Here&rsquo;s an explanation of every field in this structure:</p>
+<ul>
+<li><code>Buffer</code>: Array of events (<code>KDAMON_EVENT</code>) currently in the queue</li>
+<li><code>Head</code>: The head of the queue (oldest element in the queue)</li>
+<li><code>Tail</code>: The tail of the queue (last element added to the queue)</li>
+<li><code>Count</code>: Number of elements in the queue</li>
+<li><code>DroppedEvents</code>: Number of elements the queue failed to keep</li>
+<li><code>NextId</code>: ID to assign to the next event</li>
+<li><code>Lock</code>: Covered in the <a href="/en/posts/03-event-queue/#synchronization" >Synchronization</a> section</li>
+</ul>
+
+<h3 class="relative group">Why Use a Queue?
+    <div id="why-use-a-queue" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#why-use-a-queue" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p>Let&rsquo;s consider the following example:</p>
+<ul>
+<li>We choose a stack as the data structure for this project.</li>
+<li>A first event arrives, and we place it at the top of the stack.</li>
+<li>A second event arrives, and we place it at the top of the stack, above the first event.</li>
+<li>And so on, until we reach the 1000th event. There are two scenarios:
+<ul>
+<li>Scenario 1: we popped (removed the top element) every time an event arrived -&gt; costly operation, and at that point, what&rsquo;s the actual difference from having no data structure at all?</li>
+<li>Scenario 2: we popped nothing at all. In that case, the first element we&rsquo;d retrieve would actually be the most recently captured one, so we&rsquo;d have to reconstruct the chronological order using the timestamps.</li>
+</ul>
+</li>
+</ul>
+<p>We can conclude that a stack isn&rsquo;t the right choice. Especially since several callbacks will be feeding into the structure, we need one designed for chronological order.</p>
+<p>A queue fits this role perfectly. We define a maximum size for our queue, and for each event, we push it onto the queue (<code>push</code>) and later remove it from the head of the queue (<code>pop</code>), in the order it was added. One downside of this implementation is that the queue has a fixed size, meaning that if too many events arrive while the queue is already full, the new events get rejected instead of added.</p>
+<p>But what happens if two sensors add an event to the queue at the same time? To solve this, we&rsquo;re going to need synchronization.</p>
+
+<h3 class="relative group">Synchronization
+    <div id="synchronization" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#synchronization" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p>Concretely, here&rsquo;s the problem:</p>
+<p>The network callback and the process creation callback both add an event at the same time. Without protection, both could read the same value of <code>NextId</code> before either one increments it, thus assigning the same ID to two different events.</p>
+<p>Another problem: what happens if a producer (a callback) is in the middle of adding an event to the queue (and therefore modifying <code>Tail</code> and <code>Count</code>) while a consumer removes one at the same time, reading those same fields? The consumer could then read <code>Count</code> or <code>Tail</code> in an intermediate, inconsistent state, which could corrupt the queue&rsquo;s order or cause it to read an event that hasn&rsquo;t been fully written yet.</p>
+<p>To solve this problem, we need mutual exclusion over the fields of our queue&rsquo;s structure. In other words, when one component of our driver modifies the buffer, the <code>Head</code>/<code>Tail</code>/<code>Count</code> indices, or the <code>NextId</code> counter, no one else should be able to modify them at the same time.</p>
+<p>So we&rsquo;re going to use a <strong>synchronization primitive</strong>.</p>
+
+<h3 class="relative group">Synchronization Primitives: The Spinlock
+    <div id="synchronization-primitives-the-spinlock" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#synchronization-primitives-the-spinlock" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p>The synchronization primitive I chose is the <strong>spinlock</strong>, for two reasons:</p>
+<ol>
+<li>I had never implemented this primitive before.</li>
+<li>It matched a real technical constraint of the project.</li>
+</ol>
+<p>But concretely, what is a spinlock?</p>
+<p>To put it simply, a spinlock is a bit like a fitting room: if someone&rsquo;s already inside, the door is locked. If a new person shows up, they have no choice but to wait right outside, constantly checking whether the door has unlocked. They won&rsquo;t go sit somewhere else and wait to be notified that the room is free.</p>
+<p>That&rsquo;s exactly what a spinlock does: a thread that can&rsquo;t acquire it stays active, &ldquo;checking&rdquo; in a loop (<em>busy-wait</em>), instead of going to sleep — unlike a mutex, where the waiting thread would instead be notified once the resource becomes available. However, the waiting thread consumes CPU for the entire duration of the wait. A spinlock is therefore only suited to very short critical sections.</p>
+<p>Here&rsquo;s an example using the <code>KeAcquireSpinLock</code> and <code>KeReleaseSpinLock</code> functions:</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">KIRQL</span> <span class="n">OldIrql</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">KeAcquireSpinLock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Lock</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">OldIrql</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// critical section: exclusive access to g_EventQueue, which represents our queue
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">KeReleaseSpinLock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Lock</span><span class="p">,</span> <span class="n">OldIrql</span><span class="p">);</span></span></span></code></pre></div></div>
+<p><code>KeAcquireSpinLock</code> raises the current IRQL to <code>DISPATCH_LEVEL</code> and saves the previous IRQL in <code>OldIrql</code>, so that <code>KeReleaseSpinLock</code> can restore it once the critical section is done.</p>
+<p>Now, why choose a spinlock over a mutex to protect <code>g_EventQueue</code>? The answer lies in the IRQL (<em>Interrupt Request Level</em>), which represents the interrupt priority level the processor is currently executing code at.</p>
+<p>A mutex can only be acquired at <code>PASSIVE_LEVEL</code>, the lowest level. That&rsquo;s because when a thread fails to acquire a mutex, it&rsquo;s put to sleep by the scheduler while it waits for the resource to become available. But this sleep is only possible if the scheduler itself is able to intervene, which is no longer the case once you go above <code>PASSIVE_LEVEL</code>.</p>
+<p>A spinlock doesn&rsquo;t have this limitation. As explained above, a thread waiting on a spinlock busy-waits instead of going to sleep, so it can be acquired at any IRQL, up to and including <code>DISPATCH_LEVEL</code>.</p>
+<p>The driver&rsquo;s future sensors (process creation, image load, registry access, network via WFP) will each be implemented through a kernel callback or callout, and these callbacks don&rsquo;t all run at the same IRQL. If <code>g_EventQueue</code> had been protected by a mutex, a callback running at <code>DISPATCH_LEVEL</code> would have triggered a bugcheck when attempting to acquire it.</p>
+<p>Now that the theoretical groundwork is laid, let&rsquo;s move on to the implementation!</p>
+<hr>
+
+<h2 class="relative group">Implementing the Queue
+    <div id="implementing-the-queue" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#implementing-the-queue" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>We already introduced the <code>KDAMON_EVENT_QUEUE</code> structure we&rsquo;ll be using for the queue earlier (see <a href="/en/posts/03-event-queue/#what-is-a-queue" >What Is a Queue?</a>). Let&rsquo;s move on to the functions that let us interact with it.</p>
+<blockquote><p>All the functions (and the structure) shown here live in the <code>event_queue.c</code> file.</p>
+</blockquote>
+<h3 class="relative group">Initialization (and Destruction of the Queue)
+    <div id="initialization-and-destruction-of-the-queue" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#initialization-and-destruction-of-the-queue" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p>To create the queue, we implement a <code>KdaMonEventQueueInitialize</code> function with only two responsibilities:</p>
+<ul>
+<li>zeroing out the <code>KDAMON_EVENT_QUEUE</code> structure via the global object: <code>static KDAMON_EVENT_QUEUE g_EventQueue;</code></li>
+<li>initializing the structure&rsquo;s spinlock with <code>KeInitializeSpinLock</code>: <code>KeInitializeSpinLock(&amp;g_EventQueue.Lock);</code></li>
+</ul>
+<p>This function returns <code>TRUE</code>.</p>
+<p>The <code>KdaMonEventQueueDestroy</code> function exists but doesn&rsquo;t do anything for now (it&rsquo;s empty), for a simple reason: the entire structure is static, so there&rsquo;s nothing to manually free. Here&rsquo;s the code for both functions:</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">BOOLEAN</span> <span class="nf">KdaMonEventQueueInitialize</span><span class="p">(</span><span class="n">VOID</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">RtlZeroMemory</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_EventQueue</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">g_EventQueue</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">KeInitializeSpinLock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Lock</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">TRUE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">VOID</span> <span class="nf">KdaMonEventQueueDestroy</span><span class="p">(</span><span class="n">VOID</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+
+<h3 class="relative group">Adding and Removing Events
+    <div id="adding-and-removing-events" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#adding-and-removing-events" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p>To interact with the queue, there are 3 functions:</p>
+<ul>
+<li><code>EventQueueNextIndex</code>: Computes the next index in the circular buffer, wrapping back to 0 once the end of the buffer is reached (<code>KDAMON_EVENT_QUEUE_SIZE</code>). Used by both <code>Push</code> and <code>Pop</code> to advance <code>Tail</code> and <code>Head</code>.</li>
+<li><code>KdaMonEventQueuePush</code>: Adds an element to the queue.</li>
+<li><code>KdaMonEventQueuePop</code>: Removes an element from the queue.</li>
+</ul>
+<p><code>EventQueueNextIndex</code> is fairly self-explanatory:</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">static</span> <span class="n">ULONG</span> <span class="nf">EventQueueNextIndex</span><span class="p">(</span><span class="n">_In_</span> <span class="n">ULONG</span> <span class="n">Index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Index</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">Index</span> <span class="o">==</span> <span class="n">KDAMON_EVENT_QUEUE_SIZE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Index</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<p>The code for <code>KdaMonEventQueuePush</code> and <code>KdaMonEventQueuePop</code> is more involved. Here&rsquo;s <code>KdaMonEventQueuePush</code>:</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">BOOLEAN</span> <span class="nf">KdaMonEventQueuePush</span><span class="p">(</span><span class="n">_In_</span> <span class="n">KDAMON_EVENT</span><span class="o">*</span> <span class="n">Event</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">KIRQL</span> <span class="n">OldIrql</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">Event</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">KeAcquireSpinLock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Lock</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">OldIrql</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Count</span> <span class="o">==</span> <span class="n">KDAMON_EVENT_QUEUE_SIZE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">g_EventQueue</span><span class="p">.</span><span class="n">DroppedEvents</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">KeReleaseSpinLock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Lock</span><span class="p">,</span> <span class="n">OldIrql</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Event</span><span class="o">-&gt;</span><span class="n">Id</span> <span class="o">=</span> <span class="n">g_EventQueue</span><span class="p">.</span><span class="n">NextId</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Buffer</span><span class="p">[</span><span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Tail</span><span class="p">]</span> <span class="o">=</span> <span class="o">*</span><span class="n">Event</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Tail</span> <span class="o">=</span> <span class="nf">EventQueueNextIndex</span><span class="p">(</span><span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Tail</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Count</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">KeReleaseSpinLock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Lock</span><span class="p">,</span> <span class="n">OldIrql</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">TRUE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<p>The function starts with a check: if <code>Event</code> is <code>NULL</code>, it returns <code>FALSE</code> immediately without touching the lock.</p>
+<p>The spinlock is then acquired, and everything that follows runs inside the critical section we introduced earlier (see <a href="/en/posts/03-event-queue/#synchronization-primitives--the-spinlock" >Synchronization Primitives: The Spinlock</a>).</p>
+<p>There are two cases to handle:</p>
+<ul>
+<li>First case: the queue is full (<code>Count == KDAMON_EVENT_QUEUE_SIZE</code>). In this case, the event isn&rsquo;t added. <code>DroppedEvents</code> is incremented, and the function returns <code>FALSE</code>. This way, the caller knows the event wasn&rsquo;t recorded, without ever risking putting a kernel callback to sleep.</li>
+<li>Second case: the queue isn&rsquo;t full, so the event can be added. The first thing that happens is assigning the <code>Id</code>: <code>Event-&gt;Id = g_EventQueue.NextId++</code>. The event is then copied into the buffer at position <code>Tail</code>, the <code>Tail</code> index is advanced via <code>EventQueueNextIndex</code>, and <code>Count</code> is incremented to reflect the queue&rsquo;s new state. The lock is released, and the function returns <code>TRUE</code>.</li>
+</ul>
+<p>Here&rsquo;s <code>KdaMonEventQueuePop</code>:</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">BOOLEAN</span> <span class="nf">KdaMonEventQueuePop</span><span class="p">(</span><span class="n">_Out_</span> <span class="n">KDAMON_EVENT</span><span class="o">*</span> <span class="n">Event</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">KIRQL</span> <span class="n">OldIrql</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">Event</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">KeAcquireSpinLock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Lock</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">OldIrql</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">KeReleaseSpinLock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Lock</span><span class="p">,</span> <span class="n">OldIrql</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="o">*</span><span class="n">Event</span> <span class="o">=</span> <span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Buffer</span><span class="p">[</span><span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Head</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Head</span> <span class="o">=</span> <span class="nf">EventQueueNextIndex</span><span class="p">(</span><span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Head</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Count</span><span class="o">--</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">KeReleaseSpinLock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Lock</span><span class="p">,</span> <span class="n">OldIrql</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">TRUE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<p>This function is essentially a mirror of <code>KdaMonEventQueuePush</code>. The beginning is strictly identical. But the cases to handle are different:</p>
+<ul>
+<li>First case: the queue is empty (<code>Count == 0</code>), in which case the spinlock is released and the function returns <code>FALSE</code>. There&rsquo;s nothing to remove from the queue.</li>
+<li>Second case: the queue has at least one event.
+<ul>
+<li>The event at <code>g_EventQueue.Buffer[g_EventQueue.Head]</code> is copied into <code>*Event</code>, the output parameter provided by the caller.</li>
+<li>The next index in the buffer is then computed using <code>EventQueueNextIndex</code> and stored in <code>g_EventQueue.Head</code>.</li>
+<li>Finally, the total number of elements in the queue is decremented (<code>g_EventQueue.Count--</code>).</li>
+</ul>
+</li>
+</ul>
+
+<h3 class="relative group">Current Size of the Queue
+    <div id="current-size-of-the-queue" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#current-size-of-the-queue" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p>The last function implemented is <code>KdaMonEventQueueCount</code>. This function lets us safely check (using the spinlock) how many elements are currently in the queue:</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">ULONG</span> <span class="nf">KdaMonEventQueueCount</span><span class="p">(</span><span class="n">VOID</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">KIRQL</span> <span class="n">OldIrql</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ULONG</span> <span class="n">EventCount</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">KeAcquireSpinLock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Lock</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">OldIrql</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">EventCount</span> <span class="o">=</span> <span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">KeReleaseSpinLock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_EventQueue</span><span class="p">.</span><span class="n">Lock</span><span class="p">,</span> <span class="n">OldIrql</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">EventCount</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<hr>
+
+<h2 class="relative group">Example: Testing the Event Queue
+    <div id="example-testing-the-event-queue" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#example-testing-the-event-queue" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>To validate that the queue works as intended, I added a test directly inside <code>DriverEntry</code>, between the <code>// --- BEGIN TEST QUEUE ---</code> and <code>// --- END TEST QUEUE ---</code> markers:</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;driver.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;device.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;ioctl.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;kdamon_config.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;event_queue.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">PDEVICE_OBJECT</span> <span class="n">g_DeviceObject</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">DriverUnload</span><span class="p">(</span><span class="n">_In_</span> <span class="n">PDRIVER_OBJECT</span> <span class="n">DriverObject</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">UNREFERENCED_PARAMETER</span><span class="p">(</span><span class="n">DriverObject</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">KdaMonEventQueueDestroy</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">KdaMonDeleteDevice</span><span class="p">(</span><span class="n">g_DeviceObject</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">KdPrint</span><span class="p">((</span><span class="n">DRIVER_TAG</span> <span class="s">&#34; [SUCCESS]: Driver Unload called</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">NTSTATUS</span> <span class="nf">DriverEntry</span><span class="p">(</span><span class="n">_In_</span> <span class="n">PDRIVER_OBJECT</span> <span class="n">DriverObject</span><span class="p">,</span> <span class="n">_In_</span> <span class="n">PUNICODE_STRING</span> <span class="n">RegistryPath</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">UNREFERENCED_PARAMETER</span><span class="p">(</span><span class="n">RegistryPath</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">DriverObject</span><span class="o">-&gt;</span><span class="n">DriverUnload</span> <span class="o">=</span> <span class="n">DriverUnload</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DriverObject</span><span class="o">-&gt;</span><span class="n">MajorFunction</span><span class="p">[</span><span class="n">IRP_MJ_CREATE</span><span class="p">]</span> <span class="o">=</span> <span class="n">KdaMonCreateClose</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DriverObject</span><span class="o">-&gt;</span><span class="n">MajorFunction</span><span class="p">[</span><span class="n">IRP_MJ_CLOSE</span><span class="p">]</span> <span class="o">=</span> <span class="n">KdaMonCreateClose</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DriverObject</span><span class="o">-&gt;</span><span class="n">MajorFunction</span><span class="p">[</span><span class="n">IRP_MJ_DEVICE_CONTROL</span><span class="p">]</span> <span class="o">=</span> <span class="n">KdaMonDeviceControl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">NTSTATUS</span> <span class="n">status</span> <span class="o">=</span> <span class="nf">KdaMonCreateDevice</span><span class="p">(</span><span class="n">DriverObject</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">g_DeviceObject</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nf">NT_SUCCESS</span><span class="p">(</span><span class="n">status</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">status</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nf">KdaMonEventQueueInitialize</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">KdPrint</span><span class="p">((</span><span class="n">DRIVER_TAG</span> <span class="s">&#34; [ERROR]: EventQueueInitialize failed</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">STATUS_UNSUCCESSFUL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">KdPrint</span><span class="p">((</span><span class="n">DRIVER_TAG</span> <span class="s">&#34; [SUCCESS]: Initialized successfully</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// --- BEGIN TEST QUEUE ---
+</span></span></span><span class="line"><span class="cl">    <span class="n">KDAMON_EVENT</span> <span class="n">testEvent1</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="n">testEvent1</span><span class="p">.</span><span class="n">Type</span> <span class="o">=</span> <span class="n">KdaMonEventProcess</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">KeQuerySystemTimePrecise</span><span class="p">(</span><span class="o">&amp;</span><span class="n">testEvent1</span><span class="p">.</span><span class="n">Timestamp</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">KdaMonEventQueuePush</span><span class="p">(</span><span class="o">&amp;</span><span class="n">testEvent1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">KDAMON_EVENT</span> <span class="n">testEvent2</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="n">testEvent2</span><span class="p">.</span><span class="n">Type</span> <span class="o">=</span> <span class="n">KdaMonEventNetwork</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">KeQuerySystemTimePrecise</span><span class="p">(</span><span class="o">&amp;</span><span class="n">testEvent2</span><span class="p">.</span><span class="n">Timestamp</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">KdaMonEventQueuePush</span><span class="p">(</span><span class="o">&amp;</span><span class="n">testEvent2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">KdPrint</span><span class="p">((</span><span class="n">DRIVER_TAG</span> <span class="s">&#34; [TEST]: Queue count after 2 pushes = %lu</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="nf">KdaMonEventQueueCount</span><span class="p">()));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">KDAMON_EVENT</span> <span class="n">popped</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="nf">KdaMonEventQueuePop</span><span class="p">(</span><span class="o">&amp;</span><span class="n">popped</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">KdPrint</span><span class="p">((</span><span class="n">DRIVER_TAG</span> <span class="s">&#34; [TEST]: Popped event Id=%lu Type=%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">popped</span><span class="p">.</span><span class="n">Id</span><span class="p">,</span> <span class="n">popped</span><span class="p">.</span><span class="n">Type</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">KdPrint</span><span class="p">((</span><span class="n">DRIVER_TAG</span> <span class="s">&#34; [TEST]: Queue count after pops = %lu</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="nf">KdaMonEventQueueCount</span><span class="p">()));</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// --- END TEST QUEUE ---
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">STATUS_SUCCESS</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<p>The flow is simple:</p>
+<ol>
+<li>Two events are pushed onto the queue (a <code>KdaMonEventProcess</code> and a <code>KdaMonEventNetwork</code>)</li>
+<li><code>KdaMonEventQueueCount</code> is called to confirm the queue holds 2 events.</li>
+<li>A loop pops every event one by one until <code>KdaMonEventQueuePop</code> returns <code>FALSE</code> (empty queue), logging the <code>Id</code> and <code>Type</code> of each retrieved event.</li>
+</ol>
+<p>We&rsquo;d expect to first retrieve the <code>Process</code> event (<code>Id = 0</code>), then the <code>Network</code> event (<code>Id = 1</code>) — in the exact order they were added, confirming the queue&rsquo;s FIFO behavior. Finally, <code>KdaMonEventQueueCount</code> is called one last time to confirm the queue is back to 0.</p>
+<p>Here&rsquo;s a demonstration of this test running:</p>
+<video controls width="100%">
+  <source src="demo-queue.en.mp4" type="video/mp4">
+</video>
+<hr>
+
+<h2 class="relative group">Conclusion
+    <div id="conclusion" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#conclusion" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>KDAMonitor now has a generic event structure (<code>KDAMON_EVENT</code>) and a circular queue capable of storing it, protected by a spinlock compatible with any IRQL up to <code>DISPATCH_LEVEL</code>.</p>
+<p>The <code>DroppedEvents</code> counter, which tracks the number of events rejected due to a full queue, is correctly incremented but isn&rsquo;t exposed or checked anywhere yet.</p>
+<p>The next version (v0.4) will give this queue an actual purpose: a dedicated thread will drain it automatically to a log file. Once that piece is in place, the following versions (v0.5 and beyond) will finally be able to start filling the queue via kernel callbacks/callouts (process creation, image load, registry, network, and thread).</p>
+<p>Thanks for reading all the way through, and see you in the next, fourth article of this series: <strong>Writing Events to Disk: JSONL Logging, Wake Events and the First Crash</strong>.</p>
+
+          
+          
+          
+        </div>
+        
+        
+  <details class="mt-2 mb-5 overflow-hidden rounded-lg ms-0 ps-5">
+    
+  <summary
+    class="py-1 text-lg font-semibold cursor-pointer bg-primary-200 text-neutral-800 -ms-5 ps-5 dark:bg-primary-800 dark:text-neutral-100">
+    KDAMonitor -
+    This article is part of a series.
+  </summary>
+  
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/en/posts/01-introduction-kdamonitor/">
+          Part 1:
+          01 - Introduction to KDAMonitor: Building a Windows Kernel Driver
+        </a>
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/en/posts/02-driver-foundation/">
+          Part 2:
+          02 - Building the Driver Foundation: DriverEntry, Device Object and IOCTL Communication
+        </a>
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        Part 3:
+        This Article
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/en/posts/04-log-writer/">
+          Part 4:
+          04 - Writing Events to Disk: JSONL Logging, Wake Events and the First Crash
+        </a>
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/en/posts/05-process-sensor/">
+          Part 5:
+          05 - First Sensor: Monitoring Process Creation and Termination
+        </a>
+      </div>
+    
+  
+    
+      <div
+        class="py-1 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+        <a href="/en/posts/06-image-sensor/">
+          Part 6:
+          06 - The Second Sensor: Tracking Image and DLL Loads
+        </a>
+      </div>
+    
+  
+
+
+  </details>
+
+
+        
+
+        
+
+      </div>
+    </section>
+
+    
+    <footer class="pt-8 max-w-prose print:hidden">
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600">
+      <div class="flex justify-between pt-3">
+        <span class="flex flex-col">
+          
+            <a
+              class="flex text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+              href="/en/posts/02-driver-foundation/">
+              <span class="leading-6">
+                <span class="inline-block rtl:rotate-180">&larr;</span>&ensp;02 - Building the Driver Foundation: DriverEntry, Device Object and IOCTL Communication
+              </span>
+            </a>
+            
+              <span class="ms-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                <time datetime="2026-08-11T00:00:00&#43;00:00">11 August 2026</time>
+              </span>
+            
+          
+        </span>
+        <span class="flex flex-col items-end">
+          
+            <a
+              class="flex text-right text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+              href="/en/posts/04-log-writer/">
+              <span class="leading-6">
+                04 - Writing Events to Disk: JSONL Logging, Wake Events and the First Crash&ensp;<span class="inline-block rtl:rotate-180">&rarr;</span>
+              </span>
+            </a>
+            
+              <span class="me-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                <time datetime="2026-09-01T00:00:00&#43;00:00">1 September 2026</time>
+              </span>
+            
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+      
+    </footer>
+  </article>
+
+        
+
+
+  
+
+
+
+
+
+
+<div
+  id="scroll-to-top"
+  class="fixed bottom-6 end-6 z-50 transform translate-y-4 opacity-0 duration-200">
+  <a
+    href="#the-top"
+    class="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="Scroll to top"
+    title="Scroll to top">
+    &uarr;
+  </a>
+</div>
+
+      </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+    
+    
+      <p class="text-sm text-neutral-500 dark:text-neutral-400">
+          &copy;
+          2026
+          Elouan Charbonnier
+      </p>
+    
+
+    
+    
+      <p class="text-xs text-neutral-500 dark:text-neutral-400">
+        
+        
+        Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+          href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+          href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a>
+      </p>
+    
+  </div>
+  
+    <script>
+      mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+        margin: 24,
+        background: "rgba(0,0,0,0.5)",
+        scrollOffset: 0,
+      });
+    </script>
+  
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh] z-500"
+  data-url="https://halftimeoflife.github.io/en/">
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800">
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0">
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+    </div>
+  </body>
+  
+</html>

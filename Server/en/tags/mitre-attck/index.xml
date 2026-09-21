@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MITRE ATT&amp;CK on HalfTimeOfLife</title>
+    <link>https://halftimeoflife.github.io/en/tags/mitre-attck/</link>
+    <description>Recent content in MITRE ATT&amp;CK on HalfTimeOfLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
+    <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
+    <copyright>© 2026 Elouan Charbonnier</copyright>
+    <lastBuildDate>Thu, 25 Jun 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://halftimeoflife.github.io/en/tags/mitre-attck/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>attackmap</title>
+      <link>https://halftimeoflife.github.io/en/projects/attackmap/</link>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/projects/attackmap/</guid>
+      <description>CLI tool that generates MITRE ATT&amp;amp;CK heatmaps from ATT&amp;amp;CK Navigator JSON layers.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/attackmap/feature.png" />
+    </item>
+    
+  </channel>
+</rss>

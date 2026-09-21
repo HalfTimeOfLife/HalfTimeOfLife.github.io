@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kernel Driver on HalfTimeOfLife</title>
+    <link>https://halftimeoflife.github.io/en/tags/kernel-driver/</link>
+    <description>Recent content in Kernel Driver on HalfTimeOfLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
+    <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
+    <copyright>© 2026 Elouan Charbonnier</copyright>
+    <lastBuildDate>Thu, 17 Sep 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://halftimeoflife.github.io/en/tags/kernel-driver/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>06 - The Second Sensor: Tracking Image and DLL Loads</title>
+      <link>https://halftimeoflife.github.io/en/posts/06-image-sensor/</link>
+      <pubDate>Thu, 17 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/posts/06-image-sensor/</guid>
+      <description>Implementing KDAMonitor&amp;rsquo;s second sensor: monitoring image loads.</description>
+      
+    </item>
+    
+    <item>
+      <title>05 - First Sensor: Monitoring Process Creation and Termination</title>
+      <link>https://halftimeoflife.github.io/en/posts/05-process-sensor/</link>
+      <pubDate>Mon, 07 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/posts/05-process-sensor/</guid>
+      <description>Implementing KDAMonitor&amp;rsquo;s first sensor: monitoring process creation and termination.</description>
+      
+    </item>
+    
+    <item>
+      <title>04 - Writing Events to Disk: JSONL Logging, Wake Events and the First Crash</title>
+      <link>https://halftimeoflife.github.io/en/posts/04-log-writer/</link>
+      <pubDate>Tue, 01 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/posts/04-log-writer/</guid>
+      <description>Writing logs to disk and the first kernel crash of the KDAMonitor driver.</description>
+      
+    </item>
+    
+    <item>
+      <title>03 - The Event Queue: Structure and Synchronization in the Kernel</title>
+      <link>https://halftimeoflife.github.io/en/posts/03-event-queue/</link>
+      <pubDate>Fri, 21 Aug 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/posts/03-event-queue/</guid>
+      <description>Building the event queue for the KDAMonitor driver.</description>
+      
+    </item>
+    
+    <item>
+      <title>02 - Building the Driver Foundation: DriverEntry, Device Object and IOCTL Communication</title>
+      <link>https://halftimeoflife.github.io/en/posts/02-driver-foundation/</link>
+      <pubDate>Tue, 11 Aug 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/posts/02-driver-foundation/</guid>
+      <description>Building the KDAMonitor driver foundation: device object and the first IOCTL communication with a test client.</description>
+      
+    </item>
+    
+    <item>
+      <title>01 - Introduction to KDAMonitor: Building a Windows Kernel Driver</title>
+      <link>https://halftimeoflife.github.io/en/posts/01-introduction-kdamonitor/</link>
+      <pubDate>Fri, 07 Aug 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/posts/01-introduction-kdamonitor/</guid>
+      <description>Introduction to the KDAMonitor project and its goals.</description>
+      
+    </item>
+    
+  </channel>
+</rss>

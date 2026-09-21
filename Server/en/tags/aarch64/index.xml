@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>AArch64 on HalfTimeOfLife</title>
+    <link>https://halftimeoflife.github.io/en/tags/aarch64/</link>
+    <description>Recent content in AArch64 on HalfTimeOfLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
+    <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
+    <copyright>© 2026 Elouan Charbonnier</copyright>
+    <lastBuildDate>Tue, 15 Sep 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://halftimeoflife.github.io/en/tags/aarch64/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>ARM64 Mirai Malware Analysis</title>
+      <link>https://halftimeoflife.github.io/en/projects/mirai-arm64-analysis/</link>
+      <pubDate>Tue, 15 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/projects/mirai-arm64-analysis/</guid>
+      <description>Static and dynamic analysis of an ARM64 ELF sample from the Mirai/Gafgyt family.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/mirai-arm64-analysis/feature.png" />
+    </item>
+    
+    <item>
+      <title>02 - First boot: linker script, stack and first UART message</title>
+      <link>https://halftimeoflife.github.io/en/posts/02-boot-uart/</link>
+      <pubDate>Fri, 11 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/posts/02-boot-uart/</guid>
+      <description>Set up the linker script, boot code, and the first UART driver.</description>
+      
+    </item>
+    
+    <item>
+      <title>01 - Introducing my AArch64 bare-metal kernel on QEMU virt</title>
+      <link>https://halftimeoflife.github.io/en/posts/01-introduction-aarch64-kernel/</link>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/posts/01-introduction-aarch64-kernel/</guid>
+      <description>Introduction to the AArch64 bare-metal kernel project and its goals.</description>
+      
+    </item>
+    
+    <item>
+      <title>AArch64 Bare-Metal Kernel</title>
+      <link>https://halftimeoflife.github.io/en/projects/aartch64baremetal/</link>
+      <pubDate>Sun, 23 Aug 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/en/projects/aartch64baremetal/</guid>
+      <description>Minimal bare-metal kernel for AArch64, built from scratch and executed on QEMU&amp;rsquo;s virt machine.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://halftimeoflife.github.io/projects/aartch64baremetal/feature.svg" />
+    </item>
+    
+  </channel>
+</rss>

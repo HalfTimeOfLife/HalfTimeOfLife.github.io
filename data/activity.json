@@ -1,6 +1,102 @@
 {
   "website": [
     {
+      "date": "2026-09-17",
+      "type": "post",
+      "title": "06 - The Second Sensor: Tracking Image and DLL Loads",
+      "url": "/posts/06-image-sensor/",
+      "lang": "en",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-09-17",
+      "type": "post",
+      "title": "06 - Deuxième capteur : suivi du chargement des images et des DLL",
+      "url": "/posts/06-image-sensor/",
+      "lang": "fr",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-09-15",
+      "type": "project",
+      "title": "ARM64 Mirai Malware Analysis",
+      "url": "/projects/mirai-arm64-analysis/",
+      "lang": "en",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-09-15",
+      "type": "project",
+      "title": "Analyse malware Mirai ARM64",
+      "url": "/projects/mirai-arm64-analysis/",
+      "lang": "fr",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-09-11",
+      "type": "post",
+      "title": "02 - First boot: linker script, stack and first UART message",
+      "url": "/posts/02-boot-uart/",
+      "lang": "en",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-09-11",
+      "type": "post",
+      "title": "02 - Premier boot : linker script, pile et premier message UART",
+      "url": "/posts/02-boot-uart/",
+      "lang": "fr",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-09-08",
+      "type": "post",
+      "title": "01 - Introducing my AArch64 bare-metal kernel on QEMU virt",
+      "url": "/posts/01-introduction-aarch64-kernel/",
+      "lang": "en",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-09-08",
+      "type": "post",
+      "title": "01 - Introduction à mon kernel AArch64 bare-metal sur QEMU virt",
+      "url": "/posts/01-introduction-aarch64-kernel/",
+      "lang": "fr",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-09-07",
+      "type": "post",
+      "title": "05 - First Sensor: Monitoring Process Creation and Termination",
+      "url": "/posts/05-process-sensor/",
+      "lang": "en",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-09-07",
+      "type": "post",
+      "title": "05 - Premier capteur : surveillance de la création et de la terminaison des processus",
+      "url": "/posts/05-process-sensor/",
+      "lang": "fr",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-09-01",
+      "type": "post",
+      "title": "04 - Writing Events to Disk: JSONL Logging, Wake Events and the First Crash",
+      "url": "/posts/04-log-writer/",
+      "lang": "en",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-09-01",
+      "type": "post",
+      "title": "04 - Écriture des événements sur disque : journalisation JSONL, événements de réveil et premier crash",
+      "url": "/posts/04-log-writer/",
+      "lang": "fr",
+      "source": "hugo"
+    },
+    {
       "date": "2026-08-23",
       "type": "project",
       "title": "AArch64 Bare-Metal Kernel",
@@ -131,35 +227,35 @@
   ],
   "github": [
     {
+      "date": "2026-09-07",
+      "type": "release",
+      "title": "GhidraMAT v1.0",
+      "url": "https://github.com/HalfTimeOfLife/GhidraMAT/releases/tag/v1.0",
+      "repository": "GhidraMAT",
+      "source": "github"
+    },
+    {
+      "date": "2026-08-24",
+      "type": "release",
+      "title": "KDAMonitor v0.10",
+      "url": "https://github.com/HalfTimeOfLife/KDAMonitor/releases/tag/v0.10",
+      "repository": "KDAMonitor",
+      "source": "github"
+    },
+    {
+      "date": "2026-08-24",
+      "type": "release",
+      "title": "mispSK v1.0",
+      "url": "https://github.com/HalfTimeOfLife/mispSK/releases/tag/v1.0",
+      "repository": "mispSK",
+      "source": "github"
+    },
+    {
       "date": "2026-08-23",
       "type": "release",
       "title": "aarch64-baremetal-kernel v0.1",
       "url": "https://github.com/HalfTimeOfLife/aarch64-baremetal-kernel/releases/tag/v0.1",
       "repository": "aarch64-baremetal-kernel",
-      "source": "github"
-    },
-    {
-      "date": "2026-08-17",
-      "type": "release",
-      "title": "KDAMonitor v0.9",
-      "url": "https://github.com/HalfTimeOfLife/KDAMonitor/releases/tag/v0.9",
-      "repository": "KDAMonitor",
-      "source": "github"
-    },
-    {
-      "date": "2026-08-15",
-      "type": "release",
-      "title": "GhidraMAT v0.8",
-      "url": "https://github.com/HalfTimeOfLife/GhidraMAT/releases/tag/v0.8",
-      "repository": "GhidraMAT",
-      "source": "github"
-    },
-    {
-      "date": "2026-08-15",
-      "type": "release",
-      "title": "mispSK v0.7",
-      "url": "https://github.com/HalfTimeOfLife/mispSK/releases/tag/v0.7",
-      "repository": "mispSK",
       "source": "github"
     },
     {

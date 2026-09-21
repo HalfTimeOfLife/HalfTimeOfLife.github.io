@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Series on HalfTimeOfLife</title>
+    <link>https://halftimeoflife.github.io/series/</link>
+    <description>Recent content in Series on HalfTimeOfLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>fr</language>
+    <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
+    <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
+    <copyright>© 2026 Elouan Charbonnier</copyright>
+    <lastBuildDate>Thu, 17 Sep 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://halftimeoflife.github.io/series/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>KDAMonitor</title>
+      <link>https://halftimeoflife.github.io/series/kdamonitor/</link>
+      <pubDate>Thu, 17 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/series/kdamonitor/</guid>
+      <description>Développement d&amp;rsquo;un driver Windows Kernel pour surveiller l&amp;rsquo;activité système : processus, images, réseau, registre et threads.</description>
+      
+    </item>
+    
+    <item>
+      <title>AArch64 Bare-Metal Kernel</title>
+      <link>https://halftimeoflife.github.io/series/aarch64-bare-metal-kernel/</link>
+      <pubDate>Fri, 11 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/series/aarch64-bare-metal-kernel/</guid>
+      <description>Construction d&amp;rsquo;un petit kernel bare-metal en assembleur AArch64, du boot minimal jusqu&amp;rsquo;à un système d&amp;rsquo;exploitation minimal fonctionnel.</description>
+      
+    </item>
+    
+  </channel>
+</rss>

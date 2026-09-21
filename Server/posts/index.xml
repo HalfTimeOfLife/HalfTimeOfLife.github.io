@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog on HalfTimeOfLife</title>
+    <link>https://halftimeoflife.github.io/posts/</link>
+    <description>Recent content in Blog on HalfTimeOfLife</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>fr</language>
+    <managingEditor>ec.charbonnier@gmail.com (Elouan Charbonnier)</managingEditor>
+    <webMaster>ec.charbonnier@gmail.com (Elouan Charbonnier)</webMaster>
+    <copyright>© 2026 Elouan Charbonnier</copyright>
+    <lastBuildDate>Thu, 17 Sep 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://halftimeoflife.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>06 - Deuxième capteur : suivi du chargement des images et des DLL</title>
+      <link>https://halftimeoflife.github.io/posts/06-image-sensor/</link>
+      <pubDate>Thu, 17 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/posts/06-image-sensor/</guid>
+      <description>Implémentation du deuxième capteur de KDAMonitor : surveillance du chargement des images.</description>
+      
+    </item>
+    
+    <item>
+      <title>02 - Premier boot : linker script, pile et premier message UART</title>
+      <link>https://halftimeoflife.github.io/posts/02-boot-uart/</link>
+      <pubDate>Fri, 11 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/posts/02-boot-uart/</guid>
+      <description>Mise en place du linker script, du code de boot et du premier driver UART.</description>
+      
+    </item>
+    
+    <item>
+      <title>01 - Introduction à mon kernel AArch64 bare-metal sur QEMU virt</title>
+      <link>https://halftimeoflife.github.io/posts/01-introduction-aarch64-kernel/</link>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/posts/01-introduction-aarch64-kernel/</guid>
+      <description>Introduction au projet de kernel bare-metal AArch64 et à ses objectifs.</description>
+      
+    </item>
+    
+    <item>
+      <title>05 - Premier capteur : surveillance de la création et de la terminaison des processus</title>
+      <link>https://halftimeoflife.github.io/posts/05-process-sensor/</link>
+      <pubDate>Mon, 07 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/posts/05-process-sensor/</guid>
+      <description>Implémentation du premier capteur de KDAMonitor : surveillance de la création et de la terminaison des processus.</description>
+      
+    </item>
+    
+    <item>
+      <title>04 - Écriture des événements sur disque : journalisation JSONL, événements de réveil et premier crash</title>
+      <link>https://halftimeoflife.github.io/posts/04-log-writer/</link>
+      <pubDate>Tue, 01 Sep 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/posts/04-log-writer/</guid>
+      <description>Écriture des logs sur disque et premier crash noyau du driver KDAMonitor.</description>
+      
+    </item>
+    
+    <item>
+      <title>03 - La file d&#39;événements : structure et synchronisation dans le noyau</title>
+      <link>https://halftimeoflife.github.io/posts/03-event-queue/</link>
+      <pubDate>Fri, 21 Aug 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/posts/03-event-queue/</guid>
+      <description>Construction de la file d&amp;rsquo;événements du driver KDAMonitor.</description>
+      
+    </item>
+    
+    <item>
+      <title>02 - Fondations du driver : DriverEntry, device et communication IOCTL</title>
+      <link>https://halftimeoflife.github.io/posts/02-driver-foundation/</link>
+      <pubDate>Tue, 11 Aug 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/posts/02-driver-foundation/</guid>
+      <description>Construction du socle du driver KDAMonitor : device object et première communication IOCTL avec un client de test.</description>
+      
+    </item>
+    
+    <item>
+      <title>01 - Introduction à KDAMonitor : développer un driver Windows Kernel</title>
+      <link>https://halftimeoflife.github.io/posts/01-introduction-kdamonitor/</link>
+      <pubDate>Fri, 07 Aug 2026 00:00:00 +0000</pubDate>
+      <author>ec.charbonnier@gmail.com (Elouan Charbonnier)</author>
+      <guid>https://halftimeoflife.github.io/posts/01-introduction-kdamonitor/</guid>
+      <description>Introduction au projet KDAMonitor et ses objectifs.</description>
+      
+    </item>
+    
+  </channel>
+</rss>
