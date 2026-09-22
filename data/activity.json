@@ -1,6 +1,14 @@
 {
   "website": [
     {
+      "date": "2026-09-21",
+      "type": "post",
+      "title": "07 - Préparation de la surveillance réseau : mise en place de la session WFP",
+      "url": "/posts/07-wfp-session/",
+      "lang": "fr",
+      "source": "hugo"
+    },
+    {
       "date": "2026-09-17",
       "type": "post",
       "title": "06 - The Second Sensor: Tracking Image and DLL Loads",
@@ -227,6 +235,14 @@
   ],
   "github": [
     {
+      "date": "2026-09-20",
+      "type": "release",
+      "title": "aarch64-baremetal-kernel v0.2",
+      "url": "https://github.com/HalfTimeOfLife/aarch64-baremetal-kernel/releases/tag/v0.2",
+      "repository": "aarch64-baremetal-kernel",
+      "source": "github"
+    },
+    {
       "date": "2026-09-07",
       "type": "release",
       "title": "GhidraMAT v1.0",
@@ -248,14 +264,6 @@
       "title": "mispSK v1.0",
       "url": "https://github.com/HalfTimeOfLife/mispSK/releases/tag/v1.0",
       "repository": "mispSK",
-      "source": "github"
-    },
-    {
-      "date": "2026-08-23",
-      "type": "release",
-      "title": "aarch64-baremetal-kernel v0.1",
-      "url": "https://github.com/HalfTimeOfLife/aarch64-baremetal-kernel/releases/tag/v0.1",
-      "repository": "aarch64-baremetal-kernel",
       "source": "github"
     },
     {

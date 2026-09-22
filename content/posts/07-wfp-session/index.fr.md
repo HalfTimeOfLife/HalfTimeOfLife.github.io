@@ -1,4 +1,4 @@
-﻿---
+---
 title: "07 - Préparation de la surveillance réseau : mise en place de la session WFP"
 date: 2026-09-21
 draft: false

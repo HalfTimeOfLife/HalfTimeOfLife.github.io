@@ -1,4 +1,4 @@
-﻿---
+---
 title: "07 - Preparing Network Monitoring: Setting Up the WFP Session"
 date: 2026-09-21
 draft: false
