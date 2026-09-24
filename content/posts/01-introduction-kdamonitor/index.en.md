@@ -124,7 +124,7 @@ This article serves as an introduction to the series; I'll now briefly outline t
 | **06** | **v0.6** | **The Second Sensor: Tracking Image and DLL Loads** | Adding `PsSetLoadImageNotifyRoutine`, retrieving information about loaded DLLs/EXEs, integration with the existing system. |
 | **07** | **v0.7** | **Preparing Network Monitoring: Setting Up the WFP Session** | Introduction to the Windows Filtering Platform, opening the WFP session, creating the provider/sublayer, a second crash encountered and its fix. |
 | **08** | **v0.8** | **Monitoring Network Connections with Windows Filtering Platform** | Developing the WFP callout, intercepting outbound network connections, collecting PIDs, IP addresses, ports, and protocols. |
-| **09** | **v0.9** | **Monitoring Registry Activity with Registry Callbacks** | Implementing registry callbacks (`CmRegisterCallbackEx`), monitoring key/value creation, modification, and deletion. |
+| **09** | **v0.9** | **Monitoring Registry Activity** | Implementing registry callbacks (`CmRegisterCallbackEx`), monitoring key/value creation, modification, and deletion. |
 | **10** | **v0.10** | **Monitoring Thread Creation and Termination** | Adding the thread callback (`PsSetCreateThreadNotifyRoutine`), collecting thread creation and termination events. |
 | **11** | **v0.11** | **Refactoring KDAMonitor: Organizing the Codebase for Scalability** | Reorganizing the project's folder structure, separating components, improving maintainability, and preparing for future growth. |
 | **12** | **v0.12** | **Building a Usermode Client for Real-Time Event Monitoring** | Developing a console client that communicates with the driver via IOCTL to display events in real time. |
