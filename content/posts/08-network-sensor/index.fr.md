@@ -1,7 +1,7 @@
 ---
 title: "08 - Surveillance des connexions réseau avec la Windows Filtering Platform"
 date: 2026-09-24
-draft: true
+draft: false
 description: "Troisième capteur de KDAMonitor : capture des connexions IPv4 entrantes et sortantes."
 summary: "Troisième capteur de KDAMonitor : capture des connexions IPv4 entrantes et sortantes."
 series: ["KDAMonitor"]

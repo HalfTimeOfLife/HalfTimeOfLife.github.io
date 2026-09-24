@@ -1,7 +1,7 @@
 ---
 title: "08 - Monitoring Network Connections with the Windows Filtering Platform"
 date: 2026-09-24
-draft: true
+draft: false
 description: "Third KDAMonitor sensor: capturing inbound and outbound IPv4 connections."
 summary: "Third KDAMonitor sensor: capturing inbound and outbound IPv4 connections."
 series: ["KDAMonitor"]
