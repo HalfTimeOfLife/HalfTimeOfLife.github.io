@@ -105,7 +105,7 @@ Implementation, detection and bypass of anti-emulation techniques for Windows. W
 
 {{< timelineItem icon="shield" header="BTL1 – Blue Team Level 1" badge="July 2026" subheader="Security Blue Team" >}}
 <img src="/assets/blue-team-level-1-btl1.png" alt="BTL1 Badge" width="100">
-Score: 85% - Silver Challenge Coin
+Score: 100% - Gold Challenge Coin
 <br><br>
 Phishing Analysis · SIEM · Digital Forensics · Incident Response · SOC
 <br><br>

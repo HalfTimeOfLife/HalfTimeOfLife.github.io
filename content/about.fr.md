@@ -105,7 +105,7 @@ Implémentation, détection et contournement de techniques anti-émulation pour 
 
 {{< timelineItem icon="shield" header="BTL1 – Blue Team Level 1" badge="Juillet 2026" subheader="Security Blue Team" >}}
 <img src="/assets/blue-team-level-1-btl1.png" alt="Badge BTL1" width="100">
-Score : 85% - Silver Challenge Coin
+Score : 100% - Gold Challenge Coin
 <br><br>
 Phishing Analysis · SIEM · Digital Forensics · Incident Response · SOC
 <br><br>
