@@ -1,6 +1,78 @@
 {
   "website": [
     {
+      "date": "2026-10-07",
+      "type": "project",
+      "title": "AArch64 shellcodes",
+      "url": "/projects/aarch64-shellcode/",
+      "lang": "en",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-10-07",
+      "type": "project",
+      "title": "AArch64 shellcodes",
+      "url": "/projects/aarch64-shellcode/",
+      "lang": "fr",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-09-28",
+      "type": "post",
+      "title": "09 - Monitoring Registry Activity",
+      "url": "/posts/09-registry-sensor/",
+      "lang": "en",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-09-28",
+      "type": "post",
+      "title": "09 - Surveillance de l'activité du registre",
+      "url": "/posts/09-registry-sensor/",
+      "lang": "fr",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-09-24",
+      "type": "post",
+      "title": "08 - Monitoring Network Connections with the Windows Filtering Platform",
+      "url": "/posts/08-network-sensor/",
+      "lang": "en",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-09-24",
+      "type": "post",
+      "title": "08 - Surveillance des connexions réseau avec la Windows Filtering Platform",
+      "url": "/posts/08-network-sensor/",
+      "lang": "fr",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-09-22",
+      "type": "post",
+      "title": "03 - Exceptions: building the vector table",
+      "url": "/posts/03-exceptions/",
+      "lang": "en",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-09-22",
+      "type": "post",
+      "title": "03 - Les exceptions : construire la table de vecteurs",
+      "url": "/posts/03-exceptions/",
+      "lang": "fr",
+      "source": "hugo"
+    },
+    {
+      "date": "2026-09-21",
+      "type": "post",
+      "title": "07 - Preparing Network Monitoring: Setting Up the WFP Session",
+      "url": "/posts/07-wfp-session/",
+      "lang": "en",
+      "source": "hugo"
+    },
+    {
       "date": "2026-09-21",
       "type": "post",
       "title": "07 - Préparation de la surveillance réseau : mise en place de la session WFP",
@@ -235,10 +307,10 @@
   ],
   "github": [
     {
-      "date": "2026-09-20",
+      "date": "2026-10-17",
       "type": "release",
-      "title": "aarch64-baremetal-kernel v0.2",
-      "url": "https://github.com/HalfTimeOfLife/aarch64-baremetal-kernel/releases/tag/v0.2",
+      "title": "aarch64-baremetal-kernel v0.4",
+      "url": "https://github.com/HalfTimeOfLife/aarch64-baremetal-kernel/releases/tag/v0.4",
       "repository": "aarch64-baremetal-kernel",
       "source": "github"
     },
